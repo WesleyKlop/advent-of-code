@@ -3,13 +3,13 @@ const fs = require('fs')
 
 // Load and parse the input file
 const inputIntList = fs
-  .readFileSync(__dirname + '/input.txt', 'utf8')
+  .readFileSync(`${__dirname}/input.txt`, 'utf8')
   .trim()
   .split(',')
-  .map(e => parseInt(e))
+  .map(val => parseInt(val))
 
 // Clone the list so you always have a fresh input
-const getList = () => [...inputIntList]
+const cloneInstructions = () => [...inputIntList]
 
 const OP_ADD = 1
 const OP_TIMES = 2
@@ -18,20 +18,20 @@ const LOC_NOUN = 1
 const LOC_VERB = 2
 
 // Execute the instructions on a list
-const executeList = list => {
-  for (let i = 0; i < list.length; i += 4) {
+const executeInstructions = instructions => {
+  for (let i = 0; i < instructions.length; i += 4) {
     // Slice the instruction out of the list
-    const [opcode, loc1, loc2, reg] = list.slice(i, i + 4)
+    const [opcode, loc1, loc2, reg] = instructions.slice(i, i + 4)
 
     switch (opcode) {
       case OP_ADD:
-        list[reg] = list[loc1] + list[loc2]
+        instructions[reg] = instructions[loc1] + instructions[loc2]
         break
       case OP_TIMES:
-        list[reg] = list[loc1] * list[loc2]
+        instructions[reg] = instructions[loc1] * instructions[loc2]
         break
       case OP_EXIT:
-        return list
+        return instructions
       default:
         throw new Error('Invalid opcode ' + opcode)
     }
@@ -40,10 +40,10 @@ const executeList = list => {
 }
 
 // Part one
-const list = getList()
-list[LOC_NOUN] = 12
-list[LOC_VERB] = 2
-const [answer1] = executeList(list)
+const instructions = cloneInstructions()
+instructions[LOC_NOUN] = 12
+instructions[LOC_VERB] = 2
+const [answer1] = executeInstructions(instructions)
 console.log('Answer 1: ' + answer1)
 
 // Part two
@@ -52,12 +52,12 @@ const GOAL = 19_690_720
 const findOutput = goal => {
   for (let noun = 0; noun <= 99; noun++) {
     for (let verb = 0; verb <= 99; verb++) {
-      const list = getList()
+      const instructions = cloneInstructions()
 
-      list[LOC_NOUN] = noun
-      list[LOC_VERB] = verb
+      instructions[LOC_NOUN] = noun
+      instructions[LOC_VERB] = verb
 
-      const [output] = executeList(list)
+      const [output] = executeInstructions(instructions)
       if (output === goal) {
         return [noun, verb]
       }
