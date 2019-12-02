@@ -18,5 +18,5 @@ Wesley: https://github.com/WesleyKlop/advent-of-code-2019
 Raoul: https://github.com/yoxx/advent-of-code  
 Jeanne: https://github.com/jeannegoossens/Advent-Of-Code-2019  
 Jelle: https://github.com/jelknab/Advent_of_code_2019  
-Gijs dj: https://github.com/gdejong/advent-of-code-2019
+Gijs dj: https://github.com/gdejong/advent-of-code-2019  
 Dion: https://github.com/dionysos1/AdventOfCode2019
