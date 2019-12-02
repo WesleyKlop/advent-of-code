@@ -1,26 +1,30 @@
 #!/usr/bin/env node
 const fs = require('fs')
 
-const input = fs.readFileSync(__dirname + '/input.txt', 'utf8')
+const inputIntList = fs
+  .readFileSync(__dirname + '/input.txt', 'utf8')
+  .trim()
+  .split('\n')
+  .map(e => parseInt(e))
 
-const inputIntList = input.trim().split('\n').map(e => parseInt(e))
-
-const partOne = inputIntList.map(e => Math.floor(e / 3) - 2).reduce((acc, curr) => acc + curr, 0)
-
-console.log('Part one answer: ' + partOne)
-
-
+// Part one
 const calcFuel = val => Math.floor(val / 3) - 2
 
+const answer1 = inputIntList.map(calcFuel).reduce((acc, curr) => acc + curr, 0)
+
+console.log('Answer 1: ' + answer1)
+
+// Part two
 const calcFuelSum = (total, curr) => {
-    const add = calcFuel(curr)
-    if(add <= 0) {
-        return total
-    }
-    return calcFuelSum(total + add, add)
+  const add = calcFuel(curr)
+  if (add <= 0) {
+    return total
+  }
+  return calcFuelSum(total + add, add)
 }
 
-console.log('out ' + calcFuelSum(0, 100756))
+const answer2 = inputIntList
+  .map(val => calcFuelSum(0, val))
+  .reduce((total, curr) => total + curr, 0)
 
-const partTwo = inputIntList.map(e => calcFuelSum(0, e)).reduce((total, curr) => total + curr, 0)
-console.log('Part two answer: ' + partTwo)
+console.log('Answer 2: ' + answer2)

@@ -1,38 +1,70 @@
 #!/usr/bin/env node
 const fs = require('fs')
 
-const input = fs.readFileSync(__dirname + '/input.txt', 'utf8')
+// Load and parse the input file
+const inputIntList = fs
+  .readFileSync(__dirname + '/input.txt', 'utf8')
+  .trim()
+  .split(',')
+  .map(e => parseInt(e))
 
-const inputIntList = input.trim().split(',').map(e => parseInt(e))
+// Clone the list so you always have a fresh input
+const getList = () => [...inputIntList]
 
-const execute = (list, opcode, loc1, loc2) => {
-    switch (opcode) {
-        case 1:
-            return list[loc1] + list[loc2]
-        case 2:
-            return list[loc1] * list[loc2]
-        case 99:
-            console.log('Should stop now')
-            return list[0]
-        default:
-            throw new Error('Invalid opcode ' + opcode)
-    }
-}
+const OP_ADD = 1
+const OP_TIMES = 2
+const OP_EXIT = 99
+const LOC_NOUN = 1
+const LOC_VERB = 2
 
+// Execute the instructions on a list
 const executeList = list => {
-    for (let i = 0; i < list.length; i += 4) {
-        const [opcode, loc1, loc2, reg] = list.slice(i, i + 4)
-        list[reg] = execute(list, opcode, loc1, loc2)
-        if(opcode === 99) {
-            return list
-        }
+  for (let i = 0; i < list.length; i += 4) {
+    // Slice the instruction out of the list
+    const [opcode, loc1, loc2, reg] = list.slice(i, i + 4)
+
+    switch (opcode) {
+      case OP_ADD:
+        list[reg] = list[loc1] + list[loc2]
+        break
+      case OP_TIMES:
+        list[reg] = list[loc1] * list[loc2]
+        break
+      case OP_EXIT:
+        return list
+      default:
+        throw new Error('Invalid opcode ' + opcode)
     }
-    throw new Error('No end of program found')
+  }
+  throw new Error('No end of program found')
 }
 
-// console.log(executeList([1, 0, 0, 0, 99]))
-console.log(executeList([2,4,4,5,99,0]))
-console.log()
-inputIntList[1] = 12
-inputIntList[2] = 2
-console.log('Answer 1: ' + executeList(inputIntList)[0])
+// Part one
+const list = getList()
+list[LOC_NOUN] = 12
+list[LOC_VERB] = 2
+const [answer1] = executeList(list)
+console.log('Answer 1: ' + answer1)
+
+// Part two
+const GOAL = 19_690_720
+// Loops through all possibilities, noun/verb can be 0-99 incl.
+const findOutput = goal => {
+  for (let noun = 0; noun <= 99; noun++) {
+    for (let verb = 0; verb <= 99; verb++) {
+      const list = getList()
+
+      list[LOC_NOUN] = noun
+      list[LOC_VERB] = verb
+
+      const [output] = executeList(list)
+      if (output === goal) {
+        return [noun, verb]
+      }
+    }
+  }
+}
+
+const [noun, verb] = findOutput(GOAL)
+const answer2 = 100 * noun + verb
+console.log('Answer 2: ' + answer2)
