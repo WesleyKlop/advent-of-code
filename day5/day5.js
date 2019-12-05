@@ -11,11 +11,7 @@ const inputIntList = fs
 // Clone the list so you always have a fresh input
 const cloneInstructions = () => [...inputIntList]
 
-const DEBUG = true
-const debug = function() {
-  DEBUG && console.log(...arguments)
-}
-
+// Operation types
 const OP_ADD = 1
 const OP_TIMES = 2
 const OP_INPUT = 3
@@ -25,9 +21,11 @@ const OP_JIF = 6
 const OP_LT = 7
 const OP_EQ = 8
 const OP_EXIT = 99
+// Parameter types
 const PARAM_MODE_POSITION = '0'
 const PARAM_MODE_IMMEDIATE = '1'
 
+// Read a parameter in a given mode
 const readParameter = (list, mode = PARAM_MODE_POSITION, address) => {
   switch (mode) {
     case PARAM_MODE_POSITION:
@@ -39,6 +37,7 @@ const readParameter = (list, mode = PARAM_MODE_POSITION, address) => {
   }
 }
 
+// Parse a raw opcode to extract the parameter modes
 const parseOpcode = raw => {
   const opcode = raw.toString().slice(-2)
   const mode = raw
@@ -75,7 +74,7 @@ const executeInstructions = (instructions, input) => {
         jump = 2
         break
       case OP_OUTPUT:
-        console.log('[OUTPUT] ' + instructions[loc1])
+        console.log(`[OUTPUT] ${instructions[loc1]}`)
         jump = 2
         break
       case OP_JIT:
@@ -93,19 +92,17 @@ const executeInstructions = (instructions, input) => {
         }
         break
       case OP_LT:
-        instructions[reg] =
+        instructions[reg] = Number(
           readParameter(instructions, modes.pop(), loc1) <
-          readParameter(instructions, modes.pop(), loc2)
-            ? 1
-            : 0
+            readParameter(instructions, modes.pop(), loc2),
+        )
         jump = 4
         break
       case OP_EQ:
-        instructions[reg] =
+        instructions[reg] = Number(
           readParameter(instructions, modes.pop(), loc1) ===
-          readParameter(instructions, modes.pop(), loc2)
-            ? 1
-            : 0
+            readParameter(instructions, modes.pop(), loc2),
+        )
         jump = 4
         break
       case OP_EXIT:
