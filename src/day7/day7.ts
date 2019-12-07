@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 import fs from 'fs'
 
-import { InstructionList, IO } from './types'
+import { InstructionList } from './types'
 import Computer from './Computer'
 import IOQueue from './IOQueue'
 
 // Load and parse the input file
 const inputIntList: InstructionList = fs
-    .readFileSync(`${__dirname}/input.txt`, 'utf8')
+    .readFileSync(`${__dirname}/../inputs/day7.txt`, 'utf8')
     .trim()
     .split(',')
     .map((val: string) => parseInt(val))
