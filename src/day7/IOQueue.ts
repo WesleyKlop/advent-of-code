@@ -3,41 +3,47 @@ import { Value, IO } from './types'
 export default class IOQueue {
     private history: Value[] = []
     private queue: Value[] = []
-    private promise?: (value: Value) => void
+    private promise?: Promise<Value>
+    private res?: (value: Value) => void
 
     constructor(initial?: IO) {
         if (initial) {
             this.history = this.history.concat(initial)
             this.queue = this.queue.concat(initial)
         }
+        this.createPromise()
     }
 
-    public read(): Promise<Value> {
-        return new Promise(res => {
-            if (this.queue.length > 0) {
-                this.emit()
-            } else {
-                this.promise = res
-            }
-        })
+    public async read(): Promise<Value> {
+        if (this.queue.length > 0) {
+            return this.queue.shift()!
+        }
+        return this.promise!
+    }
+
+    private createPromise() {
+        this.promise = new Promise(res => (this.res = res))
     }
 
     private emit() {
-        if (typeof this.promise === 'undefined') {
-            return
+        if (this.res) {
+            this.res(this.queue.shift()!)
+            this.res = undefined
+            this.createPromise()
         }
-        this.promise!(this.queue.shift()!)
-        delete this.promise
     }
 
     public write(value: Value) {
         this.history.push(value)
         this.queue.push(value)
+
         this.emit()
     }
 
     public merge(values: Value[]) {
-        this.queue = values
+        this.queue = this.queue.concat(values)
+        this.history = this.history.concat(values)
+
         this.emit()
     }
 

@@ -35,7 +35,7 @@ const permute = (input: number[]): number[][] => {
     }
     return func(input)
 }
-let i = 0
+
 const partOne = async () => {
     const combinations = permute([0, 1, 2, 3, 4])
     const results = await Promise.all(
