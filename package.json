@@ -1,7 +1,7 @@
 {
   "name": "advent-of-code-2019",
   "scripts": {
-    "make": "tsc",
+    "make": "tsc && chmod +x dist/*.js",
     "watch": "tsc -w"
   },
   "version": "1.0.0",
