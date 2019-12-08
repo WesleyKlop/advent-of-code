@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const LOWER_BOUND = 382_345
 const UPPER_BOUND = 843_167
 

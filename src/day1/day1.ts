@@ -1,8 +1,7 @@
-#!/usr/bin/env node
-const fs = require('fs')
+import fs from 'fs'
 
 const inputIntList = fs
-    .readFileSync(`${__dirname}/../../inputs/day1.txt`, 'utf8')
+    .readFileSync(`./inputs/day1.txt`, 'utf8')
     .trim()
     .split('\n')
     .map(val => parseInt(val))

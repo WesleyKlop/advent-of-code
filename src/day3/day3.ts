@@ -1,10 +1,11 @@
-#!/usr/bin/env node
-const fs = require('fs')
+import fs from 'fs'
 
 /**
  * Holds a path action
  */
 class Action {
+    public readonly action
+    public readonly distance
     constructor(action) {
         this.action = action[0]
         this.distance = parseInt(action.slice(1))
@@ -15,6 +16,10 @@ class Action {
  * Holds a point on the map, and the # of steps to get there
  */
 class Point {
+    public readonly x: number
+    public readonly y: number
+    public steps: number
+
     constructor(x, y, steps) {
         this.x = x
         this.y = y
@@ -161,7 +166,7 @@ class Locationlist {
 
 // Load and parse the input file
 const [path1, path2] = fs
-    .readFileSync(`${__dirname}/../../inputs/day3.txt`, 'utf8')
+    .readFileSync(`./inputs/day3.txt`, 'utf8')
     .trim()
     .split('\n')
     .map(path => path.split(',').map(val => new Action(val)))

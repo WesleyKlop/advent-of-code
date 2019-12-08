@@ -1,18 +1,23 @@
 {
     "name": "advent-of-code-2019",
     "scripts": {
-        "make": "rm -rf ./dist/ && tsc && chmod +x dist/**/day*.js",
-        "watch": "tsc -w"
+        "make": "rm -rf ./dist/ && yarn build -p && chmod +x dist/main.js",
+        "build": "webpack --config webpack.config.js",
+        "watch": "yarn build --watch",
+        "play": "node dist/main.js"
     },
     "version": "1.0.0",
-    "main": "index.js",
+    "main": "dist/main.js",
     "repository": "ssh://git@github.com/WesleyKlop/advent-of-code-2019.git",
     "author": "Wesley Klop <wesley19097@gmail.com> (https://wesley.io)",
     "license": "MIT",
     "private": true,
     "devDependencies": {
         "@types/node": "^12.12.14",
+        "ts-loader": "^6.2.1",
         "ts-node": "^8.5.4",
-        "typescript": "^3.7.3"
+        "typescript": "^3.7.3",
+        "webpack": "^4.41.2",
+        "webpack-cli": "^3.3.10"
     }
 }
