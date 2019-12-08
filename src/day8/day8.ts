@@ -2,7 +2,7 @@
 import fs from 'fs'
 import Layer from './Layer'
 import Image from './Image'
-import { Pixel } from './types'
+import { Pixel } from './Pixel'
 
 // Load and parse the input file
 const inputIntList = fs
@@ -37,3 +37,11 @@ const partOne = () => {
 }
 
 console.log('Part one: ' + partOne())
+
+const partTwo = () => {
+    const output = image.decode()
+
+    console.log(output)
+}
+
+partTwo()

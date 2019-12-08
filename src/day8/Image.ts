@@ -20,4 +20,17 @@ export default class Image {
     public getLayers() {
         return this.layers
     }
+
+    public decode(): string {
+        return this.layers
+            .reverse()
+            .reduce((prev, curr) => {
+                if (!prev) {
+                    return curr
+                }
+
+                return prev.merge(curr)
+            })
+            .toString()
+    }
 }
