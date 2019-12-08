@@ -1,4 +1,4 @@
-import fs from 'fs'
+import * as fs from 'fs'
 
 // Load and parse the input file
 const inputIntList = fs
@@ -48,7 +48,7 @@ console.log('Answer 1: ' + answer1)
 // Part two
 const GOAL = 19_690_720
 // Loops through all possibilities, noun/verb can be 0-99 incl.
-const findOutput = goal => {
+const findOutput = (goal: number): number[] => {
     for (let noun = 0; noun <= 99; noun++) {
         for (let verb = 0; verb <= 99; verb++) {
             const instructions = cloneInstructions()
@@ -62,6 +62,7 @@ const findOutput = goal => {
             }
         }
     }
+    throw new Error('Couldnt find output')
 }
 
 const [noun, verb] = findOutput(GOAL)

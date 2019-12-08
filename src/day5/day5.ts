@@ -1,4 +1,4 @@
-import fs from 'fs'
+import * as fs from 'fs'
 
 // Load and parse the input file
 const inputIntList = fs

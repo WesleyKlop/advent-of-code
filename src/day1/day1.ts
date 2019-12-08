@@ -1,4 +1,4 @@
-import fs from 'fs'
+import * as fs from 'fs'
 
 const inputIntList = fs
     .readFileSync(`./inputs/day1.txt`, 'utf8')

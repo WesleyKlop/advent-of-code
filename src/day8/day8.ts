@@ -1,4 +1,4 @@
-import fs from 'fs'
+import * as fs from 'fs'
 import Layer from './Layer'
 import Image from './Image'
 import { Pixel } from './Pixel'
