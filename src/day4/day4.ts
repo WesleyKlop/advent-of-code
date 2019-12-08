@@ -1,7 +1,7 @@
 const LOWER_BOUND = 382_345
 const UPPER_BOUND = 843_167
 
-const digitsAreNotDecreasing = number => {
+const digitsAreNotDecreasing = (number: number) => {
     const chars = number
         .toString()
         .split('')
@@ -18,16 +18,16 @@ const digitsAreNotDecreasing = number => {
     return true
 }
 
-const containsDoubleDigit = number => {
-    const matches = number.toString().match(/(\d)\1*/g)
-    return matches.some(match => match.length === 2)
+const containsDoubleDigit = (number: number): boolean => {
+    const matches = number.toString().match(/(\d)\1+/g)
+    return matches !== null && matches.some(match => match.length === 2)
 }
 
-const isValidNumber = number => {
+const isValidNumber = (number: number) => {
     return digitsAreNotDecreasing(number) && containsDoubleDigit(number)
 }
 
-const solveForBounds = (lowerBound, upperBound) => {
+const solveForBounds = (lowerBound: number, upperBound: number) => {
     const possibilities = new Set()
 
     for (let i = lowerBound; i < upperBound; i++) {
@@ -39,3 +39,5 @@ const solveForBounds = (lowerBound, upperBound) => {
 }
 
 console.log(solveForBounds(LOWER_BOUND, UPPER_BOUND))
+
+export {}

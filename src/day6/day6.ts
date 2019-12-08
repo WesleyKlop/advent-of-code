@@ -8,11 +8,15 @@ const inputIntList = fs
     .map(val => val.split(')')) as string[][]
 
 // Walk a map and calculate the cost
-const traverseMap = (map, child, orbits = 0) => {
+const traverseMap = (
+    map: Map<string, string>,
+    child: string,
+    orbits: number = 0,
+): number => {
     if (!map.has(child)) {
         return orbits
     }
-    return traverseMap(map, map.get(child), orbits + 1)
+    return traverseMap(map, map.get(child)!, orbits + 1)
 }
 
 // Walk a map and find the path it took

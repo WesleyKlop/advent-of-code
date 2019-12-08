@@ -1,5 +1,13 @@
 const dayToExecute = process.argv.pop()
 
-import(`./${dayToExecute}/${dayToExecute}`).catch(() =>
-    console.warn(`Could not find a module for day ${dayToExecute}`),
-)
+const main = async () => {
+    try {
+        await import(`./day${dayToExecute}/day${dayToExecute}`)
+    } catch {
+        console.warn('Could not find module..')
+    }
+}
+
+main()
+
+export {}

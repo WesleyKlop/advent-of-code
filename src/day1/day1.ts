@@ -7,7 +7,7 @@ const inputIntList = fs
     .map(val => parseInt(val))
 
 // Part one
-const calcFuel = mass => Math.floor(mass / 3) - 2
+const calcFuel = (mass: number) => Math.floor(mass / 3) - 2
 
 const answer1 = inputIntList
     .map(calcFuel)
@@ -16,7 +16,7 @@ const answer1 = inputIntList
 console.log('Answer 1: ' + answer1)
 
 // Part two
-const calcFuelSum = (fuelSum, fuel) => {
+const calcFuelSum = (fuelSum: number, fuel: number): number => {
     const extraFuel = calcFuel(fuel)
     if (extraFuel <= 0) {
         return fuelSum

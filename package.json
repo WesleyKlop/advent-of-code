@@ -2,9 +2,10 @@
     "name": "advent-of-code-2019",
     "scripts": {
         "make": "rm -rf ./dist/ && yarn build -p && chmod +x dist/main.js",
-        "build": "webpack --config webpack.config.js",
+        "build": "webpack --progress --hide-modules --config webpack.config.js",
         "watch": "yarn build --watch",
-        "play": "node dist/main.js"
+        "play": "node dist/main.js",
+        "prettier": "prettier --write src/**/*.ts"
     },
     "version": "1.0.0",
     "main": "dist/main.js",
@@ -13,11 +14,19 @@
     "license": "MIT",
     "private": true,
     "devDependencies": {
+        "@babel/core": "^7.7.5",
+        "@babel/plugin-proposal-class-properties": "^7.7.4",
+        "@babel/plugin-proposal-numeric-separator": "^7.7.4",
+        "@babel/preset-env": "^7.7.6",
+        "@babel/preset-typescript": "^7.7.4",
         "@types/node": "^12.12.14",
-        "ts-loader": "^6.2.1",
-        "ts-node": "^8.5.4",
+        "babel-loader": "^8.0.6",
+        "prettier": "^1.19.1",
         "typescript": "^3.7.3",
         "webpack": "^4.41.2",
         "webpack-cli": "^3.3.10"
+    },
+    "dependencies": {
+        "core-js": "^3.4.7"
     }
 }

@@ -1,5 +1,4 @@
 const path = require('path')
-const webpack = require('webpack')
 
 module.exports = {
     context: __dirname,
@@ -7,15 +6,38 @@ module.exports = {
     mode: 'development',
     output: {
         filename: '[name].js',
+        chunkFilename: '[id].js',
         path: path.resolve(__dirname, 'dist'),
     },
+    devtool: 'inline-source-map',
     target: 'node',
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
-                use: 'ts-loader',
+                test: /\.m?(t|j)sx?$/,
                 exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        cacheDirectory: true,
+                        presets: [
+                            [
+                                '@babel/preset-env',
+                                {
+                                    targets: 'current node',
+                                    useBuiltIns: 'usage',
+                                    corejs: 3,
+                                },
+                            ],
+                            '@babel/preset-typescript',
+                        ],
+                        plugins: [
+                            '@babel/proposal-class-properties',
+                            '@babel/proposal-object-rest-spread',
+                            '@babel/plugin-proposal-numeric-separator',
+                        ],
+                    },
+                },
             },
         ],
     },

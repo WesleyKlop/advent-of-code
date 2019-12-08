@@ -1,16 +1,12 @@
 {
     "compilerOptions": {
+        "target": "esnext",
         "module": "esnext",
-        // "esModuleInterop": true,
-        "strict": true,
-        "target": "ES5",
-        "noImplicitAny": false,
         "moduleResolution": "node",
-        "outDir": "dist",
-        "baseUrl": ".",
-        "paths": {
-            "*": ["node_modules/*", "src/*"]
-        }
+        // "allowJs": true,
+        "noEmit": true,
+        "strict": true,
+        "isolatedModules": true
     },
-    "include": ["src/**/*"]
+    "include": ["src"]
 }

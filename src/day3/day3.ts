@@ -4,9 +4,9 @@ import * as fs from 'fs'
  * Holds a path action
  */
 class Action {
-    public readonly action
-    public readonly distance
-    constructor(action) {
+    public readonly action: string
+    public readonly distance: number
+    constructor(action: string) {
         this.action = action[0]
         this.distance = parseInt(action.slice(1))
     }
@@ -16,11 +16,11 @@ class Action {
  * Holds a point on the map, and the # of steps to get there
  */
 class Point {
-    public readonly x: number
-    public readonly y: number
+    public x: number
+    public y: number
     public steps: number
 
-    constructor(x, y, steps) {
+    constructor(x: number, y: number, steps: number) {
         this.x = x
         this.y = y
         this.steps = steps
@@ -28,26 +28,21 @@ class Point {
 
     /**
      * Clone a Point
-     * @returns {Point}
      */
-    clone() {
+    clone(): Point {
         return new Point(this.x, this.y, this.steps)
     }
 
     /**
      * Calculate the Manhattan distance of a given point
-     * @returns {Number}
      */
-    manhattanDistance() {
+    manhattanDistance(): number {
         return Math.abs(this.x) + Math.abs(this.y)
     }
 }
 
 class Locationlist {
-    /**
-     * @var {Point[]}
-     */
-    locations
+    locations: Point[]
 
     constructor() {
         // Every pair is (y, x), origin is bottom left
@@ -59,7 +54,7 @@ class Locationlist {
      * @param {Action[]} path
      * @return {Locationlist}
      */
-    static Create(path) {
+    static Create(path: Action[]): Locationlist {
         const locations = new Locationlist()
         path.forEach(action => {
             locations.addLocation(action)
@@ -72,7 +67,7 @@ class Locationlist {
      * Clone the last location and increment the steps by one
      * @returns {Point}
      */
-    cloneLastAndIncrement() {
+    cloneLastAndIncrement(): Point {
         const newLocation = this.locations[this.locations.length - 1].clone()
         newLocation.steps++
         return newLocation
@@ -82,7 +77,7 @@ class Locationlist {
      * Parse an action and save it to the list
      * @param {Action} action
      */
-    addLocation(action) {
+    addLocation(action: Action) {
         switch (action.action) {
             case 'R':
                 for (let i = 1; i <= action.distance; i++) {
@@ -120,7 +115,7 @@ class Locationlist {
      * @param {Locationlist} other
      * @return {Locationlist} new locationlist
      */
-    intersect(other) {
+    intersect(other: Locationlist): Locationlist {
         const list = new Locationlist()
         list.locations = this.locations.filter(point1 => {
             return other.locations.some(point2 => {
@@ -133,10 +128,10 @@ class Locationlist {
     /**
      * Find the cheapest intersection by steps
      * @param {Locationlist} other
-     * @returns {Number}
+     * @returns {number}
      */
-    findFirstIntersection(other) {
-        return this.locations
+    findFirstIntersection(other: Locationlist): number {
+        return (this.locations
             .map(point1 => {
                 const intersection = other.locations.find(point2 => {
                     return point1.x === point2.x && point1.y === point2.y
@@ -145,17 +140,18 @@ class Locationlist {
                     return intersection.steps + point1.steps
                 }
             })
-            .filter(e => typeof e !== 'undefined')
-            .reduce((min, curr) => {
-                return Math.min(min, curr)
-            }, Number.MAX_VALUE)
+            .filter(
+                (e?: number): boolean => typeof e !== 'undefined',
+            ) as number[]).reduce((min: number, curr) => {
+            return Math.min(min, curr)
+        }, Number.MAX_VALUE)
     }
 
     /**
      * Calculate the closest manhattan distance of the location list
      * @returns {Number}
      */
-    closestManhattanDistance() {
+    closestManhattanDistance(): number {
         return this.locations
             .map(p => p.manhattanDistance())
             .reduce((min, curr) => {
