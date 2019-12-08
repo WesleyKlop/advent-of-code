@@ -1,21 +1,17 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "removeComments": false,
-    "declaration": true,
-    "preserveConstEnums": true,
-    "strict": true,
-    "target": "ES2020",
-    "noImplicitAny": true,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "dist",
-    "baseUrl": ".",
-    "paths": {
-      "*": ["node_modules/*", "src/types/*"]
-    }
-  },
-  "include": ["src/**/*"]
+    "compilerOptions": {
+        "module": "esnext",
+        "esModuleInterop": true,
+        "declaration": true,
+        "strict": true,
+        "target": "ES2020",
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "outDir": "dist",
+        "baseUrl": ".",
+        "paths": {
+            "*": ["node_modules/*", "src/types/*"]
+        }
+    },
+    "include": ["src/**/*"]
 }

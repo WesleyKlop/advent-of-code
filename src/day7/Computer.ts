@@ -6,8 +6,8 @@ import { Sequence } from './Sequence'
 import IOQueue from './IOQueue'
 
 export default class Computer {
-    public input: IOQueue
-    public output: IOQueue
+    private input: IOQueue
+    private output: IOQueue
     private instructions: InstructionList
     private jump: number = 4
     private ip: Address = 0
@@ -15,12 +15,12 @@ export default class Computer {
 
     constructor(
         instructions: InstructionList,
-        input: IOQueue,
-        output: IOQueue,
+        input?: IOQueue,
+        output?: IOQueue,
     ) {
         this.instructions = instructions
-        this.input = input
-        this.output = output
+        this.input = input || new IOQueue()
+        this.output = output || new IOQueue()
     }
 
     private read(mode: Mode, address: Address | Value): Value {
@@ -70,6 +70,11 @@ export default class Computer {
         }
         return this.output.last()
     }
+
+    /**
+     * Execute a given sequence on the computers memory
+     * @param sequence the sequence to execute
+     */
     private async execute(sequence: Sequence): Promise<Sequence> {
         const { opcode, modes, loc1, loc2, reg } = sequence
 
@@ -141,5 +146,29 @@ export default class Computer {
                 throw new Error('Invalid sequence: ' + JSON.stringify(sequence))
         }
         return sequence
+    }
+
+    /**
+     * Attach a computers output to your input
+     * @param other
+     */
+    public attachInput(other: Computer) {
+        this.input = other.output
+    }
+
+    /**
+     * Attach a computers input to your output
+     * @param other the other computer
+     */
+    public attachOutput(other: Computer) {
+        this.output = other.input
+    }
+
+    /**
+     * Push values into the computers input
+     * @param values
+     */
+    public push(values: Value[]) {
+        this.input.merge(values)
     }
 }

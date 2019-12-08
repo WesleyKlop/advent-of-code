@@ -7,7 +7,7 @@ import IOQueue from './IOQueue'
 
 // Load and parse the input file
 const inputIntList: InstructionList = fs
-    .readFileSync(`${__dirname}/../inputs/day7.txt`, 'utf8')
+    .readFileSync(`${__dirname}/../../inputs/day7.txt`, 'utf8')
     .trim()
     .split(',')
     .map((val: string) => parseInt(val))
@@ -47,20 +47,28 @@ const partOne = async () => {
             )
             const b = new Computer(
                 cloneInstructions(),
-                a.output,
+                undefined,
                 new IOQueue([curr[2]]),
             )
+            b.attachInput(a)
             const c = new Computer(
                 cloneInstructions(),
-                b.output,
+                undefined,
                 new IOQueue([curr[3]]),
             )
+            c.attachInput(b)
             const d = new Computer(
                 cloneInstructions(),
-                c.output,
+                undefined,
                 new IOQueue([curr[4]]),
             )
-            const e = new Computer(cloneInstructions(), d.output, new IOQueue())
+            d.attachInput(c)
+            const e = new Computer(
+                cloneInstructions(),
+                undefined,
+                new IOQueue(),
+            )
+            e.attachInput(d)
             return Promise.all([
                 a.executeInstructions(),
                 b.executeInstructions(),
@@ -90,25 +98,29 @@ const partTwo = async () => {
             )
             const b = new Computer(
                 cloneInstructions(),
-                a.output,
+                undefined,
                 new IOQueue([curr[2]]),
             )
+            b.attachInput(a)
             const c = new Computer(
                 cloneInstructions(),
-                b.output,
+                undefined,
                 new IOQueue([curr[3]]),
             )
+            c.attachInput(b)
             const d = new Computer(
                 cloneInstructions(),
-                c.output,
+                undefined,
                 new IOQueue([curr[4]]),
             )
+            d.attachInput(c)
             const e = new Computer(
                 cloneInstructions(),
-                d.output,
+                undefined,
                 new IOQueue([curr[0], 0]),
             )
-            a.input = e.output
+            e.attachInput(d)
+            a.attachInput(e)
             return Promise.all([
                 a.executeInstructions(),
                 b.executeInstructions(),
