@@ -23,7 +23,7 @@ export default class Computer {
         this.output = output || new IOQueue()
     }
 
-    private read(mode: Mode, address: Address | Value): Value {
+    public read(mode: Mode = Mode.POSITION, address: Address | Value): Value {
         switch (mode) {
             case Mode.POSITION:
                 return this.instructions[address]
