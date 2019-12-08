@@ -39,9 +39,7 @@ const partOne = () => {
 console.log('Part one: ' + partOne())
 
 const partTwo = () => {
-    const output = image.decode()
-
-    console.log(output)
+    return image.decode()
 }
 
-partTwo()
+console.log('Part two: ' + partTwo())
