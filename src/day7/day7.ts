@@ -76,6 +76,52 @@ const partOne = async () => {
     return results.reduce((max, curr) => Math.max(max, curr), 0)
 }
 
-partOne().then(e => {
-    console.log('Part one: ' + e)
+// partOne().then(e => {
+// console.log('Part one: ' + e)
+// })
+
+const partTwo = async () => {
+    const permutations = permute([9, 8, 7, 6, 5])
+    const results = await Promise.all(
+        permutations.map(curr => {
+            const a = new Computer(
+                cloneInstructions(),
+                new IOQueue(),
+                new IOQueue([curr[1]]),
+            )
+            const b = new Computer(
+                cloneInstructions(),
+                a.output,
+                new IOQueue([curr[2]]),
+            )
+            const c = new Computer(
+                cloneInstructions(),
+                b.output,
+                new IOQueue([curr[3]]),
+            )
+            const d = new Computer(
+                cloneInstructions(),
+                c.output,
+                new IOQueue([curr[4]]),
+            )
+            const e = new Computer(
+                cloneInstructions(),
+                d.output,
+                new IOQueue([curr[0], 0]),
+            )
+            a.input = e.output
+            return Promise.all([
+                a.executeInstructions(),
+                b.executeInstructions(),
+                c.executeInstructions(),
+                d.executeInstructions(),
+                e.executeInstructions(),
+            ]).then(values => Math.max(...values))
+        }),
+    )
+    return results.reduce((max, curr) => Math.max(max, curr), 0)
+}
+
+partTwo().then(e => {
+    console.log('Part two: ' + e)
 })
