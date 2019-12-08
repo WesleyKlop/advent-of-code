@@ -68,7 +68,6 @@ const partOne = async () => {
                 d.executeInstructions(),
                 e.executeInstructions(),
             ]).then(values => {
-                console.log(values)
                 return Math.max(...values)
             })
         }),
@@ -76,9 +75,9 @@ const partOne = async () => {
     return results.reduce((max, curr) => Math.max(max, curr), 0)
 }
 
-// partOne().then(e => {
-// console.log('Part one: ' + e)
-// })
+partOne().then(e => {
+    console.log('Part one: ' + e)
+})
 
 const partTwo = async () => {
     const permutations = permute([9, 8, 7, 6, 5])

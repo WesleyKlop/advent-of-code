@@ -92,12 +92,10 @@ export default class Computer {
                 break
             case Operation.INPUT:
                 const input = await this.input.read()
-                // TODO
                 this.write(loc1, input)
                 this.jump = 2
                 break
             case Operation.OUTPUT:
-                console.log(`[OUTPUT] ${this.instructions[loc1]}`)
                 this.output.write(this.instructions[loc1])
                 this.jump = 2
                 break
