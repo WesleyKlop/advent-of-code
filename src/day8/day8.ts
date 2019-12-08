@@ -1,12 +1,11 @@
-import * as fs from 'fs'
 import Layer from './Layer'
 import Image from './Image'
 import { Pixel } from './Pixel'
+import { readInput } from '../utils'
+import Program from '../Program'
 
 // Load and parse the input file
-const inputIntList = fs
-    .readFileSync(`./inputs/day8.txt`, 'utf8')
-    .trim()
+const inputIntList = readInput('day8.txt')
     .split('')
     .map(e => parseInt(e, 10)) as Pixel[]
 
@@ -14,30 +13,37 @@ const LAYER_WIDTH = 25
 const LAYER_HEIGHT = 6
 const LAYER_SIZE = LAYER_WIDTH * LAYER_HEIGHT
 
-const image = new Image(LAYER_WIDTH, LAYER_HEIGHT)
-for (let i = 0; i < inputIntList.length; i += LAYER_SIZE) {
-    const slice = inputIntList.slice(i, i + LAYER_SIZE)
+export default class Day8 implements Program {
+    private readonly image: Image
 
-    const layer = Layer.Create(slice, LAYER_HEIGHT, LAYER_WIDTH)
-    image.addLayer(layer)
-}
+    constructor() {
+        this.image = new Image(LAYER_WIDTH, LAYER_HEIGHT)
+        for (let i = 0; i < inputIntList.length; i += LAYER_SIZE) {
+            const slice = inputIntList.slice(i, i + LAYER_SIZE)
 
-const partOne = () => {
-    const lowest = image.getLayers().reduce((min, curr) => {
-        if (!min) {
-            return curr
+            const layer = Layer.Create(slice, LAYER_HEIGHT, LAYER_WIDTH)
+            this.image.addLayer(layer)
         }
-        return min.getDigitCount(Pixel.BLACK) > curr.getDigitCount(Pixel.BLACK)
-            ? curr
-            : min
-    })
-    return lowest.getDigitCount(Pixel.WHITE) * lowest.getDigitCount(Pixel.TRANS)
+    }
+
+    async partOne() {
+        const lowest = this.image.getLayers().reduce((min, curr) => {
+            if (!min) {
+                return curr
+            }
+            return min.getDigitCount(Pixel.BLACK) >
+                curr.getDigitCount(Pixel.BLACK)
+                ? curr
+                : min
+        })
+        const answer =
+            lowest.getDigitCount(Pixel.WHITE) *
+            lowest.getDigitCount(Pixel.TRANS)
+        console.log('Part one: ' + answer)
+    }
+
+    async partTwo() {
+        const out = this.image.decode()
+        console.log('Part two: ' + out)
+    }
 }
-
-console.log('Part one: ' + partOne())
-
-const partTwo = () => {
-    return image.decode()
-}
-
-console.log('Part two: ' + partTwo())

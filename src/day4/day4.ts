@@ -1,3 +1,5 @@
+import Program from '../Program'
+
 const LOWER_BOUND = 382_345
 const UPPER_BOUND = 843_167
 
@@ -38,6 +40,11 @@ const solveForBounds = (lowerBound: number, upperBound: number) => {
     return possibilities.size
 }
 
-console.log(solveForBounds(LOWER_BOUND, UPPER_BOUND))
-
-export {}
+export default class Day4 implements Program {
+    async partOne() {
+        console.log('Too lazy to implement part one again tbh')
+    }
+    async partTwo() {
+        console.log(solveForBounds(LOWER_BOUND, UPPER_BOUND))
+    }
+}

@@ -1,28 +1,21 @@
-import * as fs from 'fs'
-import { InstructionList } from '../day7/types'
 import Computer from '../day7/Computer'
 import IOQueue from '../day7/IOQueue'
-
-// Load and parse the input file
-const inputIntList = fs
-    .readFileSync(`./inputs/day5.txt`, 'utf8')
-    .trim()
-    .split(',')
-    .map(val => parseInt(val)) as InstructionList
+import { createIntCodeFactory } from '../utils'
+import Program from '../Program'
 
 // Clone the list so you always have a fresh input
-const cloneInstructions = (): InstructionList => [...inputIntList]
+const cloneInstructions = createIntCodeFactory('day5.txt')
 
-const partOne = async () => {
-    const computer = new Computer(cloneInstructions(), new IOQueue([1]))
-    const answer = await computer.executeInstructions()
-    console.log('Part one: ' + answer)
-}
-partOne()
+export default class Day5 implements Program {
+    async partOne() {
+        const computer = new Computer(cloneInstructions(), new IOQueue([1]))
+        const answer = await computer.executeInstructions()
+        console.log('Part one: ' + answer)
+    }
 
-const partTwo = async () => {
-    const computer = new Computer(cloneInstructions(), new IOQueue([5]))
-    const answer = await computer.executeInstructions()
-    console.log('Part two: ' + answer)
+    async partTwo() {
+        const computer = new Computer(cloneInstructions(), new IOQueue([5]))
+        const answer = await computer.executeInstructions()
+        console.log('Part two: ' + answer)
+    }
 }
-partTwo()

@@ -14,7 +14,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.m?(t|j)sx?$/,
+                test: /\.(t|m?j)sx?$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',

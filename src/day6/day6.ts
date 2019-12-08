@@ -1,9 +1,8 @@
-import * as fs from 'fs'
+import { readInput } from '../utils'
+import Program from '../Program'
 
 // Load and parse the input file
-const inputIntList = fs
-    .readFileSync(`./inputs/day6.txt`, 'utf8')
-    .trim()
+const inputIntList = readInput('day6.txt')
     .split('\n')
     .map(val => val.split(')')) as string[][]
 
@@ -41,9 +40,6 @@ const listToMap = (list: string[][]): Map<string, string> => {
     return map
 }
 
-// Map of child -> parent
-const inputMap = listToMap(inputIntList)
-
 // Part one
 const findOrbitCountChecksum = (map: Map<string, string>): number =>
     inputIntList.reduce((total, [, child]) => {
@@ -72,5 +68,17 @@ const findOrbitalTransferCost = (map: Map<string, string>): number => {
     )
 }
 
-console.log(findOrbitCountChecksum(inputMap))
-console.log(findOrbitalTransferCost(inputMap))
+export default class Day6 implements Program {
+    private readonly inputMap: Map<string, string>
+
+    constructor() {
+        this.inputMap = listToMap(inputIntList)
+    }
+    async partOne() {
+        console.log(findOrbitCountChecksum(this.inputMap))
+    }
+
+    async partTwo() {
+        console.log(findOrbitalTransferCost(this.inputMap))
+    }
+}

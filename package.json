@@ -1,11 +1,11 @@
 {
     "name": "advent-of-code-2019",
     "scripts": {
-        "make": "rm -rf ./dist/ && yarn build -p && chmod +x dist/main.js",
+        "make": "rm -rf ./dist/ && yarn build -p",
         "build": "webpack --progress --hide-modules --config webpack.config.js",
         "watch": "yarn build --watch",
         "play": "node dist/main.js",
-        "prettier": "prettier --write src/**/*.ts"
+        "prettier": "prettier --write \"src/**/*.ts\""
     },
     "version": "1.0.0",
     "main": "dist/main.js",
