@@ -4,10 +4,13 @@
 
 My solutions to the problems faced during advent of code 2019.
 
-I'm writing all my solutions in javascript and they are runnable by just calling
+You can build and run the challenges very easily.  
+Use `npm run` instead of `yarn` when that is not available.
 
 ```shell
-node ./day{SOME_DAY}/day{SOME_DAY}.js
+yarn install # Install dependencies
+yarn make # Build all files
+yarn play <value> # Value can be either "all" or a given day number.
 ```
 
 ## Solutions by friends
