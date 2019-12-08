@@ -5,7 +5,7 @@
         "build": "webpack --progress --hide-modules --config webpack.config.js",
         "watch": "yarn build --watch",
         "play": "node dist/main.js",
-        "prettier": "prettier --write \"src/**/*.ts\""
+        "prettier": "prettier --write \"src/**/*.ts\" \"./*.json\" \"./*.js\""
     },
     "version": "1.0.0",
     "main": "dist/main.js",
