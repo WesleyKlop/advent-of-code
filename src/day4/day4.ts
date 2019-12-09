@@ -41,6 +41,8 @@ const solveForBounds = (lowerBound: number, upperBound: number) => {
 }
 
 export default class Day4 implements Program {
+    public readonly label = 'Day 4'
+
     async partOne() {
         console.log('Too lazy to implement part one again tbh')
     }

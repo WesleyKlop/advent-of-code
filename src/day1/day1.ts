@@ -18,6 +18,8 @@ const calcFuelSum = (fuelSum: number, fuel: number): number => {
 }
 
 export default class Day1 implements Program {
+    public readonly label: string = 'Day 1'
+
     async partOne() {
         const answer1 = inputIntList
             .map(calcFuel)

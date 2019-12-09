@@ -7,6 +7,8 @@ import Program from '../Program'
 const cloneInstructions = createIntCodeFactory('day7.txt')
 
 export default class Day7 implements Program {
+    public readonly label = 'Day 7'
+
     async partOne() {
         const combinations = permute([0, 1, 2, 3, 4])
         const results = await Promise.all(

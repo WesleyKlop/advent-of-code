@@ -9,6 +9,8 @@ const [path1, path2] = readInput('day3.txt')
     .map(path => path.split(',').map(val => new Action(val)))
 
 export default class Day3 implements Program {
+    public readonly label = 'Day 3'
+
     private locations1: Locationlist
     private locations2: Locationlist
 

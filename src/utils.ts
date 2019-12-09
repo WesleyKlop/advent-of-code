@@ -1,5 +1,15 @@
 import { readFileSync } from 'fs'
 import { Memory } from './day7/types'
+import { PerformanceObserver } from 'perf_hooks'
+
+export const createPerformanceObserver = () => {
+    const obs = new PerformanceObserver(items => {
+        items.getEntries().forEach(item => {
+            console.log(`${item.name}:`, item.duration)
+        })
+    })
+    obs.observe({ entryTypes: ['measure'] })
+}
 
 export const readInput = (fileName: string): string =>
     readFileSync(`./inputs/${fileName}`, 'utf8').trim()

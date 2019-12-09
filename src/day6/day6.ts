@@ -69,6 +69,8 @@ const findOrbitalTransferCost = (map: Map<string, string>): number => {
 }
 
 export default class Day6 implements Program {
+    public readonly label = 'Day 6'
+
     private readonly inputMap: Map<string, string>
 
     constructor() {

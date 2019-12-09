@@ -7,6 +7,8 @@ import Program from '../Program'
 const cloneInstructions = createIntCodeFactory('day5.txt')
 
 export default class Day5 implements Program {
+    public readonly label = 'Day 5'
+
     async partOne() {
         const computer = new Computer(cloneInstructions(), new IOQueue([1]))
         const answer = await computer.executeInstructions()

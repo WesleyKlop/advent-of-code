@@ -7,6 +7,8 @@ import IOQueue from '../day7/IOQueue'
 const cloneInstructions = createIntCodeFactory('day9.txt')
 
 export default class Day9 implements Program {
+    public readonly label = 'Day 9'
+
     async partOne() {
         const program = cloneInstructions()
         const output = new IOQueue()

@@ -31,6 +31,8 @@ const findOutput = async (goal: number): Promise<number[]> => {
 }
 
 export default class Day2 implements Program {
+    public readonly label = 'Day 2'
+
     async partOne() {
         const instructions = cloneInstructions()
         instructions[LOC_NOUN] = 12

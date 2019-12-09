@@ -1,6 +1,12 @@
 import Program from './Program'
 import IOQueue from './day7/IOQueue'
 import { Operation } from './day7/Operation'
+import { createPerformanceObserver } from './utils'
+import { ConsoleExecutor, Executor } from './Executor'
+
+if (process.argv.includes('--perf')) {
+    createPerformanceObserver()
+}
 
 const loadDay = async (day: number) => {
     const mod = await import(`./day${day}/day${day}`)
@@ -17,24 +23,20 @@ const playDay = async (arg: string | number) => {
     try {
         const ProgramImpl = await loadDay(dayToExecute)
 
-        console.log(` ----- DAY ${dayToExecute} -----`)
-        const program = new ProgramImpl()
-        await program.partOne()
-        await program.partTwo()
+        const executor: Executor = new ConsoleExecutor()
+        await executor.execute(ProgramImpl)
     } catch (err) {
-        console.error('Error in program!\n', err)
+        console.error('Error in program! Abort...\n', err)
     }
 }
 
 const playAllDays = async () => {
-    const queue = new IOQueue([1, 2, 3, 4, 5, 6, 7, 8, 99])
-    while (true) {
-        const day = await queue.read()
-        if (day === Operation.HALT) {
-            return
-        }
+    const queue = new IOQueue([1, 2, 3, 4, 5, 6, 7, 8, 9, 99])
+    let day = await queue.read()
+    do {
         await playDay(day)
-    }
+        day = await queue.read()
+    } while (day !== Operation.HALT)
 }
 
 const main = async () => {

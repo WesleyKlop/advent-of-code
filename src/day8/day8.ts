@@ -14,6 +14,8 @@ const LAYER_HEIGHT = 6
 const LAYER_SIZE = LAYER_WIDTH * LAYER_HEIGHT
 
 export default class Day8 implements Program {
+    public readonly label = 'Day 8'
+
     private readonly image: Image
 
     constructor() {
