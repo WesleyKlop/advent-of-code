@@ -40,7 +40,7 @@ export default class Day2 implements Program {
         await computer.executeInstructions()
 
         const answer1 = computer.read(Mode.POSITION, 0)
-        console.log('Answer 1: ' + answer1)
+        console.log('Answer part one: ', answer1)
     }
 
     async partTwo() {
@@ -48,6 +48,6 @@ export default class Day2 implements Program {
 
         const [noun, verb] = await findOutput(GOAL)
         const answer2 = 100 * noun + verb
-        console.log('Answer 2: ' + answer2)
+        console.log('Answer part two: ', answer2)
     }
 }

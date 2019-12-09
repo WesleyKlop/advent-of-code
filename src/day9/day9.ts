@@ -12,7 +12,7 @@ export default class Day9 implements Program {
         const output = new IOQueue()
         const computer = new Computer(program, new IOQueue([1]), output)
         await computer.executeInstructions()
-        console.log(output.getHistory())
+        console.log('Answer part one: ', output.getHistory())
     }
 
     async partTwo() {
@@ -20,6 +20,6 @@ export default class Day9 implements Program {
         const output = new IOQueue()
         const computer = new Computer(program, new IOQueue([2]), output)
         await computer.executeInstructions()
-        console.log(output.getHistory())
+        console.log('Answer part two: ', output.getHistory())
     }
 }

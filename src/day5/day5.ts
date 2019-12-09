@@ -10,12 +10,12 @@ export default class Day5 implements Program {
     async partOne() {
         const computer = new Computer(cloneInstructions(), new IOQueue([1]))
         const answer = await computer.executeInstructions()
-        console.log('Part one: ' + answer)
+        console.log('Answer part one: ', answer)
     }
 
     async partTwo() {
         const computer = new Computer(cloneInstructions(), new IOQueue([5]))
         const answer = await computer.executeInstructions()
-        console.log('Part two: ' + answer)
+        console.log('Answer part two: ', answer)
     }
 }

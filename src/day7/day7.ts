@@ -51,7 +51,7 @@ export default class Day7 implements Program {
             }),
         )
         const partOne = results.reduce((max, curr) => Math.max(max, curr), 0)
-        console.log('Part one: ' + partOne)
+        console.log('Answer part one: ', partOne)
     }
 
     async partTwo() {
@@ -99,6 +99,6 @@ export default class Day7 implements Program {
             }),
         )
         const partTwo = results.reduce((max, curr) => Math.max(max, curr), 0)
-        console.log('Part two: ' + partTwo)
+        console.log('Answer part two: ', partTwo)
     }
 }

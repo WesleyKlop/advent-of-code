@@ -75,10 +75,10 @@ export default class Day6 implements Program {
         this.inputMap = listToMap(inputIntList)
     }
     async partOne() {
-        console.log(findOrbitCountChecksum(this.inputMap))
+        console.log('Answer part one: ', findOrbitCountChecksum(this.inputMap))
     }
 
     async partTwo() {
-        console.log(findOrbitalTransferCost(this.inputMap))
+        console.log('Answer part two: ', findOrbitalTransferCost(this.inputMap))
     }
 }

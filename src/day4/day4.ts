@@ -45,6 +45,9 @@ export default class Day4 implements Program {
         console.log('Too lazy to implement part one again tbh')
     }
     async partTwo() {
-        console.log(solveForBounds(LOWER_BOUND, UPPER_BOUND))
+        console.log(
+            'Answer part two: ',
+            solveForBounds(LOWER_BOUND, UPPER_BOUND),
+        )
     }
 }

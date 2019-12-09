@@ -19,13 +19,16 @@ export default class Day3 implements Program {
 
     async partOne() {
         const intersections = this.locations1.intersect(this.locations2)
-        console.log('Answer 1: ' + intersections.closestManhattanDistance())
+        console.log(
+            'Answer part one: ',
+            intersections.closestManhattanDistance(),
+        )
     }
 
     async partTwo() {
         console.log(
-            'Answer 2: ' +
-                this.locations1.findFirstIntersection(this.locations2),
+            'Answer part two: ',
+            this.locations1.findFirstIntersection(this.locations2),
         )
     }
 }

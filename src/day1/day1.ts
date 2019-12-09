@@ -22,13 +22,13 @@ export default class Day1 implements Program {
         const answer1 = inputIntList
             .map(calcFuel)
             .reduce((fuelSum, fuel) => fuelSum + fuel, 0)
-        console.log('Answer 1: ' + answer1)
+        console.log('Answer part one: ', answer1)
     }
 
     async partTwo() {
         const answer2 = inputIntList
             .map(mass => calcFuelSum(0, mass))
             .reduce((totalFuel, fuelSum) => totalFuel + fuelSum, 0)
-        console.log('Answer 2: ' + answer2)
+        console.log('Answer part two: ', answer2)
     }
 }

@@ -39,11 +39,11 @@ export default class Day8 implements Program {
         const answer =
             lowest.getDigitCount(Pixel.WHITE) *
             lowest.getDigitCount(Pixel.TRANS)
-        console.log('Part one: ' + answer)
+        console.log('Answer part one: ', answer)
     }
 
     async partTwo() {
         const out = this.image.decode()
-        console.log('Part two: ' + out)
+        console.log('Answer part two: ', out)
     }
 }
