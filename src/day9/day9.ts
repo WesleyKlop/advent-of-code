@@ -15,5 +15,11 @@ export default class Day9 implements Program {
         console.log(output.getHistory())
     }
 
-    async partTwo() {}
+    async partTwo() {
+        const program = cloneInstructions()
+        const output = new IOQueue()
+        const computer = new Computer(program, new IOQueue([2]), output)
+        await computer.executeInstructions()
+        console.log(output.getHistory())
+    }
 }
