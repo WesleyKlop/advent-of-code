@@ -1,5 +1,8 @@
 {
     "name": "advent-of-code-2019",
+    "bin": {
+        "aoc": "./dist/main.js"
+    },
     "scripts": {
         "make": "rm -rf ./dist/ && yarn build -p",
         "build": "webpack --progress --hide-modules --config webpack.config.js",
@@ -8,7 +11,7 @@
         "prettier": "prettier --write \"src/**/*.ts\" \"./*.json\" \"./*.js\""
     },
     "version": "1.0.0",
-    "main": "dist/main.js",
+    "main": "./dist/main.js",
     "repository": "ssh://git@github.com/WesleyKlop/advent-of-code-2019.git",
     "author": "Wesley Klop <wesley19097@gmail.com> (https://wesley.io)",
     "license": "MIT",
