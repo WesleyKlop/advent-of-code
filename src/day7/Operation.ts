@@ -8,5 +8,6 @@ export enum Operation {
     JUMP_IF_FALSE = 6,
     LOWER_THAN = 7,
     EQUALS = 8,
+    SET_BASE = 9,
     HALT = 99,
 }

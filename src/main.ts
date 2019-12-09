@@ -22,7 +22,7 @@ const playDay = async (arg: string | number) => {
         await program.partOne()
         await program.partTwo()
     } catch (err) {
-        console.warn('Could not find module..', err)
+        console.error('Error in program!\n', err)
     }
 }
 
