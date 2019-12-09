@@ -50,4 +50,8 @@ export default class IOQueue {
     public last(): Value {
         return this.history[this.history.length - 1]
     }
+
+    public getHistory(): Value[] {
+        return this.history
+    }
 }

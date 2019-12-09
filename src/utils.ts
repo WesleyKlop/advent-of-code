@@ -1,17 +1,17 @@
 import { readFileSync } from 'fs'
-import { InstructionList } from './day7/types'
+import { Memory } from './day7/types'
 
 export const readInput = (fileName: string): string =>
     readFileSync(`./inputs/${fileName}`, 'utf8').trim()
 
-export const readIntCode = (fileName: string): InstructionList =>
+export const readIntCode = (fileName: string): Memory =>
     readInput(fileName)
         .split(',')
         .map(val => parseInt(val, 10))
 
 export const createIntCodeFactory = (fileName: string) => {
     const program = readIntCode(fileName)
-    return (): InstructionList => [...program]
+    return (): Memory => [...program]
 }
 
 export const permute = <T>(input: T[]): T[][] => {

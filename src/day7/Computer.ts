@@ -1,4 +1,4 @@
-import { IO, InstructionList, Address, Value, RawOpcode, Modes } from './types'
+import { Memory, Address, Value, RawOpcode, Modes } from './types'
 import { Mode } from './Mode'
 import { Operation } from './Operation'
 import { ParsedOpcode } from './ParsedOpcode'
@@ -8,18 +8,14 @@ import IOQueue from './IOQueue'
 export default class Computer {
     private input: IOQueue
     private output: IOQueue
-    private instructions: InstructionList
+    private memory: Memory
     private jump: number = 4
     private ip: Address = 0
     private relBase: Address = 0
     private running = false
 
-    constructor(
-        instructions: InstructionList,
-        input?: IOQueue,
-        output?: IOQueue,
-    ) {
-        this.instructions = instructions
+    constructor(memory: Memory, input?: IOQueue, output?: IOQueue) {
+        this.memory = memory
         this.input = input || new IOQueue()
         this.output = output || new IOQueue()
     }
@@ -27,39 +23,42 @@ export default class Computer {
     public read(mode: Mode = Mode.POSITION, address: Address | Value): Value {
         switch (mode) {
             case Mode.POSITION:
-                console.log(
-                    'Positional read at address: ' +
-                        address +
-                        ' Value: ' +
-                        this.instructions[address],
-                )
-                return this.instructions[address] || 0
+                return this.memory[address] || 0
             case Mode.IMMEDIATE:
-                console.log('Immediate read value: ' + address)
                 return address
             case Mode.RELATIVE:
-                console.log(
-                    'Relative read at address: ' +
-                        (this.relBase + address) +
-                        ' Value: ' +
-                        this.instructions[this.relBase + address],
-                )
-                return this.instructions[this.relBase + address] || 0
+                return this.memory[this.relBase + address] || 0
             default:
                 throw new Error('Invalid parameter mode ' + mode)
         }
     }
 
-    private write(address: Address, value: Value): void {
-        console.log('Writing to address: ' + address + ' Value: ' + value)
-        this.instructions[address] = value
+    private write(
+        address: Address,
+        value: Value,
+        mode: Mode = Mode.IMMEDIATE,
+    ): void {
+        switch (mode) {
+            case Mode.POSITION:
+                this.memory[this.memory[address]] = value
+                break
+            case Mode.IMMEDIATE:
+                this.memory[address] = value
+                break
+            case Mode.RELATIVE:
+                this.memory[this.relBase + address] = value
+                break
+            default:
+                throw new Error(
+                    'Invalid parameter mode ' + mode + ' ' + typeof mode,
+                )
+        }
     }
 
     private parseOpcode(raw: RawOpcode): ParsedOpcode {
-        const str = raw
-            .toString()
-            .padStart(4, '0')
-            .padStart(5, '1')
+        const str = raw.toString()
+        // .padStart(4, '0')
+        // .padStart(5, '1')
         const opcode = parseInt(str.slice(-2)) as Operation
         const modes = str.slice(0, -2).split('') as Modes
 
@@ -70,7 +69,7 @@ export default class Computer {
     }
 
     private createSequence(): Sequence {
-        const [rawOpcode, loc1, loc2, reg] = this.instructions.slice(
+        const [rawOpcode, loc1, loc2, reg] = this.memory.slice(
             this.ip,
             this.ip + 4,
         )
@@ -86,10 +85,8 @@ export default class Computer {
         this.running = true
         for (this.ip = 0; this.running; this.ip += this.jump) {
             const sequence = this.createSequence()
-            console.log(sequence)
             await this.execute(sequence)
         }
-        console.log(this.output)
         return this.output.last()
     }
 
@@ -104,18 +101,18 @@ export default class Computer {
             case Operation.ADD:
                 result =
                     this.read(modes.pop(), loc1) + this.read(modes.pop(), loc2)
-                this.write(this.read(modes.pop(), reg), result)
+                this.write(reg, result, modes.pop())
                 this.jump = 4
                 break
             case Operation.TIMES:
                 result =
                     this.read(modes.pop(), loc1) * this.read(modes.pop(), loc2)
-                this.write(this.read(modes.pop(), reg), result)
+                this.write(reg, result, modes.pop())
                 this.jump = 4
                 break
             case Operation.INPUT:
                 const input = await this.input.read()
-                this.write(this.read(modes.pop(), loc1), input)
+                this.write(reg, input)
                 this.jump = 2
                 break
             case Operation.OUTPUT:
@@ -141,7 +138,7 @@ export default class Computer {
                 result = Number(
                     this.read(modes.pop(), loc1) < this.read(modes.pop(), loc2),
                 )
-                this.write(this.read(modes.pop(), reg), result)
+                this.write(reg, result, modes.pop())
                 this.jump = 4
                 break
             case Operation.EQUALS:
@@ -149,11 +146,11 @@ export default class Computer {
                     this.read(modes.pop(), loc1) ===
                         this.read(modes.pop(), loc2),
                 )
-                this.write(this.read(modes.pop(), reg), result)
+                this.write(reg, result, modes.pop())
                 this.jump = 4
                 break
             case Operation.SET_BASE:
-                this.relBase = this.read(modes.pop(), loc1)
+                this.relBase += this.read(modes.pop(), loc1)
                 this.jump = 2
                 break
             case Operation.HALT:
