@@ -5,7 +5,7 @@
     },
     "scripts": {
         "make": "rm -rf ./dist/ && yarn build -p",
-        "build": "webpack --progress --hide-modules --config webpack.config.js",
+        "build": "webpack --hide-modules --config webpack.config.js",
         "watch": "yarn build --watch",
         "play": "node dist/main.js",
         "prettier": "prettier --write \"src/**/*.ts\" \"./*.json\" \"./*.js\""
