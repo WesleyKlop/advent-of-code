@@ -8,6 +8,13 @@ export type Point = {
     y: number
 }
 
+export type AsteroidAngles = Map<Number, Asteroid>
+
+export type BestAsteroid = {
+    point: Point
+    map: AsteroidAngles
+}
+
 export class Asteroid {
     public readonly point: Point
     public readonly angle: number
@@ -27,47 +34,45 @@ export default class AsteroidMap {
         this.map = map
     }
 
-    public findBestAsteroid(): Map<number, Asteroid> {
-        const results: Map<number, Asteroid>[] = []
+    public findBestAsteroid(): BestAsteroid {
+        let best: BestAsteroid | undefined
+        this.forEachAsteroid(point => {
+            const map = this.findVisiblePoints(point)
+            if (typeof best === 'undefined' || map.size > best.map.size) {
+                best = { map, point }
+            }
+        })
+        return best!
+    }
+
+    public forEachAsteroid(func: (point: Point) => void) {
         for (let y = 0; y < this.map.length; y++) {
             const row = this.map[y]
             for (let x = 0; x < row.length; x++) {
                 const point: Point = { x, y }
-                if (!this.isAsteroid(point)) {
-                    continue
+                if (this.isAsteroid(point)) {
+                    func(point)
                 }
-                results.push(this.findVisiblePoints(point))
             }
         }
-        return results.reduce((max, curr) => {
-            if (!max || curr.size > max.size) {
-                return curr
-            }
-            return max
-        })
     }
 
     public findVisiblePoints(origin: Point): Map<number, Asteroid> {
         // Loop through all asteroids, collect visible asteroids in a set<Point>
         const resultMap: Map<number, Asteroid> = new Map()
-        for (let y = 0; y < this.map.length; y++) {
-            const row = this.map[y]
-            for (let x = 0; x < row.length; x++) {
-                const other: Point = { x, y }
-                if (
-                    !this.isAsteroid(other) ||
-                    (origin.x === x && origin.y === y)
-                ) {
-                    continue
-                }
-                const angle = this.calculateAngle(origin, other)
-                const distance = this.manhattanDistance(origin, other)
-                this.addToMapIfCloser(
-                    resultMap,
-                    new Asteroid(other, angle, distance),
-                )
+        this.forEachAsteroid(other => {
+            if (other.x === origin.x && other.y === origin.y) {
+                return
             }
-        }
+
+            const angle = this.calculateAngle(origin, other)
+            const distance = this.manhattanDistance(origin, other)
+            this.addToMapIfCloser(
+                resultMap,
+                new Asteroid(other, angle, distance),
+            )
+        })
+
         return resultMap
     }
 

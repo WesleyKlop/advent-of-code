@@ -1,6 +1,6 @@
 import Program from '../Program'
 import { readInput } from '../utils'
-import AsteroidMap, { Position, Point, Asteroid } from './AsteroidMap'
+import AsteroidMap, { Position } from './AsteroidMap'
 
 const strToMap = (str: string): Position[][] =>
     str.split('\n').map(e => e.trim().split('')) as Position[][]
@@ -17,7 +17,7 @@ export default class Day10 implements Program {
     }
 
     public async partOne(): Promise<any> {
-        console.log('Answer part one:', this.map.findBestAsteroid().size)
+        console.log('Answer part one:', this.map.findBestAsteroid().map.size)
     }
 
     public async partTwo(): Promise<any> {
