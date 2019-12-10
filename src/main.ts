@@ -3,6 +3,7 @@ import IOQueue from './day7/IOQueue'
 import { Operation } from './day7/Operation'
 import { createPerformanceObserver } from './utils'
 import { ConsoleExecutor, Executor } from './Executor'
+// import 'source-map-support/register'
 
 if (process.argv.includes('--perf')) {
     createPerformanceObserver()
@@ -31,7 +32,7 @@ const playDay = async (arg: string | number) => {
 }
 
 const playAllDays = async () => {
-    const queue = new IOQueue([1, 2, 3, 4, 5, 6, 7, 8, 9, 99])
+    const queue = new IOQueue([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 99])
     let day = await queue.read()
     do {
         await playDay(day)

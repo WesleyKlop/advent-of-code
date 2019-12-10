@@ -8,8 +8,8 @@ module.exports = {
         filename: '[name].js',
         chunkFilename: '[id].js',
         path: path.resolve(__dirname, 'dist'),
+        devtoolModuleFilenameTemplate: '/[absolute-resource-path]',
     },
-    devtool: 'inline-source-map',
     target: 'node',
     module: {
         rules: [

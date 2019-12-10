@@ -30,6 +30,7 @@
         "webpack-cli": "^3.3.10"
     },
     "dependencies": {
-        "core-js": "^3.4.7"
+        "core-js": "^3.4.7",
+        "source-map-support": "^0.5.16"
     }
 }
