@@ -8,7 +8,7 @@ import IOQueue from './IOQueue'
 let counter = 0
 
 export default class Computer {
-    private static readonly DEBUG = true
+    private static readonly DEBUG = false
     public readonly output: IOQueue
     private readonly label = 'C' + ++counter
     private readonly memory: Memory
@@ -134,7 +134,7 @@ export default class Computer {
                 this.log('Input request')
                 const input = await this.input.read()
                 this.log('Input received:', input)
-                this.write(loc1, input)
+                this.write(loc1, input, modes.pop())
                 this.jump = 2
                 break
             case Operation.OUTPUT:

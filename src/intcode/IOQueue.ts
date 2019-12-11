@@ -1,6 +1,7 @@
 import { IO, Value } from './types'
 
 type RequestQueue = ((val: Value) => void)[]
+
 let counter = 0
 export default class IOQueue {
     private static readonly DEBUG = false
