@@ -57,6 +57,51 @@ export default class AsteroidMap {
         }
     }
 
+    public imaFirinMahLazor(origin: Point): Asteroid {
+        const asteroidGroups: Map<number, Asteroid[]> = new Map()
+        let asteroidCount = 0
+
+        this.forEachAsteroid(other => {
+            if (origin.x === other.x && other.y === origin.y) {
+                return
+            }
+            const angle = this.calculateAngle(origin, other)
+            const distance = this.manhattanDistance(origin, other)
+
+            if (!asteroidGroups.has(angle)) {
+                asteroidGroups.set(angle, [])
+            }
+
+            asteroidGroups
+                .get(angle)!
+                .push(new Asteroid(other, angle, distance))
+            asteroidCount++
+        })
+
+        // Sort every group by distance
+        for (const group of asteroidGroups.values()) {
+            group.sort((a, b) => a.distance - b.distance)
+        }
+
+        const zapOrder: Asteroid[] = []
+        // Order the angles correctly 0 - 359
+        const angles = Array.from(asteroidGroups.keys()).sort((a, b) => a - b)
+        for (let i = 0; zapOrder.length !== asteroidCount; i++) {
+            const angle = angles[i % angles.length]
+            const group = asteroidGroups.get(angle)!
+
+            zapOrder.push(group.shift()!)
+            if (group.length === 0) {
+                // Remove the angle from possibilities and lower i
+                // because the next coordinate will be at the current index
+                angles.splice(i % angles.length, 1)
+                i--
+            }
+        }
+
+        return zapOrder[199]!
+    }
+
     public findVisiblePoints(origin: Point): Map<number, Asteroid> {
         // Loop through all asteroids, collect visible asteroids in a set<Point>
         const resultMap: Map<number, Asteroid> = new Map()
@@ -98,20 +143,20 @@ export default class AsteroidMap {
         // Get 2 straight sides
         const sides = this.calculateSides(origin, other)
         // Calculate angle (rad)
-        const angle = Math.atan2(sides.y, sides.x)
+        const angle = (Math.atan2(sides.y, sides.x) * 180) / Math.PI + 90
         // Convert to degrees
-        return (angle * 180) / Math.PI
+        return angle < 0 ? angle + 360 : angle
     }
 
     private calculateSides(origin: Point, other: Point): Point {
         // calc relative distance
-        const relX = origin.x - other.x
-        const relY = origin.y - other.y
+        const relX = other.x - origin.x
+        const relY = other.y - origin.y
 
         return { x: relX, y: relY }
     }
 
     private manhattanDistance(p1: Point, p2: Point): number {
-        return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y)
+        return Math.hypot(Math.abs(p1.x - p2.x), Math.abs(p1.y - p2.y))
     }
 }

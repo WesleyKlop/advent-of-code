@@ -1,6 +1,9 @@
 const path = require('path')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-module.exports = {
+const { NODE_ENV = 'development' } = process.env
+
+const config = {
     context: __dirname,
     entry: './src/main.ts',
     mode: 'development',
@@ -8,7 +11,6 @@ module.exports = {
         filename: '[name].js',
         chunkFilename: '[id].js',
         path: path.resolve(__dirname, 'dist'),
-        devtoolModuleFilenameTemplate: '/[absolute-resource-path]',
     },
     target: 'node',
     module: {
@@ -44,4 +46,15 @@ module.exports = {
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
     },
+    plugins: [new CleanWebpackPlugin()],
+    stats: {
+        modules: false,
+    },
 }
+
+if (NODE_ENV === 'development') {
+    console.log('in dev')
+    config.output.devtoolModuleFilenameTemplate = '/[absolute-resource-path]'
+}
+
+module.exports = config

@@ -11,9 +11,9 @@ export class ConsoleExecutor implements Executor {
         const program = new ProgramImpl()
         console.log(` ----- ${program.label} -----`)
         performance.mark('part-one')
-        await program.partOne()
+        const partOne = await program.partOne()
         performance.mark('part-two')
-        await program.partTwo()
+        await program.partTwo(partOne)
         performance.mark('finish')
 
         performance.measure('Init', 'start', 'part-one')

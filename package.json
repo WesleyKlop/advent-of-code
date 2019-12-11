@@ -4,9 +4,9 @@
         "aoc": "./dist/main.js"
     },
     "scripts": {
-        "make": "rm -rf ./dist/ && yarn build -p",
-        "build": "webpack --hide-modules --config webpack.config.js",
-        "watch": "yarn build --watch",
+        "build:dev": "NODE_ENV=development webpack",
+        "build": "NODE_ENV=production webpack -p",
+        "watch": "NODE_ENV=development webpack --watch",
         "play": "node dist/main.js",
         "prettier": "prettier --write \"src/**/*.ts\" \"./*.json\" \"./*.js\""
     },
@@ -24,6 +24,7 @@
         "@babel/preset-typescript": "^7.7.4",
         "@types/node": "^12.12.14",
         "babel-loader": "^8.0.6",
+        "clean-webpack-plugin": "^3.0.0",
         "prettier": "^1.19.1",
         "typescript": "^3.7.3",
         "webpack": "^4.41.2",
