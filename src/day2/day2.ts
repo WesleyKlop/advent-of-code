@@ -1,5 +1,5 @@
-import Computer from '../day7/Computer'
-import { Mode } from '../day7/Mode'
+import Computer from '../intcode/Computer'
+import { Mode } from '../intcode/Mode'
 import { createIntCodeFactory } from '../utils'
 import Program from '../Program'
 

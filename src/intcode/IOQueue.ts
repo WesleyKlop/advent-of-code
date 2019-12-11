@@ -1,4 +1,4 @@
-import { Value, IO } from './types'
+import { IO, Value } from './types'
 
 export default class IOQueue {
     private history: Value[] = []

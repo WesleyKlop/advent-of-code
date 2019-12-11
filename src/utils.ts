@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs'
-import { Memory } from './day7/types'
+import { Memory } from './intcode/types'
 import { PerformanceObserver } from 'perf_hooks'
 
 export const createPerformanceObserver = () => {

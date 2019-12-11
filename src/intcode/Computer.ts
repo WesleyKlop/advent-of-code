@@ -1,4 +1,4 @@
-import { Memory, Address, Value, RawOpcode, Modes } from './types'
+import { Address, Memory, Modes, RawOpcode, Value } from './types'
 import { Mode } from './Mode'
 import { Operation } from './Operation'
 import { ParsedOpcode } from './ParsedOpcode'

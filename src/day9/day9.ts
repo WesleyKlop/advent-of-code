@@ -1,7 +1,7 @@
 import { createIntCodeFactory } from '../utils'
 import Program from '../Program'
-import Computer from '../day7/Computer'
-import IOQueue from '../day7/IOQueue'
+import Computer from '../intcode/Computer'
+import IOQueue from '../intcode/IOQueue'
 
 // Clone the list so you always have a fresh input
 const cloneInstructions = createIntCodeFactory('day9.txt')

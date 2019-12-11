@@ -1,6 +1,6 @@
 import Program from './Program'
-import IOQueue from './day7/IOQueue'
-import { Operation } from './day7/Operation'
+import IOQueue from './intcode/IOQueue'
+import { Operation } from './intcode/Operation'
 import { createPerformanceObserver } from './utils'
 import { ConsoleExecutor, Executor } from './Executor'
 // import 'source-map-support/register'
@@ -11,7 +11,7 @@ if (process.argv.includes('--perf')) {
 
 const loadDay = async (day: number) => {
     const mod = await import(`./day${day}/day${day}`)
-    return mod.default as { new (): Program }
+    return mod.default as { new(): Program }
 }
 
 const playDay = async (arg: string | number) => {
@@ -52,5 +52,3 @@ const main = async () => {
 }
 
 main()
-
-export {}

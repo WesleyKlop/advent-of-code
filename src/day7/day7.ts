@@ -1,5 +1,5 @@
-import Computer from './Computer'
-import IOQueue from './IOQueue'
+import Computer from '../intcode/Computer'
+import IOQueue from '../intcode/IOQueue'
 import { createIntCodeFactory, permute } from '../utils'
 import Program from '../Program'
 

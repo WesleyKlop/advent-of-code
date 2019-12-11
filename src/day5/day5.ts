@@ -1,5 +1,5 @@
-import Computer from '../day7/Computer'
-import IOQueue from '../day7/IOQueue'
+import Computer from '../intcode/Computer'
+import IOQueue from '../intcode/IOQueue'
 import { createIntCodeFactory } from '../utils'
 import Program from '../Program'
 
