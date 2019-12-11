@@ -19,6 +19,7 @@ export default class IOQueue {
 
     public write(value: Value) {
         this.backlog.push(value)
+        this.history.push(value)
         this.cycle()
     }
 
@@ -44,7 +45,6 @@ export default class IOQueue {
         if (this.hasWork()) {
             const value = this.backlog.shift()!
             const listener = this.requests.shift()!
-            this.history.push(value)
             listener(value)
         }
     }

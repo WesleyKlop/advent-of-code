@@ -6,8 +6,9 @@ import { Sequence } from './Sequence'
 import IOQueue from './IOQueue'
 
 let counter = 0
+
 export default class Computer {
-    private static readonly DEBUG = false
+    private static readonly DEBUG = true
     public readonly output: IOQueue
     private readonly label = 'C' + ++counter
     private readonly memory: Memory
