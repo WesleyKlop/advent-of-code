@@ -11,13 +11,13 @@ export default class IOQueue {
             this.history = this.history.concat(initial)
             this.queue = this.queue.concat(initial)
         }
-        this.createPromise()
     }
 
     public async read(): Promise<Value> {
         if (this.queue.length > 0) {
             return this.queue.shift()!
         }
+        this.createPromise()
         return this.promise!
     }
 
@@ -25,14 +25,22 @@ export default class IOQueue {
         this.history.push(value)
         this.queue.push(value)
 
-        this.emit()
+       if(this.shouldEmit()) {
+           this.emit()
+       }
+    }
+
+    private shouldEmit() {
+        return typeof this.promise !== 'undefined'
     }
 
     public merge(values: Value[]) {
         this.queue = this.queue.concat(values)
         this.history = this.history.concat(values)
 
-        this.emit()
+        if(this.shouldEmit()) {
+            this.emit()
+        }
     }
 
     public last(): Value {
@@ -48,10 +56,8 @@ export default class IOQueue {
     }
 
     private emit() {
-        if (this.res) {
-            this.res(this.queue.shift()!)
-            this.res = undefined
-            this.createPromise()
-        }
+        this.res!(this.queue.shift()!)
+        this.res = undefined
+        this.promise = undefined
     }
 }
