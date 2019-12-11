@@ -4,7 +4,18 @@
 
 My solutions to the problems faced during advent of code 2019.
 
-You can build and run the challenges very easily.  
+You can build and run the challenges very easily using either docker or npm/yarn.
+
+## Docker
+```shell
+docker run --rm -v $PWD/inputs:/app/inputs w3ssl3y/aoc             # Runs all days by default (argument = all)
+docker run --rm -v $PWD/inputs:/app/inputs w3ssl3y/aoc $arg        # Run a specific day (for example 5)
+docker run --rm -v $PWD/inputs:/app/inputs w3ssl3y/aoc --perf $arg # Run with performance metrics, $arg is either all or a day number
+
+docker run --rm -v $PWD/inputs:/app/inputs w3ssl3y/aoc --perf all  # Runs all days with performance metrics
+```
+
+## Node  
 Use `npm run` instead of `yarn` when that is not available.
 
 ```shell
