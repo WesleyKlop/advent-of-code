@@ -20,28 +20,25 @@ export default class Day7 implements Program {
                 )
                 const b = new Computer(
                     cloneInstructions(),
-                    undefined,
+                    a.output,
                     new IOQueue([curr[2]]),
                 )
-                b.attachInput(a)
                 const c = new Computer(
                     cloneInstructions(),
-                    undefined,
+                    b.output,
                     new IOQueue([curr[3]]),
                 )
-                c.attachInput(b)
                 const d = new Computer(
                     cloneInstructions(),
-                    undefined,
+                    c.output,
                     new IOQueue([curr[4]]),
                 )
-                d.attachInput(c)
                 const e = new Computer(
                     cloneInstructions(),
-                    undefined,
+                    d.output,
                     new IOQueue(),
                 )
-                e.attachInput(d)
+
                 const values = await Promise.all([
                     a.executeInstructions(),
                     b.executeInstructions(),
@@ -49,7 +46,7 @@ export default class Day7 implements Program {
                     d.executeInstructions(),
                     e.executeInstructions(),
                 ])
-                return Math.max(...values)
+                return values[4]
             }),
         )
         const partOne = results.reduce((max, curr) => Math.max(max, curr), 0)

@@ -5,4 +5,4 @@ export type Memory = Value[]
 export type RawOpcode = number
 export type Value = number
 export type Modes = Array<Mode>
-export type IO = number[]
+export type IO = Value[]

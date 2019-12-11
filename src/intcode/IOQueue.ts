@@ -1,63 +1,62 @@
 import { IO, Value } from './types'
 
+type RequestQueue = ((val: Value) => void)[]
+let counter = 0
 export default class IOQueue {
-    private history: Value[] = []
-    private queue: Value[] = []
-    private promise?: Promise<Value>
-    private res?: (value: Value) => void
+    private static readonly DEBUG = false
+    private readonly label = 'Q' + ++counter
+    private readonly history: IO = []
+    private readonly requests: RequestQueue = []
+    private readonly backlog: IO = []
 
     constructor(initial?: IO) {
-        if (initial) {
-            this.history = this.history.concat(initial)
-            this.queue = this.queue.concat(initial)
-        }
+        this.backlog = initial || this.backlog
     }
 
     public async read(): Promise<Value> {
-        if (this.queue.length > 0) {
-            return this.queue.shift()!
-        }
-        this.createPromise()
-        return this.promise!
+        return this.createRequest()
     }
 
     public write(value: Value) {
-        this.history.push(value)
-        this.queue.push(value)
-
-       if(this.shouldEmit()) {
-           this.emit()
-       }
-    }
-
-    private shouldEmit() {
-        return typeof this.promise !== 'undefined'
-    }
-
-    public merge(values: Value[]) {
-        this.queue = this.queue.concat(values)
-        this.history = this.history.concat(values)
-
-        if(this.shouldEmit()) {
-            this.emit()
-        }
+        this.backlog.push(value)
+        this.cycle()
     }
 
     public last(): Value {
-        return this.history[this.history.length - 1]
+        const lastHistoryEntry = this.history[this.history.length - 1]
+        const lastBacklogEntry = this.backlog[this.backlog.length - 1]
+        return lastHistoryEntry || lastBacklogEntry
+    }
+
+    private hasWork(): boolean {
+        return this.requests.length > 0 && this.backlog.length > 0
+    }
+
+    private log(...args: any) {
+        if (!IOQueue.DEBUG) {
+            return
+        }
+        console.log(this.label, args)
+    }
+
+    private cycle() {
+        this.log('Requests:', this.requests.length, 'Backlog:', this.backlog.length)
+        if (this.hasWork()) {
+            const value = this.backlog.shift()!
+            const listener = this.requests.shift()!
+            this.history.push(value)
+            listener(value)
+        }
+    }
+
+    private createRequest(): Promise<Value> {
+        return new Promise(res => {
+            this.requests.push(res)
+            this.cycle()
+        })
     }
 
     public getHistory(): Value[] {
         return this.history
-    }
-
-    private createPromise() {
-        this.promise = new Promise(res => (this.res = res))
-    }
-
-    private emit() {
-        this.res!(this.queue.shift()!)
-        this.res = undefined
-        this.promise = undefined
     }
 }

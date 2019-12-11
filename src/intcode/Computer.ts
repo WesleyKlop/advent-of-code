@@ -5,10 +5,13 @@ import { ParsedOpcode } from './ParsedOpcode'
 import { Sequence } from './Sequence'
 import IOQueue from './IOQueue'
 
+let counter = 0
 export default class Computer {
-    private input: IOQueue
-    private output: IOQueue
+    private static readonly DEBUG = false
+    public readonly output: IOQueue
+    private readonly label = 'C' + ++counter
     private readonly memory: Memory
+    private input: IOQueue
     private jump: number = 4
     private ip: Address = 0
     private relBase: Address = 0
@@ -23,6 +26,7 @@ export default class Computer {
     public read(mode: Mode = Mode.POSITION, address: Address | Value): Value {
         switch (mode) {
             case Mode.POSITION:
+                this.log('Reading', this.memory[address], 'from', address)
                 return this.memory[address] || 0
             case Mode.IMMEDIATE:
                 return address
@@ -37,9 +41,15 @@ export default class Computer {
         this.running = true
         for (this.ip = 0; this.running; this.ip += this.jump) {
             const sequence = this.createSequence()
+            this.log(sequence)
             await this.execute(sequence)
         }
         return this.output.last()
+    }
+
+    private log(...args: any) {
+        if (!Computer.DEBUG || this.label !== 'C1') return
+        console.log(this.label, ...args)
     }
 
     /**
@@ -48,22 +58,6 @@ export default class Computer {
      */
     public attachInput(other: Computer) {
         this.input = other.output
-    }
-
-    /**
-     * Attach a computers input to your output
-     * @param other the other computer
-     */
-    public attachOutput(other: Computer) {
-        this.output = other.input
-    }
-
-    /**
-     * Push values into the computers input
-     * @param values
-     */
-    public push(values: Value[]) {
-        this.input.merge(values)
     }
 
     private write(
@@ -76,6 +70,7 @@ export default class Computer {
                 this.memory[this.memory[address]] = value
                 break
             case Mode.IMMEDIATE:
+                this.log('Writing', value, 'to', address)
                 this.memory[address] = value
                 break
             case Mode.RELATIVE:
@@ -135,12 +130,15 @@ export default class Computer {
                 this.jump = 4
                 break
             case Operation.INPUT:
+                this.log('Input request')
                 const input = await this.input.read()
-                this.write(reg, input)
+                this.log('Input received:', input)
+                this.write(loc1, input)
                 this.jump = 2
                 break
             case Operation.OUTPUT:
                 const value = this.read(modes.pop(), loc1)
+                this.log('Output sent:', value)
                 this.output.write(value)
                 this.jump = 2
                 break
@@ -178,6 +176,7 @@ export default class Computer {
                 this.jump = 2
                 break
             case Operation.HALT:
+                this.log('HALT')
                 this.jump = 0
                 this.running = false
                 break

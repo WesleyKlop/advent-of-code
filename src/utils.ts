@@ -44,3 +44,5 @@ export const permute = <T>(input: T[]): T[][] => {
     }
     return func(input)
 }
+
+export const sleep = (t = 250) => new Promise(res => setTimeout(res, t))
