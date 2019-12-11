@@ -1,10 +1,15 @@
 import { Pixel } from './Pixel'
 
 export default class Layer {
-    private rows: Pixel[][]
+    private readonly rows: Pixel[][]
     private digits: {
         [digit: string]: number
     } = {}
+
+    constructor(rows: Pixel[][]) {
+        this.rows = rows
+        this.countDigits()
+    }
 
     static Create(slice: Pixel[], height: number, width: number): Layer {
         const layer: Pixel[][] = []
@@ -13,23 +18,6 @@ export default class Layer {
             layer.push(row)
         }
         return new Layer(layer)
-    }
-
-    constructor(rows: Pixel[][]) {
-        this.rows = rows
-        this.countDigits()
-    }
-
-    private countDigits() {
-        this.rows.forEach(row =>
-            row.forEach(value => {
-                this.countDigit(value)
-            }),
-        )
-    }
-
-    private countDigit(digit: Pixel) {
-        this.digits[digit] = (this.digits[digit] || 0) + 1
     }
 
     public getDigitCount(digit: Pixel): number {
@@ -79,5 +67,17 @@ export default class Layer {
                 .join('')
             return `${str}\n${prettyRow}`
         }, '')
+    }
+
+    private countDigits() {
+        this.rows.forEach(row =>
+            row.forEach(value => {
+                this.countDigit(value)
+            }),
+        )
+    }
+
+    private countDigit(digit: Pixel) {
+        this.digits[digit] = (this.digits[digit] || 0) + 1
     }
 }

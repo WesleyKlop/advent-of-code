@@ -1,6 +1,6 @@
 import Program from '../Program'
 import { readInput } from '../utils'
-import AsteroidMap, { Position, BestAsteroid } from './AsteroidMap'
+import AsteroidMap, { BestAsteroid, Position } from './AsteroidMap'
 
 const strToMap = (str: string): Position[][] =>
     str.split('\n').map(e => e.trim().split('')) as Position[][]

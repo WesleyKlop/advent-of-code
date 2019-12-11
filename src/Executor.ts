@@ -2,11 +2,11 @@ import Program from './Program'
 import { performance } from 'perf_hooks'
 
 export interface Executor {
-    execute(impl: { new (): Program }): Promise<void>
+    execute(impl: { new(): Program }): Promise<void>
 }
 
 export class ConsoleExecutor implements Executor {
-    async execute(ProgramImpl: { new (): Program }) {
+    async execute(ProgramImpl: { new(): Program }) {
         performance.mark('start')
         const program = new ProgramImpl()
         console.log(` ----- ${program.label} -----`)

@@ -34,7 +34,7 @@ export default class Day8 implements Program {
                 return curr
             }
             return min.getDigitCount(Pixel.BLACK) >
-                curr.getDigitCount(Pixel.BLACK)
+            curr.getDigitCount(Pixel.BLACK)
                 ? curr
                 : min
         })

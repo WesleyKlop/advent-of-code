@@ -8,7 +8,7 @@ import IOQueue from './IOQueue'
 export default class Computer {
     private input: IOQueue
     private output: IOQueue
-    private memory: Memory
+    private readonly memory: Memory
     private jump: number = 4
     private ip: Address = 0
     private relBase: Address = 0
@@ -31,6 +31,39 @@ export default class Computer {
             default:
                 throw new Error('Invalid parameter mode ' + mode)
         }
+    }
+
+    public async executeInstructions(): Promise<Value> {
+        this.running = true
+        for (this.ip = 0; this.running; this.ip += this.jump) {
+            const sequence = this.createSequence()
+            await this.execute(sequence)
+        }
+        return this.output.last()
+    }
+
+    /**
+     * Attach a computers output to your input
+     * @param other
+     */
+    public attachInput(other: Computer) {
+        this.input = other.output
+    }
+
+    /**
+     * Attach a computers input to your output
+     * @param other the other computer
+     */
+    public attachOutput(other: Computer) {
+        this.output = other.input
+    }
+
+    /**
+     * Push values into the computers input
+     * @param values
+     */
+    public push(values: Value[]) {
+        this.input.merge(values)
     }
 
     private write(
@@ -79,15 +112,6 @@ export default class Computer {
             loc2,
             reg,
         }
-    }
-
-    public async executeInstructions(): Promise<Value> {
-        this.running = true
-        for (this.ip = 0; this.running; this.ip += this.jump) {
-            const sequence = this.createSequence()
-            await this.execute(sequence)
-        }
-        return this.output.last()
     }
 
     /**
@@ -144,7 +168,7 @@ export default class Computer {
             case Operation.EQUALS:
                 result = Number(
                     this.read(modes.pop(), loc1) ===
-                        this.read(modes.pop(), loc2),
+                    this.read(modes.pop(), loc2),
                 )
                 this.write(reg, result, modes.pop())
                 this.jump = 4
@@ -161,29 +185,5 @@ export default class Computer {
                 throw new Error('^ Invalid sequence! ^')
         }
         return sequence
-    }
-
-    /**
-     * Attach a computers output to your input
-     * @param other
-     */
-    public attachInput(other: Computer) {
-        this.input = other.output
-    }
-
-    /**
-     * Attach a computers input to your output
-     * @param other the other computer
-     */
-    public attachOutput(other: Computer) {
-        this.output = other.input
-    }
-
-    /**
-     * Push values into the computers input
-     * @param values
-     */
-    public push(values: Value[]) {
-        this.input.merge(values)
     }
 }

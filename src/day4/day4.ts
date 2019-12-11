@@ -46,6 +46,7 @@ export default class Day4 implements Program {
     async partOne() {
         console.log('Too lazy to implement part one again tbh')
     }
+
     async partTwo() {
         console.log(
             'Answer part two: ',

@@ -29,7 +29,7 @@ export const permute = <T>(input: T[]): T[][] => {
     const usedChars: T[] = []
 
     const func = (input: T[]) => {
-        var i, ch
+        let i, ch
         for (i = 0; i < input.length; i++) {
             ch = input.splice(i, 1)[0]
             usedChars.push(ch)

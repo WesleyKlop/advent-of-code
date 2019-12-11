@@ -76,6 +76,7 @@ export default class Day6 implements Program {
     constructor() {
         this.inputMap = listToMap(inputIntList)
     }
+
     async partOne() {
         console.log('Answer part one: ', findOrbitCountChecksum(this.inputMap))
     }

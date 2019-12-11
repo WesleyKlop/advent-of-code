@@ -21,18 +21,6 @@ export default class IOQueue {
         return this.promise!
     }
 
-    private createPromise() {
-        this.promise = new Promise(res => (this.res = res))
-    }
-
-    private emit() {
-        if (this.res) {
-            this.res(this.queue.shift()!)
-            this.res = undefined
-            this.createPromise()
-        }
-    }
-
     public write(value: Value) {
         this.history.push(value)
         this.queue.push(value)
@@ -53,5 +41,17 @@ export default class IOQueue {
 
     public getHistory(): Value[] {
         return this.history
+    }
+
+    private createPromise() {
+        this.promise = new Promise(res => (this.res = res))
+    }
+
+    private emit() {
+        if (this.res) {
+            this.res(this.queue.shift()!)
+            this.res = undefined
+            this.createPromise()
+        }
     }
 }

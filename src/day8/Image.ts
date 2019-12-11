@@ -5,10 +5,6 @@ export default class Image {
     private readonly height: number
     private layers: Layer[] = []
 
-    private size(): number {
-        return this.width * this.height
-    }
-
     constructor(width: number, height: number) {
         this.width = width
         this.height = height
@@ -17,6 +13,7 @@ export default class Image {
     public addLayer(layer: Layer) {
         this.layers.push(layer)
     }
+
     public getLayers() {
         return this.layers
     }

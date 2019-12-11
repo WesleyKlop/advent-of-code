@@ -11,8 +11,8 @@ const [path1, path2] = readInput('day3.txt')
 export default class Day3 implements Program {
     public readonly label = 'Day 3'
 
-    private locations1: Locationlist
-    private locations2: Locationlist
+    private readonly locations1: Locationlist
+    private readonly locations2: Locationlist
 
     constructor() {
         this.locations1 = Locationlist.Create(path1)
