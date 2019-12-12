@@ -1,5 +1,6 @@
 import IOQueue from '../intcode/IOQueue'
 import { Pixel } from '../day8/Pixel'
+import Computer from '../intcode/Computer'
 import { Operation } from '../intcode/Operation'
 
 enum Direction {
@@ -16,29 +17,30 @@ type Position = {
     y: number,
 }
 
+
 export default class PaintRobot {
     private readonly sensor: IOQueue
     private readonly controls: IOQueue
-    private isRunning = false
     private readonly path: Position[] = [{
-        x: 0,
-        y: 0,
+        x: 50,
+        y: 50,
         direction: Direction.UP,
         color: Pixel.BLACK,
     }]
+    private readonly computer: Computer
+    private visitedCount = 0
 
-    constructor(sensor: IOQueue, controls: IOQueue) {
-        this.sensor = sensor
-        this.controls = controls
-    }
-
-    private getLastPosition(): Position {
-        return this.path[this.path.length - 1]
+    constructor(computer: Computer) {
+        this.sensor = computer.input
+        this.controls = computer.output
+        this.computer = computer
     }
 
     public async run() {
         while (true) {
-            const currentPosition = this.getLastPosition()
+            const currentPosition = this.getCurrentPosition()
+            // console.log('last', currentPosition)
+            this.sensor.write(currentPosition.color)
             /*
             The IntCode program will serve as the brain of the robot.
             The program uses input instructions to access the robot's camera:
@@ -50,32 +52,49 @@ export default class PaintRobot {
                 robot should turn: 0 means it should turn left 90 degrees, and 1 means it should turn right 90 degrees.
                 After the robot turns, it should always move forward exactly one panel. The robot starts facing up.
              */
-            this.sensor.write(currentPosition.color)
 
             // Get color at current tile
             const color = await this.controls.read() as Pixel | Operation.HALT
             if (color === Operation.HALT) {
-                console.log('Received halt')
                 break
             }
+            const rotation = await this.controls.read() as 0 | 1
 
-            const rotation = await this.controls.read()
-            console.log('Received rotation', rotation)
             this.execute(color, rotation)
         }
-        return this.path
+        return this.visitedCount
+    }
+
+    private getCurrentPosition(): Position {
+        return this.path[this.path.length - 1]
+    }
+
+    private shouldStop() {
+        return !this.computer.isRunning()
     }
 
     private execute(color: number, rotation: number) {
-        const prevLocation = this.getLastPosition()
+        const prevLocation = this.getCurrentPosition()
+        prevLocation.color = color
+        console.log('Setting the paint from', prevLocation.color, 'to', color)
         const newDirection = this.calcRotation(prevLocation.direction, rotation)
         const newLocation = this.updateLocation(prevLocation, newDirection)
+        const existingLocation = this.findExistingLocation(newLocation)
+        if (!existingLocation) {
+            this.visitedCount++
+        }
+        // console.log('existing', existingLocation)
         const newPosition: Position = {
-            color,
+            color: Pixel.BLACK,
+            ...existingLocation,
             direction: newDirection,
             ...newLocation,
         }
         this.path.push(newPosition)
+    }
+
+    private findExistingLocation({ x, y }: { x: number, y: number }): Position | undefined {
+        return this.path.find(e => e.x === x && e.y === y)
     }
 
     private updateLocation({ x, y }: Position, direction: Direction): { x: number, y: number } {

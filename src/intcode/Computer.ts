@@ -12,16 +12,22 @@ export default class Computer {
     public readonly output: IOQueue
     private readonly label = 'C' + ++counter
     private readonly memory: Memory
-    private input: IOQueue
+    public input: IOQueue
     private jump: number = 4
     private ip: Address = 0
     private relBase: Address = 0
     private running = false
+    private emitOnHalt = false
 
-    constructor(memory: Memory, input?: IOQueue, output?: IOQueue) {
+    constructor(memory: Memory, input?: IOQueue, output?: IOQueue, emitOnHalt = false) {
         this.memory = memory
         this.input = input || new IOQueue()
         this.output = output || new IOQueue()
+        this.emitOnHalt = emitOnHalt
+    }
+
+    public isRunning() {
+        return this.running
     }
 
     public read(mode: Mode = Mode.POSITION, address: Address | Value): Value {
@@ -178,6 +184,9 @@ export default class Computer {
                 break
             case Operation.HALT:
                 this.log('HALT')
+                if (this.emitOnHalt) {
+                    this.output.write(Operation.HALT)
+                }
                 this.jump = 0
                 this.running = false
                 break

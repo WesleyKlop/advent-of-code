@@ -14,20 +14,20 @@ export default class Day11 implements Program {
         const program = cloneInstructions()
         const sensor = new IOQueue([0])
         const controls = new IOQueue()
-        const computer = new Computer(program, sensor, controls)
-        const robot = new PaintRobot(sensor, controls)
+        const computer = new Computer(program, sensor, controls, true)
+        const robot = new PaintRobot(computer)
         const [, robotOutput] = await Promise.all([computer.executeInstructions(), robot.run()])
-        const visitedNodes: number[][] = []
-        robotOutput.forEach(val => {
-            if(typeof visitedNodes[val.y] === 'undefined') {
-                visitedNodes[val.y] = []
-            }
-            if(typeof visitedNodes[val.y][val.x] === 'undefined') {
-                visitedNodes[val.y][val.x] = 0
-            }
-            visitedNodes[val.y][val.x]++
-        })
-        console.log('Answer part one: ', visitedNodes, )
+        /*  const visitedNodes: number[][] = []
+          robotOutput.forEach(val => {
+              if(typeof visitedNodes[val.y] === 'undefined') {
+                  visitedNodes[val.y] = []
+              }
+              if(typeof visitedNodes[val.y][val.x] === 'undefined') {
+                  visitedNodes[val.y][val.x] = 0
+              }
+              visitedNodes[val.y][val.x]++
+          })*/
+        console.log('Answer part one: ', robotOutput)
     }
 
     async partTwo() {

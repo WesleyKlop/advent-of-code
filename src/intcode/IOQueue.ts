@@ -60,4 +60,8 @@ export default class IOQueue {
     public getHistory(): Value[] {
         return this.history
     }
+
+    public getBacklog(): Value[] {
+        return this.backlog
+    }
 }
