@@ -3,6 +3,11 @@ import { Pixel } from '../day8/Pixel'
 import Computer from '../intcode/Computer'
 import { Operation } from '../intcode/Operation'
 
+type Vec2 = {
+    x: number,
+    y: number,
+}
+
 enum Direction {
     UP = 0,
     RIGHT = 1,
@@ -10,25 +15,28 @@ enum Direction {
     LEFT = 3,
 }
 
-type Position = {
+type Position = Vec2 & {
     direction: Direction,
     color: Pixel,
-    x: number,
-    y: number,
+}
+
+enum Turn {
+    LEFT = 0,
+    RIGHT = 1
 }
 
 
 export default class PaintRobot {
     private readonly sensor: IOQueue
     private readonly controls: IOQueue
-    private readonly path: Position[] = [{
-        x: 50,
-        y: 50,
-        direction: Direction.UP,
-        color: Pixel.BLACK,
-    }]
     private readonly computer: Computer
-    private visitedCount = 0
+
+    private readonly map: { [coord: string]: Pixel } = {}
+    private readonly currentLocation: Vec2 = {
+        x: 0,
+        y: 0,
+    }
+    private currentDirection = Direction.UP
 
     constructor(computer: Computer) {
         this.sensor = computer.input
@@ -40,6 +48,8 @@ export default class PaintRobot {
         while (true) {
             const currentPosition = this.getCurrentPosition()
             // console.log('last', currentPosition)
+
+            // Get color at current tile
             this.sensor.write(currentPosition.color)
             /*
             The IntCode program will serve as the brain of the robot.
@@ -53,11 +63,13 @@ export default class PaintRobot {
                 After the robot turns, it should always move forward exactly one panel. The robot starts facing up.
              */
 
-            // Get color at current tile
+            // Color to paint the ground(black:0, white:1), or a signal to HALT
             const color = await this.controls.read() as Pixel | Operation.HALT
             if (color === Operation.HALT) {
                 break
             }
+            this.paintCurrentPanel(color)
+            // Should we move left (0) or right (1)
             const rotation = await this.controls.read() as 0 | 1
 
             this.execute(color, rotation)
@@ -65,20 +77,20 @@ export default class PaintRobot {
         return this.visitedCount
     }
 
-    private getCurrentPosition(): Position {
-        return this.path[this.path.length - 1]
+    private key(pos: Vec2): number[] {
+        return [pos.x, pos.y]
     }
 
-    private shouldStop() {
-        return !this.computer.isRunning()
+    private getCurrentPosition(): Pixel {
+        return this.map[this.key(this.currentLocation) as unknown as string]
     }
 
     private execute(color: number, rotation: number) {
         const prevLocation = this.getCurrentPosition()
         prevLocation.color = color
         console.log('Setting the paint from', prevLocation.color, 'to', color)
-        const newDirection = this.calcRotation(prevLocation.direction, rotation)
-        const newLocation = this.updateLocation(prevLocation, newDirection)
+        const newDirection = this.turn(prevLocation.direction, rotation)
+        const newLocation = this.move(prevLocation, newDirection)
         const existingLocation = this.findExistingLocation(newLocation)
         if (!existingLocation) {
             this.visitedCount++
@@ -93,11 +105,11 @@ export default class PaintRobot {
         this.path.push(newPosition)
     }
 
-    private findExistingLocation({ x, y }: { x: number, y: number }): Position | undefined {
+    private findExistingLocation({ x, y }: Vec2): Position | undefined {
         return this.path.find(e => e.x === x && e.y === y)
     }
 
-    private updateLocation({ x, y }: Position, direction: Direction): { x: number, y: number } {
+    private move({ x, y }: Position, direction: Direction): Vec2 {
         switch (direction) {
             case Direction.DOWN:
                 return { x, y: y - 1 }
@@ -112,14 +124,13 @@ export default class PaintRobot {
         }
     }
 
-    private calcRotation(prevDirection: Direction, delta: number): Direction {
-        const direction = prevDirection + (delta === 0 ? -1 : 1)
-        if (direction === -1) {
-            return Direction.LEFT
-        }
-        if (direction === 4) {
-            return Direction.UP
-        }
-        return direction
+    private turn(prevDirection: Direction, delta: number): Direction {
+        const direction = prevDirection + (delta === Turn.LEFT ? -1 : 1)
+
+        return (direction + 4) % 4
+    }
+
+    private paintCurrentPanel(color: Pixel) {
+        this.getCurrentPosition().color = color
     }
 }
