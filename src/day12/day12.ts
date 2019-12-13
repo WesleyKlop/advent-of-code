@@ -1,14 +1,15 @@
 import { readInput } from '../utils'
 import Program from '../Program'
 
-const moons = () => readInput('day12.txt')
-    .split('\n')
-    .map(val => Moon.create(val))
+const moons = () =>
+    readInput('day12.txt')
+        .split('\n')
+        .map(val => Moon.create(val))
 
 type Vec3 = {
-    x: number,
-    y: number,
-    z: number,
+    x: number
+    y: number
+    z: number
 }
 
 type Axis = 'x' | 'y' | 'z'
@@ -75,12 +76,14 @@ export default class Day12 implements Program<any, any> {
             })
             moonList.forEach(moon => moon.applyVelocity())
         }
-        const totalEnergy = moonList.reduce((energy, moon) => energy + moon.getTotalEnergy(), 0)
+        const totalEnergy = moonList.reduce(
+            (energy, moon) => energy + moon.getTotalEnergy(),
+            0,
+        )
         console.log('Answer part one:', totalEnergy)
     }
 
     public async partTwo(tr1: any): Promise<any> {
         return undefined
     }
-
 }

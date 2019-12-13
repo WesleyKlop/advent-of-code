@@ -11,7 +11,7 @@ if (process.argv.includes('--perf')) {
 
 const loadDay = async (day: number) => {
     const mod = await import(`./day${day}/day${day}`)
-    return mod.default as { new(): Program }
+    return mod.default as { new (): Program }
 }
 
 const playDay = async (arg: string | number) => {

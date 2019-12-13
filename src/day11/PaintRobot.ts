@@ -4,8 +4,8 @@ import Computer from '../intcode/Computer'
 import { Operation } from '../intcode/Operation'
 
 type Vec2 = {
-    x: number,
-    y: number,
+    x: number
+    y: number
 }
 
 enum Direction {
@@ -16,15 +16,14 @@ enum Direction {
 }
 
 type Position = Vec2 & {
-    direction: Direction,
-    color: Pixel,
+    direction: Direction
+    color: Pixel
 }
 
 enum Turn {
     LEFT = 0,
-    RIGHT = 1
+    RIGHT = 1,
 }
-
 
 export default class PaintRobot {
     private readonly sensor: IOQueue
@@ -64,13 +63,13 @@ export default class PaintRobot {
              */
 
             // Color to paint the ground(black:0, white:1), or a signal to HALT
-            const color = await this.controls.read() as Pixel | Operation.HALT
+            const color = (await this.controls.read()) as Pixel | Operation.HALT
             if (color === Operation.HALT) {
                 break
             }
             this.paintCurrentPanel(color)
             // Should we move left (0) or right (1)
-            const rotation = await this.controls.read() as 0 | 1
+            const rotation = (await this.controls.read()) as 0 | 1
 
             this.execute(color, rotation)
         }
@@ -82,7 +81,7 @@ export default class PaintRobot {
     }
 
     private getCurrentPosition(): Pixel {
-        return this.map[this.key(this.currentLocation) as unknown as string]
+        return this.map[(this.key(this.currentLocation) as unknown) as string]
     }
 
     private execute(color: number, rotation: number) {

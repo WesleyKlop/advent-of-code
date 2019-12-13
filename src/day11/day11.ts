@@ -16,7 +16,10 @@ export default class Day11 implements Program {
         const controls = new IOQueue()
         const computer = new Computer(program, sensor, controls, true)
         const robot = new PaintRobot(computer)
-        const [, robotOutput] = await Promise.all([computer.executeInstructions(), robot.run()])
+        const [, robotOutput] = await Promise.all([
+            computer.executeInstructions(),
+            robot.run(),
+        ])
         /*  const visitedNodes: number[][] = []
           robotOutput.forEach(val => {
               if(typeof visitedNodes[val.y] === 'undefined') {

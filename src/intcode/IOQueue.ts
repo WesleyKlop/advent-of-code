@@ -42,7 +42,12 @@ export default class IOQueue {
     }
 
     private cycle() {
-        this.log('Requests:', this.requests.length, 'Backlog:', this.backlog.length)
+        this.log(
+            'Requests:',
+            this.requests.length,
+            'Backlog:',
+            this.backlog.length,
+        )
         if (this.hasWork()) {
             const value = this.backlog.shift()!
             const listener = this.requests.shift()!

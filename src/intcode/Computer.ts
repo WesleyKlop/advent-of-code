@@ -19,7 +19,12 @@ export default class Computer {
     private running = false
     private emitOnHalt = false
 
-    constructor(memory: Memory, input?: IOQueue, output?: IOQueue, emitOnHalt = false) {
+    constructor(
+        memory: Memory,
+        input?: IOQueue,
+        output?: IOQueue,
+        emitOnHalt = false,
+    ) {
         this.memory = memory
         this.input = input || new IOQueue()
         this.output = output || new IOQueue()
@@ -173,7 +178,7 @@ export default class Computer {
             case Operation.EQUALS:
                 result = Number(
                     this.read(modes.pop(), loc1) ===
-                    this.read(modes.pop(), loc2),
+                        this.read(modes.pop(), loc2),
                 )
                 this.write(reg, result, modes.pop())
                 this.jump = 4
