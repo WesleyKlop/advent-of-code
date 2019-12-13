@@ -21,8 +21,27 @@ type Position = Vec2 & {
 }
 
 enum Turn {
-    LEFT = 0,
-    RIGHT = 1,
+    LEFT,
+    RIGHT,
+}
+
+function renderPath(path: Position[]) {
+    const map: Pixel[][] = []
+    path.forEach(({ x, y, color }) => {
+        if (!map[y]) {
+            map[y] = []
+        }
+        map[y][x] = color
+    })
+    return map
+}
+
+function findVisited(path: Position[]) {
+    const visited = new Set()
+    path.forEach(({ x, y }) => {
+        visited.add(`${y},${x}`)
+    })
+    return visited
 }
 
 export default class PaintRobot {
@@ -30,17 +49,30 @@ export default class PaintRobot {
     private readonly controls: IOQueue
     private readonly computer: Computer
 
-    private readonly map: { [coord: string]: Pixel } = {}
-    private readonly currentLocation: Vec2 = {
+    private readonly path: Position[] = [{
         x: 0,
         y: 0,
-    }
-    private currentDirection = Direction.UP
+        direction: Direction.UP,
+        color: Pixel.BLACK,
+    }]
 
     constructor(computer: Computer) {
         this.sensor = computer.input
         this.controls = computer.output
         this.computer = computer
+    }
+
+    private static applyDirection(direction: Direction): Vec2 {
+        switch (direction) {
+            case Direction.UP:
+                return { x: 0, y: -1 }
+            case Direction.DOWN:
+                return { x: 0, y: 1 }
+            case Direction.LEFT:
+                return { x: -1, y: 0 }
+            case Direction.RIGHT:
+                return { x: 1, y: 0 }
+        }
     }
 
     public async run() {
@@ -67,69 +99,41 @@ export default class PaintRobot {
             if (color === Operation.HALT) {
                 break
             }
-            this.paintCurrentPanel(color)
+            // Paint the current panel
+            currentPosition.color = color
             // Should we move left (0) or right (1)
-            const rotation = (await this.controls.read()) as 0 | 1
+            const rotation = (await this.controls.read()) as Turn
 
-            this.execute(color, rotation)
+            const force = rotation === Turn.LEFT ? -1 : Turn.RIGHT
+            const direction = (currentPosition.direction + force + 4) % 4
+            const newPosition = this.buildNewLocation(direction)
+            this.path.push(newPosition)
         }
-        return this.visitedCount
+        return this.path.length
     }
 
-    private key(pos: Vec2): number[] {
-        return [pos.x, pos.y]
+    private getCurrentPosition(): Position {
+        return this.path[this.path.length - 1]
     }
 
-    private getCurrentPosition(): Pixel {
-        return this.map[(this.key(this.currentLocation) as unknown) as string]
-    }
-
-    private execute(color: number, rotation: number) {
-        // const prevLocation = this.getCurrentPosition()
-        // prevLocation.color = color
-        // console.log('Setting the paint from', prevLocation.color, 'to', color)
-        // const newDirection = this.turn(prevLocation.direction, rotation)
-        // const newLocation = this.move(prevLocation, newDirection)
-        // const existingLocation = this.findExistingLocation(newLocation)
-        // if (!existingLocation) {
-        //     this.visitedCount++
-        // }
-        // // console.log('existing', existingLocation)
-        // const newPosition: Position = {
-        //     color: Pixel.BLACK,
-        //     ...existingLocation,
-        //     direction: newDirection,
-        //     ...newLocation,
-        // }
-        // this.path.push(newPosition)
-    }
-
-    private findExistingLocation({ x, y }: Vec2): Position | undefined {
-        return this.path.find(e => e.x === x && e.y === y)
-    }
-
-    private move({ x, y }: Position, direction: Direction): Vec2 {
-        switch (direction) {
-            case Direction.DOWN:
-                return { x, y: y - 1 }
-            case Direction.LEFT:
-                return { x: x - 1, y }
-            case Direction.RIGHT:
-                return { x: x + 1, y }
-            case Direction.UP:
-                return { x, y: y + 1 }
-            default:
-                throw new Error('Invalid direction ' + direction)
+    private buildNewLocation(direction: Direction) {
+        const delta = PaintRobot.applyDirection(direction)
+        const position = this.getCurrentPosition()
+        const newPosition: Position = {
+            x: position.x + delta.x,
+            y: position.y + delta.y,
+            color: Pixel.BLACK,
+            direction,
+        }
+        const { color = Pixel.BLACK } = this.findExistingLocation(newPosition)
+        return {
+            ...newPosition,
+            color,
         }
     }
 
-    private turn(prevDirection: Direction, delta: number): Direction {
-        const direction = prevDirection + (delta === Turn.LEFT ? -1 : 1)
-
-        return (direction + 4) % 4
-    }
-
-    private paintCurrentPanel(color: Pixel) {
-        this.getCurrentPosition().color = color
+    private findExistingLocation(newPosition: Position): Position {
+        const result = this.path.find(({ x, y }) => newPosition.x === x && newPosition.y === y)
+        return result || newPosition
     }
 }

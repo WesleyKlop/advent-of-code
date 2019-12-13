@@ -20,17 +20,10 @@ export default class Day11 implements Program {
             computer.executeInstructions(),
             robot.run(),
         ])
-        /*  const visitedNodes: number[][] = []
-          robotOutput.forEach(val => {
-              if(typeof visitedNodes[val.y] === 'undefined') {
-                  visitedNodes[val.y] = []
-              }
-              if(typeof visitedNodes[val.y][val.x] === 'undefined') {
-                  visitedNodes[val.y][val.x] = 0
-              }
-              visitedNodes[val.y][val.x]++
-          })*/
-        console.log('Answer part one: ', robotOutput)
+        console.log(robotOutput)
+        // const layer = new Layer(robotOutput)
+        // console.log(layer.toString())
+        // console.log('Answer part one: ', robotOutput.map(e => e.length))
     }
 
     async partTwo() {
