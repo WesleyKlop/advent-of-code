@@ -86,23 +86,23 @@ export default class PaintRobot {
     }
 
     private execute(color: number, rotation: number) {
-        const prevLocation = this.getCurrentPosition()
-        prevLocation.color = color
-        console.log('Setting the paint from', prevLocation.color, 'to', color)
-        const newDirection = this.turn(prevLocation.direction, rotation)
-        const newLocation = this.move(prevLocation, newDirection)
-        const existingLocation = this.findExistingLocation(newLocation)
-        if (!existingLocation) {
-            this.visitedCount++
-        }
-        // console.log('existing', existingLocation)
-        const newPosition: Position = {
-            color: Pixel.BLACK,
-            ...existingLocation,
-            direction: newDirection,
-            ...newLocation,
-        }
-        this.path.push(newPosition)
+        // const prevLocation = this.getCurrentPosition()
+        // prevLocation.color = color
+        // console.log('Setting the paint from', prevLocation.color, 'to', color)
+        // const newDirection = this.turn(prevLocation.direction, rotation)
+        // const newLocation = this.move(prevLocation, newDirection)
+        // const existingLocation = this.findExistingLocation(newLocation)
+        // if (!existingLocation) {
+        //     this.visitedCount++
+        // }
+        // // console.log('existing', existingLocation)
+        // const newPosition: Position = {
+        //     color: Pixel.BLACK,
+        //     ...existingLocation,
+        //     direction: newDirection,
+        //     ...newLocation,
+        // }
+        // this.path.push(newPosition)
     }
 
     private findExistingLocation({ x, y }: Vec2): Position | undefined {
