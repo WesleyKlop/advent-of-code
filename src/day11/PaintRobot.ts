@@ -9,15 +9,10 @@ type Vec2 = {
 }
 
 enum Direction {
-    UP = 0,
-    RIGHT = 1,
-    DOWN = 2,
-    LEFT = 3,
-}
-
-type Position = Vec2 & {
-    direction: Direction
-    color: Pixel
+    UP,
+    RIGHT,
+    DOWN,
+    LEFT,
 }
 
 enum Turn {
@@ -25,63 +20,26 @@ enum Turn {
     RIGHT,
 }
 
-function renderPath(path: Position[]) {
-    const map: Pixel[][] = []
-    path.forEach(({ x, y, color }) => {
-        if (!map[y]) {
-            map[y] = []
-        }
-        map[y][x] = color
-    })
-    return map
-}
-
-function findVisited(path: Position[]) {
-    const visited = new Set()
-    path.forEach(({ x, y }) => {
-        visited.add(`${y},${x}`)
-    })
-    return visited
-}
-
 export default class PaintRobot {
     private readonly sensor: IOQueue
     private readonly controls: IOQueue
-    private readonly computer: Computer
 
-    private readonly path: Position[] = [{
-        x: 0,
-        y: 0,
-        direction: Direction.UP,
-        color: Pixel.BLACK,
-    }]
+    private readonly map: Pixel[][] = [[Pixel.BLACK]]
+    private readonly pos: Vec2 = { x: 0, y: 0 }
+    private direction: Direction = Direction.UP
 
     constructor(computer: Computer) {
         this.sensor = computer.input
         this.controls = computer.output
-        this.computer = computer
-    }
-
-    private static applyDirection(direction: Direction): Vec2 {
-        switch (direction) {
-            case Direction.UP:
-                return { x: 0, y: -1 }
-            case Direction.DOWN:
-                return { x: 0, y: 1 }
-            case Direction.LEFT:
-                return { x: -1, y: 0 }
-            case Direction.RIGHT:
-                return { x: 1, y: 0 }
-        }
     }
 
     public async run() {
         while (true) {
-            const currentPosition = this.getCurrentPosition()
-            // console.log('last', currentPosition)
+            const { x, y } = this.pos
 
             // Get color at current tile
-            this.sensor.write(currentPosition.color)
+            const sensorColor = this.getSensorColor()
+            this.sensor.write(sensorColor)
             /*
             The IntCode program will serve as the brain of the robot.
             The program uses input instructions to access the robot's camera:
@@ -100,40 +58,72 @@ export default class PaintRobot {
                 break
             }
             // Paint the current panel
-            currentPosition.color = color
+            this.map[y][x] = color
             // Should we move left (0) or right (1)
             const rotation = (await this.controls.read()) as Turn
 
             const force = rotation === Turn.LEFT ? -1 : Turn.RIGHT
-            const direction = (currentPosition.direction + force + 4) % 4
-            const newPosition = this.buildNewLocation(direction)
-            this.path.push(newPosition)
+            this.direction = (this.direction + force + 4) % 4
+            this.updatePosition()
+            this.updateMap()
         }
-        return this.path.length
+        return this.map
     }
 
-    private getCurrentPosition(): Position {
-        return this.path[this.path.length - 1]
+    private getSensorColor() {
+        const { y, x } = this.pos
+        const color = this.map[y][x]
+        if (color === Pixel.TRANS) {
+            return Pixel.BLACK
+        }
+        return color
     }
 
-    private buildNewLocation(direction: Direction) {
-        const delta = PaintRobot.applyDirection(direction)
-        const position = this.getCurrentPosition()
-        const newPosition: Position = {
-            x: position.x + delta.x,
-            y: position.y + delta.y,
-            color: Pixel.BLACK,
-            direction,
-        }
-        const { color = Pixel.BLACK } = this.findExistingLocation(newPosition)
-        return {
-            ...newPosition,
-            color,
+    private createRow() {
+        return new Array(this.map[0].length).fill(Pixel.TRANS)
+    }
+
+    private updatePosition() {
+        switch (this.direction) {
+            case Direction.UP:
+                this.pos.y--
+                break
+            case Direction.DOWN:
+                this.pos.y++
+                break
+            case Direction.LEFT:
+                this.pos.x--
+                break
+            case Direction.RIGHT:
+                this.pos.x++
+                break
         }
     }
 
-    private findExistingLocation(newPosition: Position): Position {
-        const result = this.path.find(({ x, y }) => newPosition.x === x && newPosition.y === y)
-        return result || newPosition
+    private updateMap() {
+        // When moving up, handle y < 0 by adding a new row to the beginning
+        // of the array, basically moving the ground under the robot instead of the robot itself
+        if (this.pos.y < 0) {
+            this.map.unshift(this.createRow())
+            this.pos.y++
+        }
+        // When moving down, handle y === rowcount by adding a new row to the end
+        // of the array, basically moving the ground under the robot instead of the robot itself
+        else if (this.pos.y >= this.map.length) {
+            this.map.push(this.createRow())
+        }
+        // When moving left, handle x < 0 by adding a new unpainted pixel to the beginning of each row
+        if (this.pos.x < 0) {
+            for (let y = 0; y < this.map.length; y++) {
+                this.map[y].unshift(Pixel.TRANS)
+            }
+            this.pos.x++
+        }
+        // When moving right, handle x >= width by adding a new unpainted pixel to each row
+        else if (this.pos.x >= this.map[0].length) {
+            for (let y = 0; y < this.map.length; y++) {
+                this.map[y].push(Pixel.TRANS)
+            }
+        }
     }
 }

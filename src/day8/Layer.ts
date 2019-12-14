@@ -59,9 +59,9 @@ export default class Layer {
                         case Pixel.WHITE:
                             return '█'
                         case Pixel.BLACK:
-                            return ' '
-                        case Pixel.TRANS:
                             return '░'
+                        case Pixel.TRANS:
+                            return ' '
                     }
                 })
                 .join('')

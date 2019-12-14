@@ -66,6 +66,8 @@ export default class ArcadeCabinet {
 
     private drawOnScreen() {
         console.clear()
-        console.log(this.map.map(row => row.map(renderTile).join('')).join('\n'))
+        console.log(
+            this.map.map(row => row.map(renderTile).join('')).join('\n'),
+        )
     }
 }

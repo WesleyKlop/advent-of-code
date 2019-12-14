@@ -28,7 +28,7 @@ export default class Day13 implements Program {
         const drawer = new IOQueue()
         const computer = new Computer(program, undefined, drawer, true)
         const arcadeCabinet = new ArcadeCabinet(drawer)
-        const [, arcadeOutput ] = await Promise.all([
+        const [, arcadeOutput] = await Promise.all([
             computer.executeInstructions(),
             arcadeCabinet.run(),
         ])
