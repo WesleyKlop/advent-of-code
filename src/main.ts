@@ -9,20 +9,22 @@ if (process.argv.includes('--perf')) {
     createPerformanceObserver()
 }
 
-const loadDay = async (day: number) => {
-    const mod = await import(`./day${day}/day${day}`)
+const loadDay = async (year: number, day: number) => {
+    const mod = await import(`./${year}/day${day}/day${day}`)
     return mod.default as { new (): Program }
 }
 
-const playDay = async (arg: string | number) => {
+const playDay = async (year: string | number, arg: string | number) => {
+    const yearToExecute = typeof year === 'string' ? parseInt(year, 10) : year
     const dayToExecute = typeof arg === 'string' ? parseInt(arg, 10) : arg
-    if (isNaN(dayToExecute)) {
+
+    if (isNaN(dayToExecute) || isNaN(yearToExecute)) {
         console.warn(
             'Please enter a day to load or pass all to run all programs',
         )
     }
     try {
-        const ProgramImpl = await loadDay(dayToExecute)
+        const ProgramImpl = await loadDay(yearToExecute, dayToExecute)
 
         const executor: Executor = new ConsoleExecutor()
         await executor.execute(ProgramImpl)
@@ -42,12 +44,13 @@ const playAllDays = async () => {
 
 const main = async () => {
     const arg: string = process.argv.pop()!
+    const year: string = process.argv.pop()!
 
     switch (arg) {
         case 'all':
             return await playAllDays()
         default:
-            return await playDay(arg)
+            return await playDay(year, arg)
     }
 }
 
