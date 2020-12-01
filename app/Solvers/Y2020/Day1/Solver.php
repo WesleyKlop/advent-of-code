@@ -15,7 +15,6 @@ class Solver extends AbstractSolver
 {
     use UsesInput;
 
-
     protected function solvePartOne(): Solution
     {
         $input = $this->getInput();
@@ -51,7 +50,7 @@ class Solver extends AbstractSolver
 
     private function getInput(): Collection
     {
-        return $this->input('2020', '1')->explode("\n");
+        return $this->read('2020', '1')->explode("\n");
     }
 
 }

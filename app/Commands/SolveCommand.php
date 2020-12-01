@@ -14,7 +14,7 @@ class SolveCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'solve {--year=2020} {--part=1} {day} {arguments?*}';
+    protected $signature = 'solve {--year=2020} {--part=} {day} {arguments?*}';
 
     /**
      * The description of the command.
@@ -32,24 +32,25 @@ class SolveCommand extends Command
      */
     public function handle(SolverFactory $solverFactory, AdventOfCodeApiClient $apiClient): int
     {
-        // Make sure we have input to work with.
-        $apiClient->fetchInputIfNotExists(
-            $this->option('year'),
-            $this->argument('day')
-        );
+        $year = $this->option('year');
+        $day = $this->argument('day');
 
-        $solver = $solverFactory->make(
-            $this->option('year'),
-            $this->argument('day')
-        );
+        // Make sure we have input to work with.
+        $apiClient->fetchInputIfNotExists($year, $day);
+
+        $solver = $solverFactory->make($year, $day);
 
         if ($solver instanceof AcceptsArguments) {
             $solver->acceptArguments($this->argument('arguments'));
         }
 
-        $solution = $solver->solve($this->option('part'));
+        foreach(collect($this->option('part') ?? [1, 2]) as $part) {
+            $solution = $solver->solve($part);
 
-        $solution->display($this->getOutput());
+            $solution->setMeta($year, $day, $part);
+            $solution->display($this->getOutput());
+        }
+
         return 0;
     }
 }
