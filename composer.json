@@ -1,11 +1,17 @@
 {
     "name": "wesleyklop/advent-of-code",
     "description": "Advent of code solutions in PHP",
-    "keywords": ["framework", "laravel", "laravel zero", "console", "cli"],
+    "keywords": [
+        "framework",
+        "laravel",
+        "laravel zero",
+        "console",
+        "cli"
+    ],
     "homepage": "https://wesley.io",
     "type": "project",
     "license": "MIT",
-   "authors": [
+    "authors": [
         {
             "name": "Wesley Klop",
             "email": "wesley19097@gmail.com"
@@ -19,7 +25,8 @@
     },
     "require-dev": {
         "mockery/mockery": "^1.4.2",
-        "pestphp/pest": "^0.3"
+        "pestphp/pest": "^0.3",
+        "symplify/easy-coding-standard": "^8.3"
     },
     "autoload": {
         "psr-4": {
@@ -38,5 +45,11 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "bin": ["advent-of-code"]
+    "bin": [
+        "advent-of-code"
+    ],
+    "scripts": {
+        "lint:fix": "ecs check app bootstrap config tests --fix",
+        "lint:check": "ecs check app bootstrap config tests"
+    }
 }
