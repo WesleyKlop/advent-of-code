@@ -21,7 +21,6 @@ class NanoFactory
             $reaction = $this->getReactionThatProduces($type, $amount);
 
             if (is_null($reaction)) {
-                dump("Can not break down $amount $type yet");
                 continue;
             }
 
