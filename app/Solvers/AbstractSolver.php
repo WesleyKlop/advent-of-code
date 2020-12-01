@@ -3,16 +3,15 @@
 
 namespace App\Solvers;
 
-
 use App\Contracts\Solution;
 use App\Contracts\Solver;
 use App\Exceptions\ApplicationException;
 
 abstract class AbstractSolver implements Solver
 {
-    protected abstract function solvePartOne(): Solution;
+    abstract protected function solvePartOne(): Solution;
 
-    protected abstract function solvePartTwo(): Solution;
+    abstract protected function solvePartTwo(): Solution;
 
     public function solve(string $part): Solution
     {

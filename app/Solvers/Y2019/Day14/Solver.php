@@ -3,8 +3,8 @@
 
 namespace App\Solvers\Y2019\Day14;
 
-
 use App\Contracts\Solution;
+use App\Solutions\PrimitiveValueSolution;
 use App\Solvers\AbstractSolver;
 use App\Solvers\UsesInput;
 use Illuminate\Support\Collection;
@@ -13,7 +13,8 @@ class Solver extends AbstractSolver
 {
     use UsesInput;
 
-    private function getReactions(): Collection {
+    private function getReactions(): Collection
+    {
         return ReactionFactory::fromStringable($this->read('2019', '14'));
     }
 
@@ -28,6 +29,7 @@ class Solver extends AbstractSolver
 
 
         $result = $factory->process($inventory);
+        return new PrimitiveValueSolution($result);
         // TODO: Implement solvePartOne() method.
     }
 

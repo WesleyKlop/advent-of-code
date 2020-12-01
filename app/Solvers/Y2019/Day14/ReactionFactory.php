@@ -3,14 +3,14 @@
 
 namespace App\Solvers\Y2019\Day14;
 
-
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
 
 class ReactionFactory
 {
-    public static function fromString(string $reactions): Collection {
+    public static function fromString(string $reactions): Collection
+    {
         return static::fromStringable(Str::of($reactions));
     }
 

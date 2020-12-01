@@ -3,15 +3,13 @@
 
 namespace App\Solutions;
 
-
 use App\Contracts\Solution;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class PrimitiveValueSolution implements Solution
 {
-
     /**
-     * @var string|iterable $value
+     * @var string|iterable
      */
     protected $value;
 
@@ -28,7 +26,7 @@ class PrimitiveValueSolution implements Solution
 
     public function display(OutputInterface $output): void
     {
-        if($this->part) {
+        if ($this->part) {
             $output->write("[Part {$this->part}] ");
         }
         $output->write("Solution: ");

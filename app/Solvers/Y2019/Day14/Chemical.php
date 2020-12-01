@@ -3,7 +3,6 @@
 
 namespace App\Solvers\Y2019\Day14;
 
-
 class Chemical
 {
     private string $type;
@@ -12,7 +11,7 @@ class Chemical
     public const ORE = 'ORE';
     public const FUEL = 'FUEL';
 
-    public  function __construct(string $output)
+    public function __construct(string $output)
     {
         [$amount, $type] = explode(' ', $output);
 
@@ -30,7 +29,8 @@ class Chemical
         return $this->amount;
     }
 
-    public function isBaseChemical(): bool {
+    public function isBaseChemical(): bool
+    {
         return $this->type === Chemical::ORE;
     }
 }

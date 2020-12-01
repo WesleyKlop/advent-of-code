@@ -3,7 +3,6 @@
 
 namespace App\Factories;
 
-
 use App\Contracts\Solver;
 use App\Exceptions\ApplicationException;
 use Illuminate\Contracts\Container\BindingResolutionException;

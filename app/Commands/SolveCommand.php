@@ -44,7 +44,7 @@ class SolveCommand extends Command
             $solver->acceptArguments($this->argument('arguments'));
         }
 
-        foreach(collect($this->option('part') ?? [1, 2]) as $part) {
+        foreach (collect($this->option('part') ?? [1, 2]) as $part) {
             $solution = $solver->solve($part);
 
             $solution->setMeta($year, $day, $part);

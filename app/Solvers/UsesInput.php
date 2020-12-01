@@ -3,7 +3,6 @@
 
 namespace App\Solvers;
 
-
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
 

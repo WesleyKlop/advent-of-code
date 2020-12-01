@@ -3,7 +3,6 @@
 
 namespace App\Solvers\Y2019\Day14;
 
-
 use Illuminate\Support\Collection;
 
 class NanoFactory
@@ -20,25 +19,18 @@ class NanoFactory
         foreach ($inventory as $type => $amount) {
             // Into what input can we break down our output chemical?
             $reaction = $this->getReactionThatProduces($type, $amount);
-            dump($inventory);
 
             if (is_null($reaction)) {
                 dump("Can not break down $amount $type yet");
                 continue;
             }
 
-            dump(sprintf(
-                "Breaking down: %d %s",
-                $reaction->getOutput()->getAmount(),
-                $reaction->getOutput()->getType()
-            ));
-
             // Revert the reaction as many times as we can with our given input.
             $result = $reaction->revert($amount);
 
             $inventory->put($type, $result['remaining']);
 
-            if($result['remaining'] === 0) {
+            if ($result['remaining'] === 0) {
                 $inventory->offsetUnset($type);
             }
 
@@ -61,7 +53,7 @@ class NanoFactory
         return $this
             ->reactions
             ->first(
-                fn(Reaction $reaction) => $reaction->canProduce($type, $amount)
+                fn (Reaction $reaction) => $reaction->canProduce($type, $amount)
             );
     }
 }

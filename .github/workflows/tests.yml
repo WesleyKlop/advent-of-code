@@ -20,7 +20,6 @@ jobs:
         with:
           php-version: ${{ env.PHP_VERSION }}
           tools: composer:v2
-          coverage: xdebug
       - name: Get composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -32,7 +31,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
       - name: Install dependencies
         run: composer install --prefer-dist
-      - run: vendor/bin/phpunit --no-interaction --disallow-todo-tests
+      - run: composer lint:check
 
   test:
     name: Test backend
@@ -46,6 +45,7 @@ jobs:
         with:
           php-version: ${{ env.PHP_VERSION }}
           tools: composer:v2
+          coverage: xdebug
       - name: Setup problem matchers for PHPUnit
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
       - name: Get composer cache directory
@@ -59,4 +59,4 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
       - name: Install dependencies
         run: composer install --prefer-dist
-      - run: vendor/bin/phpunit --no-interaction --disallow-todo-tests
+      - run: vendor/bin/pest --no-interaction --disallow-todo-tests

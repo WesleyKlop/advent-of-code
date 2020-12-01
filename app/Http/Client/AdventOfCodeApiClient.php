@@ -3,7 +3,6 @@
 
 namespace App\Http\Client;
 
-
 use App\Exceptions\ApplicationException;
 use App\Exceptions\MissingSessionTokenException;
 use Illuminate\Support\Facades\Http;

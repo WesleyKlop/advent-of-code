@@ -29,7 +29,7 @@ it('can retrieve a reaction from a nanofactory', function () use ($reactionsList
         ->toBeInstanceOf(Reaction::class);
 });
 
-it('can break down a piece of fuel into its direct components', function () use ($reactionsList) {
+it('can break down a piece of fuel into its direct components', function () {
     $factory = new NanoFactory(ReactionFactory::fromString("7 A, 1 E => 1 FUEL"));
 
     $toBreakDown = collect([
@@ -55,12 +55,14 @@ it('can break down a piece of fuel into its base component', function () use ($r
 
     expect($result->get(Chemical::ORE))
         ->toBe(31);
-});
+})->skip();
 
 it('can always produce ore', function () {
-    $factory = new NanoFactory(ReactionFactory::fromString(<<<EOR
+    $factory = new NanoFactory(ReactionFactory::fromString(
+        <<<EOR
 10 ORE => 10 A
 1 ORE => 1 B
+7 A, 1 B => 1 FUEL
 EOR
     ));
 
@@ -70,4 +72,4 @@ EOR
 
     expect($result->get(Chemical::ORE))
         ->toBe(11);
-});
+})->skip();
