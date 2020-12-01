@@ -19,12 +19,11 @@ class Solver extends AbstractSolver
     {
         $input = $this->getInput();
 
-        foreach ($input as $outer) {
-            foreach($input as $inner) {
-                if($outer + $inner !== 2020) {
-                    continue;
+        foreach ($input as $id1 => $outer) {
+            foreach($input as $id2 => $inner) {
+                if($id1 !== $id2 && $outer + $inner === 2020) {
+                    return new PrimitiveValueSolution($outer * $inner);
                 }
-                return new PrimitiveValueSolution($outer * $inner);
             }
         }
 
@@ -35,10 +34,10 @@ class Solver extends AbstractSolver
     {
         $input = $this->getInput();
 
-        foreach ($input as $outer) {
-            foreach ($input as $inner) {
-                foreach($input as $middle) {
-                    if($outer + $inner + $middle === 2020) {
+        foreach ($input as $id1 => $outer) {
+            foreach ($input as $id2 => $inner) {
+                foreach($input as $id3 => $middle) {
+                    if($id1 !== $id2 && $id2 !== $id3 && $id1 !== $id3 && $outer + $inner + $middle === 2020) {
                         return new PrimitiveValueSolution($outer * $inner * $middle);
                     }
                 }
