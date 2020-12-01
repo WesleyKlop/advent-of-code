@@ -4,6 +4,7 @@ namespace App\Commands;
 
 use App\Contracts\AcceptsArguments;
 use App\Factories\SolverFactory;
+use App\Http\Client\AdventOfCodeApiClient;
 use LaravelZero\Framework\Commands\Command;
 
 class SolveCommand extends Command
@@ -26,10 +27,17 @@ class SolveCommand extends Command
      * Execute the console command.
      *
      * @param SolverFactory $solverFactory
+     * @param AdventOfCodeApiClient $apiClient
      * @return int
      */
-    public function handle(SolverFactory $solverFactory): int
+    public function handle(SolverFactory $solverFactory, AdventOfCodeApiClient $apiClient): int
     {
+        // Make sure we have input to work with.
+        $apiClient->fetchInputIfNotExists(
+            $this->option('year'),
+            $this->argument('day')
+        );
+
         $solver = $solverFactory->make(
             $this->option('year'),
             $this->argument('day')
