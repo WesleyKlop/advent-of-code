@@ -13,7 +13,7 @@ class SolverFactory
     public function make(string $year, string $day): Solver
     {
         try {
-            return app()->make(sprintf("\\App\\Solvers\\Y%s\\Day%s", $year, $day));
+            return app()->make(sprintf("\\App\\Solvers\\Y%s\\Day%s\\Solver", $year, $day));
         } catch (BindingResolutionException $e) {
             throw new ApplicationException(sprintf("There is no solver for year %s day %s", $year, $day), 0, $e);
         }
