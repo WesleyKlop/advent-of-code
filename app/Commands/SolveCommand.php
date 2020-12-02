@@ -32,8 +32,8 @@ class SolveCommand extends Command
      */
     public function handle(SolverFactory $solverFactory, AdventOfCodeApiClient $apiClient): int
     {
-        $year = $this->option('year');
-        $day = $this->argument('day');
+        $year = $this->option('year') ?? env('DEFAULT_YEAR');
+        $day = $this->argument('day') ?? env('DEFAULT_DAY');
 
         // Make sure we have input to work with.
         $apiClient->fetchInputIfNotExists($year, $day);
