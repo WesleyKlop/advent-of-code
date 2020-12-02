@@ -15,10 +15,10 @@ class Solver extends AbstractSolver
 
     private function getInput(): Collection
     {
-        return $this->read('2020', '2')
+        return $this->read()
             ->explode("\n")
             ->map(function ($line) {
-                preg_match("/^(\d+)-(\d+)\ ([a-z]): ([a-z]+)$/", $line, $matches);
+                preg_match("/^(\d+)-(\d+) (\w): (\w+)$/", $line, $matches);
                 [,$min, $max, $letter, $password] = $matches;
 
                 return [
