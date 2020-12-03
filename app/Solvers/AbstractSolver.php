@@ -9,6 +9,8 @@ use App\Exceptions\ApplicationException;
 
 abstract class AbstractSolver implements Solver
 {
+    use UsesInput;
+
     abstract protected function solvePartOne(): Solution;
 
     abstract protected function solvePartTwo(): Solution;

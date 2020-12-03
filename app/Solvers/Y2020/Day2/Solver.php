@@ -6,16 +6,13 @@ namespace App\Solvers\Y2020\Day2;
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
 use App\Solvers\AbstractSolver;
-use App\Solvers\UsesInput;
 use Illuminate\Support\Collection;
 
 class Solver extends AbstractSolver
 {
-    use UsesInput;
-
     private function getInput(): Collection
     {
-        return $this->read()
+        return $this->read('2020', '2')
             ->explode("\n")
             ->map(function ($line) {
                 preg_match("/^(\d+)-(\d+) (\w): (\w+)$/", $line, $matches);

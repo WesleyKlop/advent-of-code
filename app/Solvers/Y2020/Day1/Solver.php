@@ -7,13 +7,10 @@ use App\Contracts\Solution;
 use App\Exceptions\AnswerNotFoundException;
 use App\Solutions\PrimitiveValueSolution;
 use App\Solvers\AbstractSolver;
-use App\Solvers\UsesInput;
 use Illuminate\Support\Collection;
 
 class Solver extends AbstractSolver
 {
-    use UsesInput;
-
     protected function solvePartOne(): Solution
     {
         $input = $this->getInput();
