@@ -14,7 +14,12 @@ class SolveCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'solve {--year=2020} {--part=} {day} {arguments?*}';
+    protected $signature = 'solve
+        {--year=2020 : Year to look for the solver}
+        {--part= : The part to solve, defaults to both}
+        {--fetch : If we want to fetch the input from the AoC website}
+        {day : Day to solve}
+        {arguments?* : Extra arguments}';
 
     /**
      * The description of the command.
@@ -35,8 +40,10 @@ class SolveCommand extends Command
         $year = $this->option('year') ?? env('DEFAULT_YEAR');
         $day = $this->argument('day') ?? env('DEFAULT_DAY');
 
-        // Make sure we have input to work with.
-        $apiClient->fetchInputIfNotExists($year, $day);
+        if ($this->option('fetch')) {
+            // Make sure we have input to work with.
+            $apiClient->fetchInput($year, $day);
+        }
 
         $solver = $solverFactory->make($year, $day);
 

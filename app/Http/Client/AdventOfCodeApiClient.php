@@ -6,24 +6,15 @@ namespace App\Http\Client;
 use App\Exceptions\ApplicationException;
 use App\Exceptions\MissingSessionTokenException;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
-use Illuminate\Support\Stringable;
 
 class AdventOfCodeApiClient
 {
     public const API_DOMAIN = 'adventofcode.com';
     public const API_ENDPOINT = 'https://%s/%s/day/%s/input';
 
-    public function puzzleInput(string $year, string $day): Stringable
+    public function fetchInput(string $year, string $day, bool $force = false): void
     {
-        $this->fetchInputIfNotExists($year, $day);
-
-        return $this->loadFromFile($year, $day);
-    }
-
-    public function fetchInputIfNotExists(string $year, string $day): void
-    {
-        if (!file_exists($this->getPath($year, $day))) {
+        if (!file_exists($this->getPath($year, $day)) || $force === true) {
             $this->handleFileMissing($year, $day);
         }
     }
@@ -33,15 +24,11 @@ class AdventOfCodeApiClient
         return resource_path(sprintf("inputs/%s/%s/%s", $year, $day, 'input.txt'));
     }
 
-    private function loadFromFile(string $year, string $day): Stringable
-    {
-        return Str::of(file_get_contents($this->getPath($year, $day)))->trim();
-    }
-
     private function handleFileMissing(string $year, string $day): void
     {
         $path = $this->getPath($year, $day);
         $session = env('AOC_SESSION_TOKEN');
+
         if (!$session) {
             throw new MissingSessionTokenException();
         }
