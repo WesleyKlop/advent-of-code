@@ -35,6 +35,6 @@ class Solver extends AbstractSolver
 
     protected function solvePartTwo(): Solution
     {
-        // TODO: Implement solvePartTwo() method.
+        return new PrimitiveValueSolution(0);
     }
 }

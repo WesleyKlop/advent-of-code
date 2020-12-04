@@ -15,7 +15,7 @@ class Chemical
     {
         [$amount, $type] = explode(' ', $output);
 
-        $this->amount = $amount;
+        $this->amount = intval($amount);
         $this->type = $type;
     }
 

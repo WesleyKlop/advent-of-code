@@ -27,7 +27,8 @@
         "intonate/tinker-zero": "^1.1",
         "mockery/mockery": "^1.4.2",
         "pestphp/pest": "^0.3",
-        "symplify/easy-coding-standard": "^8.3"
+        "symplify/easy-coding-standard": "^8.3",
+        "vimeo/psalm": "^4.3"
     },
     "autoload": {
         "psr-4": {
