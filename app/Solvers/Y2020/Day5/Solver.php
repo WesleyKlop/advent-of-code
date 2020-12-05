@@ -16,41 +16,30 @@ class Solver extends AbstractSolver
 
     public function __construct()
     {
-        $this->seats = $this->parseSeats();
+        $this->seats = $this->parseSeatIds();
     }
 
-    private function parseSeats(): LazyCollection
+    private function parseSeatIds(): LazyCollection
     {
         return $this
             ->readLazy('2020', '5')
-            ->map(function (string $line) {
-                preg_match("/^([FB]{7})([LR]{3})$/", $line, $matches);
-                $row = $this->calculateSeat($matches[1], 0, 127, 'F', 'B');
-                $col = $this->calculateSeat($matches[2], 0, 7, 'L', 'R');
-
-                return [
-                    'row' => $row,
-                    'col' => $col,
-                ];
-            });
+            ->map(fn (string $line) => [
+                'row' => $this->stringToInteger(substr($line, 0, 7), 'F', 'B'),
+                'col' => $this->stringToInteger(substr($line, 7), 'L', 'R'),
+            ])
+            ->map(fn ($seat) => ($seat['row'] * 8 + $seat['col']));
     }
 
     protected function solvePartOne(): Solution
     {
-        $highestSeatId = $this
-            ->seats
-            ->map(fn ($seat) => ($seat['row'] * 8 + $seat['col']))
-            ->max();
+        $highestSeatId = $this->seats->max();
 
         return new PrimitiveValueSolution($highestSeatId);
     }
 
     protected function solvePartTwo(): Solution
     {
-        $seatIds = $this
-            ->seats
-            ->map(fn ($seat) => ($seat['row'] * 8 + $seat['col']))
-            ->sort();
+        $seatIds = $this->seats->sort();
 
         $seatKeys = $seatIds->flip();
 
@@ -63,18 +52,13 @@ class Solver extends AbstractSolver
         throw new AnswerNotFoundException();
     }
 
-    private function calculateSeat(string $queue, int $start, int $end, string $lower, string $upper): int
+    private function stringToInteger(string $value, string $lower, string $upper): int
     {
-        if (mb_strlen($queue) === 0) {
-            return $start;
-        }
+        $map = [$lower => '0', $upper => '1'];
+        $binary = collect(str_split($value))
+            ->map(fn ($char) => $map[$char])
+            ->join('');
 
-        if ($queue[0] === $lower) {
-            $end = floor(($end + $start) / 2);
-        } elseif ($queue[0] === $upper) {
-            $start = ceil(($end + $start) / 2);
-        }
-
-        return $this->calculateSeat(substr($queue, 1), $start, $end, $lower, $upper);
+        return intval($binary, 2);
     }
 }
