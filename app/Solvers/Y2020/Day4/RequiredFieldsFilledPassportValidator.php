@@ -3,7 +3,6 @@
 
 namespace App\Solvers\Y2020\Day4;
 
-
 class RequiredFieldsFilledPassportValidator implements PassportValidator
 {
     private const PASSPORT_GETTERS = [

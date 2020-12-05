@@ -7,7 +7,6 @@ use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
 use App\Solvers\AbstractSolver;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 
 class Solver extends AbstractSolver
 {
@@ -28,7 +27,7 @@ class Solver extends AbstractSolver
         $validator = new RequiredFieldsFilledPassportValidator();
         $validPassports = $this
             ->getPassports()
-            ->filter(fn(Passport $passport) => $validator->validate($passport))
+            ->filter(fn (Passport $passport) => $validator->validate($passport))
             ->count();
 
         return new PrimitiveValueSolution($validPassports);
@@ -39,7 +38,7 @@ class Solver extends AbstractSolver
         $validator = new RequiredFieldsValidPassportValidator();
         $validPassports = $this
             ->getPassports()
-            ->filter(fn(Passport $passport) => $validator->validate($passport))
+            ->filter(fn (Passport $passport) => $validator->validate($passport))
             ->count();
 
         return new PrimitiveValueSolution($validPassports);

@@ -3,7 +3,6 @@
 
 namespace App\Solvers\Y2020\Day4;
 
-
 class Passport
 {
     private ?int $birthYear;

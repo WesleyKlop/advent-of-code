@@ -3,11 +3,10 @@
 
 namespace App\Solvers\Y2020\Day4;
 
-
 class RequiredFieldsValidPassportValidator implements PassportValidator
 {
     private const PASSPORT_GETTERS_VALIDATORS_MAP = [
-        'getBirthYear' ,
+        'getBirthYear',
         'getIssueYear',
         'getExpirationYear',
         'getHeight',

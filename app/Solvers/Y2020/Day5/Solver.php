@@ -3,7 +3,6 @@
 
 namespace App\Solvers\Y2020\Day5;
 
-
 use App\Contracts\Solution;
 use App\Exceptions\AnswerNotFoundException;
 use App\Solutions\PrimitiveValueSolution;
@@ -40,7 +39,7 @@ class Solver extends AbstractSolver
     {
         $highestSeatId = $this
             ->seats
-            ->map(fn($seat) => ($seat['row'] * 8 + $seat['col']))
+            ->map(fn ($seat) => ($seat['row'] * 8 + $seat['col']))
             ->max();
 
         return new PrimitiveValueSolution($highestSeatId);
@@ -50,7 +49,7 @@ class Solver extends AbstractSolver
     {
         $seatIds = $this
             ->seats
-            ->map(fn($seat) => ($seat['row'] * 8 + $seat['col']))
+            ->map(fn ($seat) => ($seat['row'] * 8 + $seat['col']))
             ->sort();
 
         $seatKeys = $seatIds->flip();
