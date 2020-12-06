@@ -3,6 +3,8 @@
 namespace App\Commands;
 
 use App\Contracts\AcceptsArguments;
+use App\Contracts\HasProgressBar;
+use App\Exceptions\ApplicationException;
 use App\Factories\SolverFactory;
 use App\Http\Client\AdventOfCodeApiClient;
 use LaravelZero\Framework\Commands\Command;
@@ -45,10 +47,19 @@ class SolveCommand extends Command
             $apiClient->fetchInput($year, $day);
         }
 
-        $solver = $solverFactory->make($year, $day);
+        try {
+            $solver = $solverFactory->make($year, $day);
+        } catch(ApplicationException $reee) {
+            $this->error($reee->getMessage());
+            return 1;
+        }
 
         if ($solver instanceof AcceptsArguments) {
             $solver->acceptArguments($this->argument('arguments'));
+        }
+
+        if ($solver instanceof HasProgressBar) {
+            $solver->setProgressBar($this->getOutput()->createProgressBar());
         }
 
         foreach (collect($this->option('part') ?? [1, 2]) as $part) {
