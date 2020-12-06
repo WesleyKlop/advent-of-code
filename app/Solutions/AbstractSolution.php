@@ -3,7 +3,6 @@
 
 namespace App\Solutions;
 
-
 use App\Contracts\Solution;
 use Symfony\Component\Console\Output\OutputInterface as Output;
 
