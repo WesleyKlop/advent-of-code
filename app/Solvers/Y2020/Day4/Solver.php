@@ -5,6 +5,7 @@ namespace App\Solvers\Y2020\Day4;
 
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
+use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
 use Illuminate\Support\Collection;
 
@@ -41,6 +42,6 @@ class Solver extends AbstractSolver
             ->filter(fn (Passport $passport) => $validator->validate($passport))
             ->count();
 
-        return new PrimitiveValueSolution($validPassports);
+        return new TodoSolution();
     }
 }

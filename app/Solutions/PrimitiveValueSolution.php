@@ -6,18 +6,16 @@ namespace App\Solutions;
 use App\Contracts\Solution;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class PrimitiveValueSolution implements Solution
+class PrimitiveValueSolution extends AbstractSolution
 {
     /**
-     * @var string|iterable
+     * @var string|iterable|null
      */
     protected $value;
 
-    private ?string $part = null;
-
     /**
      * PrimitiveValueSolution constructor.
-     * @param string|iterable $value
+     * @param string|iterable|null $value
      */
     public function __construct($value)
     {
@@ -26,15 +24,8 @@ class PrimitiveValueSolution implements Solution
 
     public function display(OutputInterface $output): void
     {
-        if ($this->part) {
-            $output->write("[Part {$this->part}] ");
-        }
+        $this->displayInfo($output);
         $output->write("Solution: ");
         $output->writeln($this->value);
-    }
-
-    public function setMeta(string $year, string $day, string $part): void
-    {
-        $this->part = $part;
     }
 }
