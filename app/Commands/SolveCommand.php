@@ -49,7 +49,7 @@ class SolveCommand extends Command
 
         try {
             $solver = $solverFactory->make($year, $day);
-        } catch(ApplicationException $reee) {
+        } catch (ApplicationException $reee) {
             $this->error($reee->getMessage());
             return 1;
         }

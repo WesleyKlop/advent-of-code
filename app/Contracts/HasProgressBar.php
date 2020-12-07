@@ -3,7 +3,6 @@
 
 namespace App\Contracts;
 
-
 use Symfony\Component\Console\Helper\ProgressBar;
 
 interface HasProgressBar
