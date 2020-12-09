@@ -9,7 +9,7 @@ test('solve command', function () {
 
     $cmd
         ->assertExitCode(0)
-        ->expectsOutput('[Part 1] ')
+        ->expectsOutput('[P1] ')
         ->expectsOutput('Solution: ')
         ->expectsOutput('1020099');
 });
