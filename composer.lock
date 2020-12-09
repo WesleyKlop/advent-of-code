@@ -600,7 +600,7 @@
         },
         {
             "name": "illuminate/bus",
-            "version": "v8.17.2",
+            "version": "v8.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/bus.git",
@@ -649,16 +649,16 @@
         },
         {
             "name": "illuminate/cache",
-            "version": "v8.17.2",
+            "version": "v8.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/cache.git",
-                "reference": "1e0bdc03676fdbe06eca2d18dd473a3b087f1fce"
+                "reference": "2b8ab6425929ac782a6255a1b729bff026249aba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/cache/zipball/1e0bdc03676fdbe06eca2d18dd473a3b087f1fce",
-                "reference": "1e0bdc03676fdbe06eca2d18dd473a3b087f1fce",
+                "url": "https://api.github.com/repos/illuminate/cache/zipball/2b8ab6425929ac782a6255a1b729bff026249aba",
+                "reference": "2b8ab6425929ac782a6255a1b729bff026249aba",
                 "shasum": ""
             },
             "require": {
@@ -673,7 +673,7 @@
                 "illuminate/database": "Required to use the database cache driver (^8.0).",
                 "illuminate/filesystem": "Required to use the file cache driver (^8.0).",
                 "illuminate/redis": "Required to use the redis cache driver (^8.0).",
-                "symfony/cache": "Required to PSR-6 cache bridge (^5.1)."
+                "symfony/cache": "Required to PSR-6 cache bridge (^5.1.4)."
             },
             "type": "library",
             "extra": {
@@ -698,20 +698,20 @@
             ],
             "description": "The Illuminate Cache package.",
             "homepage": "https://laravel.com",
-            "time": "2020-11-18T13:48:18+00:00"
+            "time": "2020-12-08T17:15:16+00:00"
         },
         {
             "name": "illuminate/collections",
-            "version": "v8.17.2",
+            "version": "v8.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
-                "reference": "2bdc9852420668396d1557f725293aca99bb4e9e"
+                "reference": "4647141880c193a0edaa91754004d8bc7471e56b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/collections/zipball/2bdc9852420668396d1557f725293aca99bb4e9e",
-                "reference": "2bdc9852420668396d1557f725293aca99bb4e9e",
+                "url": "https://api.github.com/repos/illuminate/collections/zipball/4647141880c193a0edaa91754004d8bc7471e56b",
+                "reference": "4647141880c193a0edaa91754004d8bc7471e56b",
                 "shasum": ""
             },
             "require": {
@@ -720,7 +720,7 @@
                 "php": "^7.3|^8.0"
             },
             "suggest": {
-                "symfony/var-dumper": "Required to use the dump method (^5.1)."
+                "symfony/var-dumper": "Required to use the dump method (^5.1.4)."
             },
             "type": "library",
             "extra": {
@@ -748,11 +748,11 @@
             ],
             "description": "The Illuminate Collections package.",
             "homepage": "https://laravel.com",
-            "time": "2020-11-30T15:23:45+00:00"
+            "time": "2020-12-08T17:15:16+00:00"
         },
         {
             "name": "illuminate/config",
-            "version": "v8.17.2",
+            "version": "v8.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/config.git",
@@ -796,16 +796,16 @@
         },
         {
             "name": "illuminate/console",
-            "version": "v8.17.2",
+            "version": "v8.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/console.git",
-                "reference": "f2b9a3b7707e2f418e3dcc1acf04d7b6f38a38df"
+                "reference": "a29bc65178ac6603e6e9d2eaf866b4fec9812614"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/console/zipball/f2b9a3b7707e2f418e3dcc1acf04d7b6f38a38df",
-                "reference": "f2b9a3b7707e2f418e3dcc1acf04d7b6f38a38df",
+                "url": "https://api.github.com/repos/illuminate/console/zipball/a29bc65178ac6603e6e9d2eaf866b4fec9812614",
+                "reference": "a29bc65178ac6603e6e9d2eaf866b4fec9812614",
                 "shasum": ""
             },
             "require": {
@@ -814,8 +814,8 @@
                 "illuminate/macroable": "^8.0",
                 "illuminate/support": "^8.0",
                 "php": "^7.3|^8.0",
-                "symfony/console": "^5.1",
-                "symfony/process": "^5.1"
+                "symfony/console": "^5.1.4",
+                "symfony/process": "^5.1.4"
             },
             "suggest": {
                 "dragonmantank/cron-expression": "Required to use scheduler (^3.0.2).",
@@ -848,11 +848,11 @@
             ],
             "description": "The Illuminate Console package.",
             "homepage": "https://laravel.com",
-            "time": "2020-12-01T13:46:15+00:00"
+            "time": "2020-12-08T17:15:16+00:00"
         },
         {
             "name": "illuminate/container",
-            "version": "v8.17.2",
+            "version": "v8.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -899,7 +899,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v8.17.2",
+            "version": "v8.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -943,7 +943,7 @@
         },
         {
             "name": "illuminate/events",
-            "version": "v8.17.2",
+            "version": "v8.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/events.git",
@@ -994,16 +994,16 @@
         },
         {
             "name": "illuminate/filesystem",
-            "version": "v8.17.2",
+            "version": "v8.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/filesystem.git",
-                "reference": "5d9154c2aa6a834fbee909d3e76c34b4e5de339d"
+                "reference": "2f468939ae97c861d683d35060e7ae0c11fdcb98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/filesystem/zipball/5d9154c2aa6a834fbee909d3e76c34b4e5de339d",
-                "reference": "5d9154c2aa6a834fbee909d3e76c34b4e5de339d",
+                "url": "https://api.github.com/repos/illuminate/filesystem/zipball/2f468939ae97c861d683d35060e7ae0c11fdcb98",
+                "reference": "2f468939ae97c861d683d35060e7ae0c11fdcb98",
                 "shasum": ""
             },
             "require": {
@@ -1012,7 +1012,7 @@
                 "illuminate/macroable": "^8.0",
                 "illuminate/support": "^8.0",
                 "php": "^7.3|^8.0",
-                "symfony/finder": "^5.1"
+                "symfony/finder": "^5.1.4"
             },
             "suggest": {
                 "ext-ftp": "Required to use the Flysystem FTP driver.",
@@ -1022,8 +1022,8 @@
                 "league/flysystem-cached-adapter": "Required to use the Flysystem cache (^1.0).",
                 "league/flysystem-sftp": "Required to use the Flysystem SFTP driver (^1.0).",
                 "psr/http-message": "Required to allow Storage::put to accept a StreamInterface (^1.0).",
-                "symfony/filesystem": "Required to enable support for relative symbolic links (^5.1).",
-                "symfony/mime": "Required to enable support for guessing extensions (^5.1)."
+                "symfony/filesystem": "Required to enable support for relative symbolic links (^5.1.4).",
+                "symfony/mime": "Required to enable support for guessing extensions (^5.1.4)."
             },
             "type": "library",
             "extra": {
@@ -1048,7 +1048,7 @@
             ],
             "description": "The Illuminate Filesystem package.",
             "homepage": "https://laravel.com",
-            "time": "2020-11-25T16:23:39+00:00"
+            "time": "2020-12-08T17:15:16+00:00"
         },
         {
             "name": "illuminate/http",
@@ -1106,7 +1106,7 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v8.17.2",
+            "version": "v8.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -1148,7 +1148,7 @@
         },
         {
             "name": "illuminate/pipeline",
-            "version": "v8.17.2",
+            "version": "v8.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pipeline.git",
@@ -1244,16 +1244,16 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v8.17.2",
+            "version": "v8.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "c8910d52254408c7245dd8044fb3e5b09292673f"
+                "reference": "89581f651b63c63fae87449d224f7cb1087e62d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/c8910d52254408c7245dd8044fb3e5b09292673f",
-                "reference": "c8910d52254408c7245dd8044fb3e5b09292673f",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/89581f651b63c63fae87449d224f7cb1087e62d8",
+                "reference": "89581f651b63c63fae87449d224f7cb1087e62d8",
                 "shasum": ""
             },
             "require": {
@@ -1273,8 +1273,8 @@
             "suggest": {
                 "illuminate/filesystem": "Required to use the composer class (^8.0).",
                 "ramsey/uuid": "Required to use Str::uuid() (^4.0).",
-                "symfony/process": "Required to use the composer class (^5.1).",
-                "symfony/var-dumper": "Required to use the dd function (^5.1).",
+                "symfony/process": "Required to use the composer class (^5.1.4).",
+                "symfony/var-dumper": "Required to use the dd function (^5.1.4).",
                 "vlucas/phpdotenv": "Required to use the Env class and env helper (^5.2)."
             },
             "type": "library",
@@ -1303,11 +1303,11 @@
             ],
             "description": "The Illuminate Support package.",
             "homepage": "https://laravel.com",
-            "time": "2020-11-29T20:24:47+00:00"
+            "time": "2020-12-08T17:15:16+00:00"
         },
         {
             "name": "illuminate/testing",
-            "version": "v8.17.2",
+            "version": "v8.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/testing.git",
@@ -1465,16 +1465,16 @@
         },
         {
             "name": "laravel-zero/framework",
-            "version": "v8.2.0",
+            "version": "v8.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-zero/framework.git",
-                "reference": "5a021d7ad7388e5eb37220052c64deec36a49e90"
+                "reference": "56ce9746f88bfe79b937930bf375e48dea8d9744"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-zero/framework/zipball/5a021d7ad7388e5eb37220052c64deec36a49e90",
-                "reference": "5a021d7ad7388e5eb37220052c64deec36a49e90",
+                "url": "https://api.github.com/repos/laravel-zero/framework/zipball/56ce9746f88bfe79b937930bf375e48dea8d9744",
+                "reference": "56ce9746f88bfe79b937930bf375e48dea8d9744",
                 "shasum": ""
             },
             "require": {
@@ -1548,7 +1548,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-10-30T09:57:58+00:00"
+            "time": "2020-12-08T10:24:00+00:00"
         },
         {
             "name": "league/flysystem",
