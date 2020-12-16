@@ -11,4 +11,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::CLEAN_CODE,
         SetList::PSR_12
     ]);
+
+    // Ignore unfinished days
+    $parameters->set(Option::EXCLUDE_PATHS, [
+        __DIR__ . '/app/Solvers/Y2020/Day9/*',
+        __DIR__ . '/app/Solvers/Y2020/Day10/*',
+        __DIR__ . '/app/Solvers/Y2020/Day11/*',
+    ]);
 };

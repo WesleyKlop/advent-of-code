@@ -3,7 +3,6 @@
 
 namespace App\Solvers\Y2020\Day11;
 
-
 class Tile
 {
     public const TYPE_FLOOR = '.';
@@ -33,6 +32,4 @@ class Tile
                 return;
         }
     }
-
-
 }

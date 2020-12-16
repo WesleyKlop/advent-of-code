@@ -3,7 +3,6 @@
 
 namespace App\Solvers\Y2020\Day10;
 
-
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
 use App\Solutions\TodoSolution;

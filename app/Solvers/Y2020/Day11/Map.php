@@ -3,7 +3,6 @@
 
 namespace App\Solvers\Y2020\Day11;
 
-
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
 
@@ -27,7 +26,7 @@ class Map
     {
         $map = $stringable
             ->explode("\n")
-            ->map(fn(string $row) => Str::of($row)->split(1)->mapInto(Tile::class));
+            ->map(fn (string $row) => Str::of($row)->split(1)->mapInto(Tile::class));
 
         return new Map($map->toArray());
     }
@@ -35,8 +34,8 @@ class Map
     public function dump()
     {
         $str = '';
-        foreach($this->map as $row) {
-            foreach($row as $char) {
+        foreach ($this->map as $row) {
+            foreach ($row as $char) {
                 $str .= $char->getType();
             }
             $str .= "\n";
@@ -46,9 +45,9 @@ class Map
 
     public function matches(Map $other): bool
     {
-        foreach($this->map as $rowIdx => $row) {
+        foreach ($this->map as $rowIdx => $row) {
             foreach ($row as $colIdx => $col) {
-                if($other->get($rowIdx, $colIdx) !== $col) {
+                if ($other->get($rowIdx, $colIdx) !== $col) {
                     return false;
                 }
             }
@@ -61,7 +60,8 @@ class Map
         return $this->map[$rowIdx][$colIdx];
     }
 
-    private function getRow(int $rowIdx): array {
+    private function getRow(int $rowIdx): array
+    {
         return $this->map[$rowIdx];
     }
 
@@ -70,9 +70,11 @@ class Map
         // Get a list of coordinates that we would want to flip
         $toFlip = [];
         foreach ($this->map as $rowIdx => $row) {
-            foreach($row as $colIdx => $tile) {
+            foreach ($row as $colIdx => $tile) {
+                echo $tile;
             }
         }
 
+        return $this;
     }
 }
