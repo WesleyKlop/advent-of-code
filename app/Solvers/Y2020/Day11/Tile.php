@@ -42,8 +42,13 @@ class Tile
         return $this->type === $tile->type;
     }
 
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return $this->type === static::TYPE_EMPTY;
+    }
+
+    public function isFloor(): bool
+    {
+        return $this->type === static::TYPE_FLOOR;
     }
 }
