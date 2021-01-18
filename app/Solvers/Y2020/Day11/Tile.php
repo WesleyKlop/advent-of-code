@@ -21,15 +21,29 @@ class Tile
         return $this->type;
     }
 
-    public function flip(): void
+    public function flip(): Tile
     {
         switch ($this->type) {
             case self::TYPE_OCCUPIED:
-                $this->type = self::TYPE_EMPTY;
-                return;
+                return new static(self::TYPE_EMPTY);
             case self::TYPE_EMPTY:
-                $this->type = self::TYPE_OCCUPIED;
-                return;
+                return new static(self::TYPE_OCCUPIED);
         }
+        return $this;
+    }
+
+    public function isOccupied(): bool
+    {
+        return $this->type === static::TYPE_OCCUPIED;
+    }
+
+    public function equals(Tile $tile): bool
+    {
+        return $this->type === $tile->type;
+    }
+
+    public function isEmpty()
+    {
+        return $this->type === static::TYPE_EMPTY;
     }
 }

@@ -12,13 +12,16 @@ class Solver extends AbstractSolver
 {
     protected function solvePartOne(): Solution
     {
-        $prevState = Map::fromStringable($this->read('2020', '11', 'test.txt'));
+        $strategy = new PartOneStrategy();
+        $prevState = Map::fromStringable($strategy, $this->read('2020', '11'));
         do {
             $currState = $prevState->flip();
 
             if ($prevState->matches($currState)) {
-                return new PrimitiveValueSolution($currState->countByType(Tile::TYPE_OCCUPIED));
+                return new PrimitiveValueSolution($currState->countOccupied());
             }
+
+            $prevState = $currState;
         } while (true);
         return new TodoSolution();
     }

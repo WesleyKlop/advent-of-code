@@ -11,24 +11,33 @@ class Map
     /**
      * @var Tile[][]
      */
-    private array $map = [];
+    private array $map;
+
+    private FlipStrategy $flipStrategy;
 
     /**
      * Map constructor.
+     * @param FlipStrategy $flipStrategy
      * @param array $map
      */
-    public function __construct(array $map)
+    public function __construct(FlipStrategy $flipStrategy, array $map)
     {
         $this->map = $map;
+        $this->flipStrategy = $flipStrategy;
     }
 
-    public static function fromStringable(Stringable $stringable): Map
+    public static function fromStringable(FlipStrategy $flipStrategy, Stringable $stringable): Map
     {
         $map = $stringable
             ->explode("\n")
             ->map(fn (string $row) => Str::of($row)->split(1)->mapInto(Tile::class));
 
-        return new Map($map->toArray());
+        return new Map($flipStrategy, $map->toArray());
+    }
+
+    public static function fromString(FlipStrategy $flipStrategy, string $mapString): Map
+    {
+        return static::fromStringable($flipStrategy, Str::of($mapString));
     }
 
     public function dump()
@@ -46,8 +55,8 @@ class Map
     public function matches(Map $other): bool
     {
         foreach ($this->map as $rowIdx => $row) {
-            foreach ($row as $colIdx => $col) {
-                if ($other->get($rowIdx, $colIdx) !== $col) {
+            foreach ($row as $colIdx => $tile) {
+                if (!$other->getTile($rowIdx, $colIdx)->equals($tile)) {
                     return false;
                 }
             }
@@ -55,26 +64,60 @@ class Map
         return true;
     }
 
-    private function get(int $rowIdx, int $colIdx): Tile
+    public function getTile(int $rowIdx, int $colIdx): ?Tile
     {
-        return $this->map[$rowIdx][$colIdx];
+        if (isset($this->map[$rowIdx], $this->map[$rowIdx][$colIdx])) {
+            return $this->map[$rowIdx][$colIdx];
+        }
+        return null;
     }
 
-    private function getRow(int $rowIdx): array
+    public function countOccupied(): int
     {
-        return $this->map[$rowIdx];
+        return $this->countByType(Tile::TYPE_OCCUPIED);
     }
 
     public function flip(): Map
     {
-        // Get a list of coordinates that we would want to flip
         $toFlip = [];
         foreach ($this->map as $rowIdx => $row) {
             foreach ($row as $colIdx => $tile) {
-                echo $tile;
+                if ($this->shouldFlip($rowIdx, $colIdx, $tile)) {
+                    $toFlip[] = [$rowIdx, $colIdx];
+                }
             }
         }
 
-        return $this;
+        return $this->applyFlip($toFlip);
+    }
+
+    private function shouldFlip(int $rowIdx, int $colIdx, Tile $tile): bool
+    {
+        return $this->flipStrategy->shouldFlip($this, $tile, $rowIdx, $colIdx);
+    }
+
+    private function applyFlip(array $flipList): Map
+    {
+        $newMap = $this->map;
+
+
+        foreach ($flipList as [$rowIdx, $colIdx]) {
+            $newMap[$rowIdx][$colIdx] = $this->getTile($rowIdx, $colIdx)->flip();
+        }
+
+        return new static($this->flipStrategy, $newMap);
+    }
+
+    public function countByType(string $type): int
+    {
+        $amount = 0;
+        foreach ($this->map as $row) {
+            foreach ($row as $tile) {
+                if ($tile->getType() === $type) {
+                    $amount++;
+                }
+            }
+        }
+        return $amount;
     }
 }

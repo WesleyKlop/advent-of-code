@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": "^7.4",
+        "php": "^7.4|^8.0",
         "guzzlehttp/guzzle": "^7.2.0",
         "illuminate/http": "^8.0",
         "laravel-zero/framework": "^8.0"
@@ -26,8 +26,8 @@
     "require-dev": {
         "intonate/tinker-zero": "^1.1",
         "mockery/mockery": "^1.4.2",
-        "pestphp/pest": "^0.3",
-        "symplify/easy-coding-standard": "^8.3",
+        "pestphp/pest": "^1.0",
+        "symplify/easy-coding-standard": "^9.0",
         "vimeo/psalm": "^4.3"
     },
     "autoload": {
