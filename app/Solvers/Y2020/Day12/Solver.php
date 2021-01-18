@@ -15,13 +15,18 @@ class Solver extends AbstractSolver
         $position = $this->readLazy('2020', '12', 'input.txt')->reduce(fn (
             Position $position,
             string $instruction
-        ) => $position->process($instruction), new Position());
+        ) => $position->process($instruction), new ShipPosition());
 
         return new PrimitiveValueSolution($position->manhattanDistance());
     }
 
     protected function solvePartTwo(): Solution
     {
-        return new TodoSolution();
+        $position = $this->readLazy('2020', '12', 'test.txt')->reduce(fn (
+            Position $position,
+            string $instruction
+        ) => $position->process($instruction), new WaypointShipPosition());
+
+        return new PrimitiveValueSolution($position->manhattanDistance());
     }
 }
