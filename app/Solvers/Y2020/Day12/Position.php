@@ -3,7 +3,6 @@
 
 namespace App\Solvers\Y2020\Day12;
 
-
 interface Position
 {
     public const DIRECTION_EAST = 90;
@@ -12,4 +11,6 @@ interface Position
     public const DIRECTION_NORTH = 0;
 
     public function process(string $instruction): self;
+
+    public function manhattanDistance(): int;
 }

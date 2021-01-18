@@ -15,6 +15,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // Ignore unfinished days
     $parameters->set(Option::SKIP, [
         __DIR__ . '/app/Solvers/Y2020/Day10/*',
-        __DIR__ . '/app/Solvers/Y2020/Day12/*',
     ]);
 };

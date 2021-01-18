@@ -4,22 +4,22 @@
 namespace App\Solvers\Y2020\Day12;
 
  class ShipPosition implements Position
-{
-    protected int $north;
-    protected int $east;
-    protected int $direction;
+ {
+     protected int $north;
+     protected int $east;
+     protected int $direction;
 
-    public function __construct(int $north = 0, int $east = 0, int $direction = Position::DIRECTION_EAST)
-    {
-        $this->north = $north;
-        $this->east = $east;
-        $this->direction = $direction;
-    }
+     public function __construct(int $north = 0, int $east = 0, int $direction = Position::DIRECTION_EAST)
+     {
+         $this->north = $north;
+         $this->east = $east;
+         $this->direction = $direction;
+     }
 
-    public function manhattanDistance(): int
-    {
-        return abs($this->east) + abs($this->north);
-    }
+     public function manhattanDistance(): int
+     {
+         return abs($this->east) + abs($this->north);
+     }
 
      public function process(string $instruction): self
      {
@@ -53,9 +53,9 @@ namespace App\Solvers\Y2020\Day12;
          return $this;
      }
 
-    protected function moveShip(int $direction, int $amount): void
-    {
-        switch ($direction % 360) {
+     protected function moveShip(int $direction, int $amount): void
+     {
+         switch ($direction % 360) {
             case self::DIRECTION_NORTH:
                 $this->north += $amount;
                 break;
@@ -68,5 +68,5 @@ namespace App\Solvers\Y2020\Day12;
             case self::DIRECTION_WEST:
                 $this->east -= $amount;
         }
-    }
-}
+     }
+ }

@@ -5,28 +5,27 @@ namespace App\Solvers\Y2020\Day12;
 
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
-use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
 
 class Solver extends AbstractSolver
 {
-    protected function solvePartOne(): Solution
+    private function solveWithPosition(Position $initialPosition): Solution
     {
-        $position = $this->readLazy('2020', '12', 'input.txt')->reduce(fn (
+        $finalPosition = $this->readLazy('2020', '12')->reduce(fn (
             Position $position,
             string $instruction
-        ) => $position->process($instruction), new ShipPosition());
+        ) => $position->process($instruction), $initialPosition);
 
-        return new PrimitiveValueSolution($position->manhattanDistance());
+        return new PrimitiveValueSolution($finalPosition->manhattanDistance());
+    }
+
+    protected function solvePartOne(): Solution
+    {
+        return $this->solveWithPosition(new ShipPosition());
     }
 
     protected function solvePartTwo(): Solution
     {
-        $position = $this->readLazy('2020', '12', 'test.txt')->reduce(fn (
-            Position $position,
-            string $instruction
-        ) => $position->process($instruction), new WaypointShipPosition());
-
-        return new PrimitiveValueSolution($position->manhattanDistance());
+        return $this->solveWithPosition(new WaypointShipPosition());
     }
 }
