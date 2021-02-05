@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace App\Solvers\Y2020\Day15;
@@ -9,59 +10,48 @@ use App\Solvers\AbstractSolver;
 
 class Solver extends AbstractSolver
 {
-    protected string $fileName = 'input.txt';
+    protected string $fileName = 'test.txt';
 
     private function solveForIterations(int $iterations): int
     {
-        $lastOccurrenceCache = [];
-        $turns = ['foobar', ...$this->getInput()];
+        /** @var int[][] $cache */
+        $cache = [];
 
-        for ($i = 1; $i <= $iterations; $i++) {
-            if (isset($turns[$i])) {
-                $lastOccurrenceCache[$turns[$i]] = [$i];
-                continue;
-            }
+        foreach ([0, ...$this->getInput()] as $i => $turn) {
+            $cache[$turn] = [$i];
+        }
 
-            $lastNumberSpoken = $turns[$i - 1];
-            $numberOccurrences = $lastOccurrenceCache[$lastNumberSpoken];
+        $lastNumberSpoken = $turn;
+        for($turn = $i + 1; $turn <= $iterations; $turn++) {
+            $numberOccurrences = $cache[$lastNumberSpoken];
 
-            if (count($numberOccurrences) === 1) {
-                array_push($lastOccurrenceCache[0], $i);
-                if (count($lastOccurrenceCache[0]) === 3) {
-                    array_shift($lastOccurrenceCache[0]);
-                }
-                $turns[] = 0;
-                continue;
-            }
+            // Calculate diff between last occurrence, or 0 when not eno
+            $occurrenceDiff = count($numberOccurrences) === 2
+                ? $numberOccurrences[1] - $numberOccurrences[0]
+                : 0;
 
-            // Calculate diff between last occurence
-            $occurrenceDiff = $numberOccurrences[1] - $numberOccurrences[0];
+            $cache[$occurrenceDiff] ??= [];
+            $cache[$occurrenceDiff][] = $turn;
 
-            $lastOccurrenceCache[$occurrenceDiff] ??= [];
-            $lastOccurrenceCache[$occurrenceDiff][] = $i;
+            $cache[$occurrenceDiff] = array_slice($cache[$occurrenceDiff], -2);
 
-            if (count($lastOccurrenceCache[$occurrenceDiff]) === 3) {
-                array_shift($lastOccurrenceCache[$occurrenceDiff]);
-            }
-            $turns[] = $occurrenceDiff;
+            $lastNumberSpoken = $occurrenceDiff;
         }
 
         // Turns are zero-index so we should do iterations - 1
-        return $turns[$iterations];
+        return $lastNumberSpoken;
     }
 
     protected function solvePartOne(): Solution
     {
         $solution = $this->solveForIterations(2020);
 
-
         return new PrimitiveValueSolution($solution);
     }
 
     protected function solvePartTwo(): Solution
     {
-        $solution = $this->solveForIterations(30000000);
-
+        $solution = $this->solveForIterations(30_000_000);
 
         return new PrimitiveValueSolution($solution);
     }
