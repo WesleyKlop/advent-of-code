@@ -6,7 +6,6 @@ namespace App\Solvers\Y2020\Day13;
 use App\Contracts\Solution;
 use App\Exceptions\AnswerNotFoundException;
 use App\Solutions\PrimitiveValueSolution;
-use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
 use Illuminate\Support\Str;
 
@@ -17,7 +16,10 @@ class Solver extends AbstractSolver
         [$earliestDeparture, $busIds] = $this->read('2020', '13')->explode("\n");
         return [
             (int)$earliestDeparture,
-            Str::of($busIds)->explode(",")->all(),
+            Str::of($busIds)
+                ->explode(",")
+                ->map(fn (string $val) => $val === 'x' ? $val : (int)$val)
+                ->all(),
         ];
     }
 
@@ -40,6 +42,10 @@ class Solver extends AbstractSolver
 
     protected function solvePartTwo(): Solution
     {
-        return new TodoSolution();
+        [, $busIds] = $this->getData();
+        $busesInService = array_filter($busIds, fn ($val) => is_int($val));
+        $smallestT = $busesInService[0];
+
+        return new PrimitiveValueSolution(0);
     }
 }

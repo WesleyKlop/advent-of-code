@@ -7,16 +7,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PrimitiveValueSolution extends AbstractSolution
 {
-    /**
-     * @var string|iterable|null
-     */
-    protected $value;
+    protected string | iterable | null $value;
 
-    /**
-     * PrimitiveValueSolution constructor.
-     * @param string|iterable|null $value
-     */
-    public function __construct($value)
+    public function __construct(string | iterable | null $value)
     {
         $this->value = $value;
     }
@@ -26,5 +19,10 @@ class PrimitiveValueSolution extends AbstractSolution
         $this->displayInfo($output);
         $output->write("Solution: ");
         $output->writeln($this->value);
+    }
+
+    public function value(): iterable | null | string
+    {
+        return $this->value;
     }
 }

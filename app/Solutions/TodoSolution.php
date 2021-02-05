@@ -11,4 +11,9 @@ class TodoSolution extends AbstractSolution
     {
         // noop
     }
+
+    public function value(): mixed
+    {
+        return null;
+    }
 }
