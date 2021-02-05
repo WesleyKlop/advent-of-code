@@ -4,7 +4,6 @@
 namespace App\Solvers\Y2020\Day16\Support;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Enumerable;
 
 class ParseResult
 {

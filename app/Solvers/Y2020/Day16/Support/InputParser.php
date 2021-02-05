@@ -5,7 +5,6 @@ namespace App\Solvers\Y2020\Day16\Support;
 
 use App\Solvers\Y2020\Day16\Constraints\Constraint;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Enumerable;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
 

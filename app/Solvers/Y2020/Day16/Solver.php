@@ -9,7 +9,7 @@ use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
 use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
-use App\Solvers\Y2020\Day16\Constraints\Constraint;
+use App\Solvers\Y2020\Day16\Constraints\NamedConstraint;
 use App\Solvers\Y2020\Day16\Support\InputParser;
 use App\Solvers\Y2020\Day16\Support\ParseResult;
 use App\Solvers\Y2020\Day16\Support\Ticket;
@@ -47,12 +47,35 @@ class Solver extends AbstractSolver
     {
         $info = $this->getInput();
         $constraints = $info->getConstraints();
-        $validNearbyTickets = $info
+        $validTickets = $info
             ->getNearbyTickets()
             ->filter(function (Ticket $ticket) use ($constraints) {
                 return $ticket->isValid($constraints);
-            })
-            ->push($info->getYourTicket());
+            });
+
+
+        $fieldConstraintMapping = collect(range(0, $constraints->count() - 1))
+            ->map(fn () => $constraints->slice(0));
+
+        foreach ($fieldConstraintMapping as $fieldIdx => $constraints) {
+            /** @var NamedConstraint $constraint */
+            foreach ($constraints as $idx => $constraint) {
+                /** @var Ticket $ticket */
+                foreach ($validTickets as $ticket) {
+                    if (!$ticket->isValidFieldForConstraint($fieldIdx, $constraint)) {
+                        dump($constraint->getName() . " is not valid for field idx " . $fieldIdx);
+                        $constraints->offsetUnset($idx);
+                    }
+                }
+            }
+        }
+        dd($fieldConstraintMapping->map(fn ($c) => $c->map->getName()));
+
+        $sorted = $fieldConstraintMapping->sort(fn ($a, $b) => $a->count() <=> $b->count());
+
+        $mapping = [];
+        // todo: resolve correct field mappings
+
 
         return new TodoSolution();
     }

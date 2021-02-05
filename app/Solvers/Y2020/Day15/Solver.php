@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -22,7 +23,7 @@ class Solver extends AbstractSolver
         }
 
         $lastNumberSpoken = $turn;
-        for($turn = $i + 1; $turn <= $iterations; $turn++) {
+        for ($turn = $i + 1; $turn <= $iterations; $turn++) {
             $numberOccurrences = $cache[$lastNumberSpoken];
 
             // Calculate diff between last occurrence, or 0 when not eno
