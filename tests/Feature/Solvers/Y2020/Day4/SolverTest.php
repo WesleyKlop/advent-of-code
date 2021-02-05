@@ -7,7 +7,7 @@ test('Solve Day four part one', function () {
 
     $solution = $solver->solve('1');
 
-    expect($solution->value())->toBe('170');
+    expect($solution->value())->toBe(170);
 });
 
 test('Solve Day four part two', function () {
@@ -15,5 +15,5 @@ test('Solve Day four part two', function () {
 
     $solution = $solver->solve('2');
 
-    expect($solution->value())->toBe('103');
+    expect($solution->value())->toBe(103);
 });
