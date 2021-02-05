@@ -9,16 +9,23 @@ use Illuminate\Support\Stringable;
 
 trait UsesInput
 {
-    protected function read(string $year, string $day, string $name = 'input.txt'): Stringable
+    protected string $fileName = 'input.txt';
+
+    public function overrideFileName(string $fileName): void
     {
-        $path = $this->getPath($year, $day, $name);
+        $this->fileName = $fileName;
+    }
+
+    protected function read(string $year, string $day): Stringable
+    {
+        $path = $this->getPath($year, $day, $this->fileName);
 
         return Str::of(file_get_contents($path))->trim();
     }
 
-    protected function readLazy(string $year, string $day, string $name = 'input.txt'): LazyCollection
+    protected function readLazy(string $year, string $day): LazyCollection
     {
-        $path = $this->getPath($year, $day, $name);
+        $path = $this->getPath($year, $day, $this->fileName);
 
         return LazyCollection::make(function () use ($path) {
             try {

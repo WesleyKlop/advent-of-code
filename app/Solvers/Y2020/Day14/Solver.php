@@ -13,7 +13,7 @@ class Solver extends AbstractSolver
     private function getInput(): LazyCollection
     {
         return $this
-            ->readLazy('2020', '14', 'input.txt')
+            ->readLazy('2020', '14')
             ->map(fn (string $line) => Instruction::fromLine($line));
     }
 

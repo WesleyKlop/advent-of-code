@@ -14,7 +14,7 @@ class Solver extends AbstractSolver
 {
     protected function solvePartOne(): Solution
     {
-        $program = Program::fromStringable($this->read('2020', '8', 'input.txt'));
+        $program = Program::fromStringable($this->read('2020', '8'));
         $computer = new Computer($program);
 
         try {
@@ -28,7 +28,7 @@ class Solver extends AbstractSolver
 
     protected function solvePartTwo(): Solution
     {
-        $program = Program::fromStringable($this->read('2020', '8', 'input.txt'));
+        $program = Program::fromStringable($this->read('2020', '8'));
         $computer = new Computer($program);
         $instructionToFlip = 0;
         while ($instructionToFlip < $program->lastIndex()) {

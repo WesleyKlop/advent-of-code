@@ -14,7 +14,7 @@ class Solver extends AbstractSolver
     private function getAdapters(): Collection
     {
         return $this
-            ->read('2020', '10', 'input.txt')
+            ->read('2020', '10')
             ->explode("\n")
             ->map(fn (string $val) => (int) $val);
     }

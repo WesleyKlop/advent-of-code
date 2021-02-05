@@ -35,7 +35,7 @@ class Emulator
 
     public function sumMemory(): int
     {
-        return array_reduce($this->memory, fn($acc, $curr) => $acc + $curr, 0);
+        return array_reduce($this->memory, fn ($acc, $curr) => $acc + $curr, 0);
     }
 
     protected function convertValueToBinary(int $value): string
