@@ -16,7 +16,7 @@ use App\Solvers\Y2020\Day16\Support\Ticket;
 
 class Solver extends AbstractSolver
 {
-    protected string $fileName = 'input.txt';
+    protected string $fileName = 'test2.txt';
 
     public function __construct(private InputParser $inputParser)
     {
