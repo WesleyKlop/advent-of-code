@@ -3,28 +3,29 @@
 
 namespace App\Solvers\Y2020\Day16\Support;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Enumerable;
 
 class ParseResult
 {
     public function __construct(
-        private Enumerable $rules,
-        private Enumerable $yourTicket,
-        private Enumerable $nearbyTickets
+        private Collection $rules,
+        private Ticket $yourTicket,
+        private Collection $nearbyTickets
     ) {
     }
 
-    public function getYourTicket(): Enumerable
+    public function getYourTicket(): Ticket
     {
         return $this->yourTicket;
     }
 
-    public function getNearbyTickets(): Enumerable
+    public function getNearbyTickets(): Collection
     {
         return $this->nearbyTickets;
     }
 
-    public function getConstraints(): Enumerable
+    public function getConstraints(): Collection
     {
         return $this->rules;
     }

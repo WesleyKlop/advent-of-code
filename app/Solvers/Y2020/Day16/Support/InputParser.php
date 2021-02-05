@@ -4,6 +4,7 @@
 namespace App\Solvers\Y2020\Day16\Support;
 
 use App\Solvers\Y2020\Day16\Constraints\Constraint;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Enumerable;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
@@ -16,24 +17,24 @@ class InputParser
 
         return new ParseResult(
             rules: $this->parseConstraints($constraints),
-            yourTicket: $this->parseTicketList($yourTicket),
+            yourTicket: $this->parseTicketList($yourTicket)->first(),
             nearbyTickets: $this->parseTicketList($nearbyTickets),
         );
     }
 
-    private function parseConstraints(string $constraints): Enumerable
+    private function parseConstraints(string $constraints): Collection
     {
         return Str::of($constraints)
             ->explode("\n")
             ->map(fn (string $line) => Constraint::fromString($line));
     }
 
-    private function parseTicketList(string $yourTicket): Enumerable
+    private function parseTicketList(string $yourTicket): Collection
     {
         return Str::of($yourTicket)
             ->explode("\n")
             ->skip(1)
             ->map(fn (string $line) => explode(",", $line))
-            ->map(fn (array $line) => array_map(fn (string $char) => (int)$char, $line));
+            ->map(fn (array $line) => new Ticket($line));
     }
 }

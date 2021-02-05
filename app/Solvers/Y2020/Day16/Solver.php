@@ -12,6 +12,7 @@ use App\Solvers\AbstractSolver;
 use App\Solvers\Y2020\Day16\Constraints\Constraint;
 use App\Solvers\Y2020\Day16\Support\InputParser;
 use App\Solvers\Y2020\Day16\Support\ParseResult;
+use App\Solvers\Y2020\Day16\Support\Ticket;
 
 class Solver extends AbstractSolver
 {
@@ -34,9 +35,8 @@ class Solver extends AbstractSolver
         $constraints = $info->getConstraints();
         $scanningErrorRate = $info
             ->getNearbyTickets()
-            ->flatten()
-            ->reject(function (int $field) use ($constraints) {
-                return $constraints->some(fn (Constraint $constraint) => $constraint->isValid($field));
+            ->map(function (Ticket $ticket) use ($constraints) {
+                return $ticket->calculateErrorRate($constraints);
             })
             ->sum();
 
@@ -45,6 +45,15 @@ class Solver extends AbstractSolver
 
     protected function solvePartTwo(): Solution
     {
+        $info = $this->getInput();
+        $constraints = $info->getConstraints();
+        $validNearbyTickets = $info
+            ->getNearbyTickets()
+            ->filter(function (Ticket $ticket) use ($constraints) {
+                return $ticket->isValid($constraints);
+            })
+            ->push($info->getYourTicket());
+
         return new TodoSolution();
     }
 }
