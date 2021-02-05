@@ -1,0 +1,39 @@
+<?php
+
+
+namespace App\Solvers\Y2020\Day16\Support;
+
+use App\Solvers\Y2020\Day16\Constraints\Constraint;
+use Illuminate\Support\Enumerable;
+use Illuminate\Support\Str;
+use Illuminate\Support\Stringable;
+
+class InputParser
+{
+    public function fromStringable(Stringable $input): ParseResult
+    {
+        [$constraints, $yourTicket, $nearbyTickets] = $input->explode("\n\n");
+
+        return new ParseResult(
+            rules: $this->parseConstraints($constraints),
+            yourTicket: $this->parseTicketList($yourTicket),
+            nearbyTickets: $this->parseTicketList($nearbyTickets),
+        );
+    }
+
+    private function parseConstraints(string $constraints): Enumerable
+    {
+        return Str::of($constraints)
+            ->explode("\n")
+            ->map(fn (string $line) => Constraint::fromString($line));
+    }
+
+    private function parseTicketList(string $yourTicket): Enumerable
+    {
+        return Str::of($yourTicket)
+            ->explode("\n")
+            ->skip(1)
+            ->map(fn (string $line) => explode(",", $line))
+            ->map(fn (array $line) => array_map(fn (string $char) => (int)$char, $line));
+    }
+}
