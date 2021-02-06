@@ -7,7 +7,6 @@ namespace App\Solvers\Y2020\Day16;
 
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
-use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
 use App\Solvers\Y2020\Day16\Constraints\NamedConstraint;
 use App\Solvers\Y2020\Day16\Support\InputParser;
@@ -16,7 +15,7 @@ use App\Solvers\Y2020\Day16\Support\Ticket;
 
 class Solver extends AbstractSolver
 {
-    protected string $fileName = 'test2.txt';
+    protected string $fileName = 'input.txt';
 
     public function __construct(private InputParser $inputParser)
     {
@@ -53,30 +52,45 @@ class Solver extends AbstractSolver
                 return $ticket->isValid($constraints);
             });
 
+        $possibleMappings = collect([]);
 
-        $fieldConstraintMapping = collect(range(0, $constraints->count() - 1))
-            ->map(fn () => $constraints->slice(0));
+        /** @var NamedConstraint $constraint */
+        foreach ($constraints as $constraint) {
+            $possibleFields = range(0, $constraints->count() - 1);
 
-        foreach ($fieldConstraintMapping as $fieldIdx => $constraints) {
-            /** @var NamedConstraint $constraint */
-            foreach ($constraints as $idx => $constraint) {
-                /** @var Ticket $ticket */
-                foreach ($validTickets as $ticket) {
-                    if (!$ticket->isValidFieldForConstraint($fieldIdx, $constraint)) {
-                        dump($constraint->getName() . " is not valid for field idx " . $fieldIdx);
-                        $constraints->offsetUnset($idx);
-                    }
+            foreach ($possibleFields as $field) {
+                if ($validTickets->every->isValidFieldForConstraint($field, $constraint)) {
+                    $possibleMappings[$constraint->getName()] = [
+                        ...$possibleMappings->get($constraint->getName(), []),
+                        $field
+                    ];
                 }
             }
         }
-        dd($fieldConstraintMapping->map(fn ($c) => $c->map->getName()));
-
-        $sorted = $fieldConstraintMapping->sort(fn ($a, $b) => $a->count() <=> $b->count());
 
         $mapping = [];
-        // todo: resolve correct field mappings
+        $possibleMappings
+            ->sort(fn ($a, $b) => count($a) <=> count($b))
+            ->each(function (array $options, string $field) use (&$mapping) {
+                foreach ($options as $option) {
+                    if (!isset($mapping[$option])) {
+                        $mapping[$option] = $field;
+                        break;
+                    }
+                }
+            });
 
+        // Multiply the values of all keys starting with "departure"
+        $ticket = $info->getYourTicket()->applyMapping($mapping);
 
-        return new TodoSolution();
+        $answer = 1;
+        foreach ($ticket->all() as $key => $value) {
+            // There is a single mapping we couldnt't figure out lol
+            if (str_starts_with((string)$key, "departure")) {
+                $answer *= $value;
+            }
+        }
+
+        return new PrimitiveValueSolution($answer);
     }
 }
