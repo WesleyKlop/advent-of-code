@@ -5,13 +5,8 @@ namespace App\Solvers\Y2020\Day14;
 
 class MemoryInstruction extends Instruction
 {
-    private int $address;
-    private int $value;
-
-    public function __construct(int $address, int $value)
+    public function __construct(private int $address, private int $value)
     {
-        $this->address = $address;
-        $this->value = $value;
     }
 
 

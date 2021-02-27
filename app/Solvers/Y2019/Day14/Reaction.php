@@ -43,8 +43,7 @@ class Reaction
     }
 
     /**
-     * @param int $input
-     * @return array<string, int|array<string,int>>
+     * @return array<string, int|array<string, int>>
      */
     public function revert(int $input): array
     {

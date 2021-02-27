@@ -7,11 +7,8 @@ use Illuminate\Support\Collection;
 
 class NanoFactory
 {
-    private Collection $reactions;
-
-    public function __construct(Collection $reactions)
+    public function __construct(private Collection $reactions)
     {
-        $this->reactions = $reactions;
     }
 
     public function process(Collection $inventory): Collection

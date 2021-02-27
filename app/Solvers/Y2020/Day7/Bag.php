@@ -9,15 +9,8 @@ use Illuminate\Support\Str;
 
 class Bag
 {
-    private string $type;
-    private string $color;
-    private ?Collection $holds;
-
-    public function __construct(string $type, string $color, ?Collection $holds = null)
+    public function __construct(private string $type, private string $color, private ?\Illuminate\Support\Collection $holds = null)
     {
-        $this->type = $type;
-        $this->color = $color;
-        $this->holds = $holds;
     }
 
     public static function collect(string $spec, array $holdingSpecs): self

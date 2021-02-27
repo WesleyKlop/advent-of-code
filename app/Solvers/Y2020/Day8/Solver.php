@@ -42,7 +42,7 @@ class Solver extends AbstractSolver
 
             try {
                 $computer->run();
-            } catch (InfiniteLoopException $exception) {
+            } catch (InfiniteLoopException) {
                 // Restore instruction
                 $program->flipInstruction($instructionToFlip);
                 $computer->reset();

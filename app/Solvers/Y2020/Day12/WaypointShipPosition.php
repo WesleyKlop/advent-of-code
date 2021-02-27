@@ -16,29 +16,15 @@ class WaypointShipPosition implements Position
         $move = $instruction[0];
         $amount = (int) substr($instruction, 1);
 
-        switch ($move) {
-            case 'F':
-                $this->moveShipTowardsWayPoint($amount);
-                break;
-            case 'N':
-                $this->moveWaypoint(Position::DIRECTION_NORTH, $amount);
-                break;
-            case 'E':
-                $this->moveWaypoint(Position::DIRECTION_EAST, $amount);
-                break;
-            case 'W':
-                $this->moveWaypoint(Position::DIRECTION_WEST, $amount);
-                break;
-            case 'S':
-                $this->moveWaypoint(Position::DIRECTION_SOUTH, $amount);
-                break;
-            case 'R':
-                $this->rotateWaypoint($amount);
-                break;
-            case 'L':
-                $this->rotateWaypoint(-$amount);
-                break;
-        }
+        match ($move) {
+            'F' => $this->moveShipTowardsWayPoint($amount),
+            'N' => $this->moveWaypoint(Position::DIRECTION_NORTH, $amount),
+            'E' => $this->moveWaypoint(Position::DIRECTION_EAST, $amount),
+            'W' => $this->moveWaypoint(Position::DIRECTION_WEST, $amount),
+            'S' => $this->moveWaypoint(Position::DIRECTION_SOUTH, $amount),
+            'R' => $this->rotateWaypoint($amount),
+            'L' => $this->rotateWaypoint(-$amount),
+        };
 
         return $this;
     }
@@ -56,19 +42,12 @@ class WaypointShipPosition implements Position
 
     protected function moveWaypoint(int $direction, int $amount): void
     {
-        switch ($direction % 360) {
-            case self::DIRECTION_NORTH:
-                $this->waypointDeltaNorth += $amount;
-                break;
-            case self::DIRECTION_EAST:
-                $this->waypointDeltaEast += $amount;
-                break;
-            case self::DIRECTION_SOUTH:
-                $this->waypointDeltaNorth -= $amount;
-                break;
-            case self::DIRECTION_WEST:
-                $this->waypointDeltaEast -= $amount;
-        }
+        match ($direction % 360) {
+            self::DIRECTION_NORTH => $this->waypointDeltaNorth += $amount,
+            self::DIRECTION_EAST => $this->waypointDeltaEast += $amount,
+            self::DIRECTION_SOUTH => $this->waypointDeltaNorth -= $amount,
+            self::DIRECTION_WEST => $this->waypointDeltaEast -= $amount,
+        };
     }
 
     private function rotateWaypoint(int $amount): void

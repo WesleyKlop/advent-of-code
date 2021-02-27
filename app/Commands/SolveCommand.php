@@ -32,10 +32,6 @@ class SolveCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @param SolverFactory $solverFactory
-     * @param AdventOfCodeApiClient $apiClient
-     * @return int
      */
     public function handle(SolverFactory $solverFactory, AdventOfCodeApiClient $apiClient): int
     {

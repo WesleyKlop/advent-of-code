@@ -9,11 +9,8 @@ class Tile
     public const TYPE_EMPTY = 'L';
     public const TYPE_OCCUPIED = '#';
 
-    private string $type;
-
-    public function __construct(string $type)
+    public function __construct(private string $type)
     {
-        $this->type = $type;
     }
 
     public function getType(): string

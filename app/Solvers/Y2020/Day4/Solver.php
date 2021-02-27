@@ -11,11 +11,8 @@ use Illuminate\Support\Str;
 
 class Solver extends AbstractSolver
 {
-    private PassportValidator $validator;
-
-    public function __construct(PassportValidator $validator)
+    public function __construct(private PassportValidator $validator)
     {
-        $this->validator = $validator;
     }
 
     private function getPassports(): Collection

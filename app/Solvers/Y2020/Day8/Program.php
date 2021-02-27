@@ -14,11 +14,8 @@ use Illuminate\Support\Stringable;
 
 class Program
 {
-    private Collection $instructions;
-
-    public function __construct(Collection $instructions)
+    public function __construct(private Collection $instructions)
     {
-        $this->instructions = $instructions;
     }
 
     public function print(): void

@@ -62,9 +62,7 @@ class PocketDimension
     }
 
     /**
-     * @param Cube $cube
      * @param string|null $state
-     * @return iterable<Cube>
      */
     public function getNeighbours(Cube $cube, string $state = null, bool $create = true): iterable
     {

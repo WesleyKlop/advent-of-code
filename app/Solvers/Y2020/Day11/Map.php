@@ -9,21 +9,15 @@ use Illuminate\Support\Stringable;
 class Map
 {
     /**
-     * @var Tile[][]
-     */
-    private array $map;
-
-    private FlipStrategy $flipStrategy;
-
-    /**
      * Map constructor.
-     * @param FlipStrategy $flipStrategy
-     * @param array $map
      */
-    public function __construct(FlipStrategy $flipStrategy, array $map)
-    {
-        $this->map = $map;
-        $this->flipStrategy = $flipStrategy;
+    public function __construct(
+        private FlipStrategy $flipStrategy,
+        /**
+         * @var Tile[][]
+         */
+        private array $map
+    ) {
     }
 
     public static function fromStringable(FlipStrategy $flipStrategy, Stringable $stringable): Map

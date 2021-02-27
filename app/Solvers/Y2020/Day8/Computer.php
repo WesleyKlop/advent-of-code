@@ -7,13 +7,11 @@ use App\Exceptions\InfiniteLoopException;
 
 class Computer
 {
-    private Program $program;
     private Memory $memory;
     private bool $isRunning = false;
 
-    public function __construct(Program $program, Memory $memory = null)
+    public function __construct(private Program $program, Memory $memory = null)
     {
-        $this->program = $program;
         $this->memory = $memory ?? new Memory();
     }
 

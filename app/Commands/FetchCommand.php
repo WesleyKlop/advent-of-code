@@ -26,9 +26,6 @@ class FetchCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @param AdventOfCodeApiClient $apiClient
-     * @return int
      */
     public function handle(AdventOfCodeApiClient $apiClient): int
     {
