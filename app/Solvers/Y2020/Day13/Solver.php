@@ -6,6 +6,7 @@ namespace App\Solvers\Y2020\Day13;
 use App\Contracts\Solution;
 use App\Exceptions\AnswerNotFoundException;
 use App\Solutions\PrimitiveValueSolution;
+use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
 use Illuminate\Support\Str;
 
@@ -46,6 +47,6 @@ class Solver extends AbstractSolver
         $busesInService = array_filter($busIds, fn ($val) => is_int($val));
         $smallestT = $busesInService[0];
 
-        return new PrimitiveValueSolution(0);
+        return new TodoSolution();
     }
 }

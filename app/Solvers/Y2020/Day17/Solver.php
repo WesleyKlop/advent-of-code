@@ -7,14 +7,13 @@ namespace App\Solvers\Y2020\Day17;
 
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
-use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
 
 class Solver extends AbstractSolver
 {
-    protected string $fileName = 'input.txt';
+    protected string $fileName = 'test.txt';
 
-    private function createPocketDimension(): PocketDimension
+    private function createPocketDimension(int $dimensions = 3): PocketDimension
     {
         $input = $this->read('2020', '17');
         return PocketDimension::fromStringable($input);
@@ -33,6 +32,12 @@ class Solver extends AbstractSolver
 
     protected function solvePartTwo(): Solution
     {
-        return new TodoSolution();
+        $pocketDimension = $this->createPocketDimension(4);
+
+        for ($i = 0; $i < 6; $i++) {
+            $pocketDimension = $pocketDimension->cycle();
+        }
+
+        return new PrimitiveValueSolution($pocketDimension->countActiveCubes());
     }
 }

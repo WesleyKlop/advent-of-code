@@ -11,8 +11,6 @@ use App\Solvers\AbstractSolver;
 
 class Solver extends AbstractSolver
 {
-    protected string $fileName = 'test.txt';
-
     private function solveForIterations(int $iterations): int
     {
         /** @var int[][] $cache */

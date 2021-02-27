@@ -11,7 +11,7 @@ class PocketDimension
 {
     /**
      * PocketDimension constructor.
-     * @param Cube[][][] $region
+     * @param Cube[] $region
      */
     public function __construct(private array $region)
     {
@@ -22,15 +22,24 @@ class PocketDimension
         $region = [];
         foreach ($input->explode("\n") as $x => $line) {
             foreach (str_split($line) as $y => $state) {
-                $region[$x][$y][0] = new Cube($state, $x, $y, z: 0);
+                $region[self::getKey($x, $y, 0)] = new Cube($state, $x, $y, z: 0);
             }
         }
         return new PocketDimension($region);
     }
 
-    private function getCube(int $x, int $y, int $z): Cube
+    private static function getKey(int $x, int $y, int $z): string
     {
-        return $this->region[$x][$y][$z] ??= new Cube(x: $x, y: $y, z: $z);
+        return sprintf("x%dy%dz%d", $x, $y, $z);
+    }
+
+    private function getCube(bool $create, int $x, int $y, int $z): ?array
+    {
+        $key = self::getKey($x, $y, $z);
+        if (!$create && !isset($this->region[$key])) {
+            return null;
+        }
+        return [$key, $this->region[$key] ??= new Cube(x: $x, y: $y, z: $z)];
     }
 
     public function cycle(): static
@@ -39,7 +48,7 @@ class PocketDimension
         $allCubesConsidered = $this->getAllNeighbours();
 
         foreach ($allCubesConsidered as $cube) {
-            $neighbours = $this->getNeighbours($cube, Cube::STATE_ACTIVE);
+            $neighbours = $this->getNeighbours($cube);
             if ($cube->shouldFlip($neighbours)) {
                 $flipList[] = $cube;
             }
@@ -57,14 +66,14 @@ class PocketDimension
      * @param string|null $state
      * @return iterable<Cube>
      */
-    public function getNeighbours(Cube $cube, string $state = null): iterable
+    public function getNeighbours(Cube $cube, string $state = null, bool $create = true): iterable
     {
         foreach ($this->getMatrix() as $delta) {
-            $other = $this->getRelativeToCube($cube, ...$delta);
-            if ($state !== null && $other->getState() !== $state) {
+            $result = $this->getRelativeToCube($cube, $create, ...$delta);
+            if ($result === null || ($state !== null && $result[1]->getState() !== $state)) {
                 continue;
             }
-            yield $other;
+            yield $result[0] => $result[1];
         }
     }
 
@@ -101,55 +110,36 @@ class PocketDimension
         ];
     }
 
-    private function getRelativeToCube(Cube $cube, int $dx, int $dy, int $dz): Cube
+    private function getRelativeToCube(Cube $cube, bool $create, int $dx, int $dy, int $dz): ?array
     {
         return $this->getCube(
+            $create,
             $cube->x + $dx,
             $cube->y + $dy,
             $cube->z + $dz,
         );
     }
 
-    public function printLayer(int $z): void
+    private function getAllNeighbours(): iterable
     {
-        echo 'z=' . $z . PHP_EOL;
-        foreach ($this->region as $x => $layer) {
-            foreach ($layer as $y => $line) {
-                echo $this->getCube($x, $y, $z)->isActive() ? '#' : '.';
-            }
-            echo PHP_EOL;
-        }
-        echo PHP_EOL;
-    }
-
-    private function getAllNeighbours(): array
-    {
-        /** @var Cube[] $allCubes */
-        $allCubes = [];
-        foreach ($this->region as $x => $grid) {
-            foreach ($grid as $y => $line) {
-                foreach ($line as $z => $resolvedCube) {
-                    $neighbours = $this->getNeighbours($resolvedCube);
-                    $allCubes[$resolvedCube->getKey()] = $resolvedCube;
-                    foreach ($neighbours as $neighbour) {
-                        $allCubes[$neighbour->getKey()] = $neighbour;
-                    }
+        $seenCubes = [];
+        foreach ($this->region as $key => $resolvedCube) {
+            $neighbours = $this->getNeighbours($resolvedCube, create: false);
+            foreach ($neighbours as $nKey => $neighbour) {
+                if (!isset($seenCubes[$nKey])) {
+                    $seenCubes[$nKey] = null;
+                    yield $nKey => $neighbour;
                 }
             }
         }
-        return array_values($allCubes);
     }
 
     public function countActiveCubes(): int
     {
         $count = 0;
-        foreach ($this->region as $x => $grid) {
-            foreach ($grid as $y => $line) {
-                foreach ($line as $z => $resolvedCube) {
-                    if ($resolvedCube->isActive()) {
-                        $count += 1;
-                    }
-                }
+        foreach ($this->region as $cube) {
+            if ($cube->isActive()) {
+                $count += 1;
             }
         }
 

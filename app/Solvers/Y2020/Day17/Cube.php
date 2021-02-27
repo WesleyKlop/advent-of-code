@@ -17,6 +17,7 @@ class Cube
         public int $x = 0,
         public int $y = 0,
         public int $z = 0,
+        public int $w = 0,
     ) {
     }
 
@@ -32,16 +33,6 @@ class Cube
             : static::STATE_ACTIVE;
 
         return $this;
-    }
-
-    public function getKey(): string
-    {
-        return sprintf(
-            'x%dy%dz%d',
-            $this->x,
-            $this->y,
-            $this->z
-        );
     }
 
     public function shouldFlip(iterable $neighbours): bool
