@@ -26,6 +26,7 @@
     "require-dev": {
         "mockery/mockery": "^1.4.2",
         "pestphp/pest": "^1.0",
+        "rector/rector": "^0.9.31",
         "symplify/easy-coding-standard": "^9.0",
         "vimeo/psalm": "^4.3"
     },
@@ -50,7 +51,20 @@
         "advent-of-code"
     ],
     "scripts": {
-        "lint:fix": "ecs check app bootstrap config tests --fix",
-        "lint:check": "ecs check app bootstrap config tests"
+        "ecs:check": "@php vendor/bin/ecs check app bootstrap config tests",
+        "ecs:fix": "@ecs:check --fix",
+        "rector:check": "@rector:fix --dry-run",
+        "rector:fix": "@php vendor/bin/rector process",
+        "lint:check": [
+            "@rector:check",
+            "@ecs:check"
+        ],
+        "lint:fix": [
+            "@rector:fix",
+            "@ecs:fix"
+        ],
+        "psalm:check": "@php vendor/bin/psalm",
+        "psalm:fix": "@psalm:check --issues=all --alter",
+        "test": "@php vendor/bin/pest"
     }
 }
