@@ -16,5 +16,5 @@ test('Solve Day seventeen part two', function () {
 
     $solution = $solver->solve('2');
 
-    expect($solution->value())->toBe(3_029_180_675_981);
-})->skip();
+    expect($solution->value())->toBe(388_966_573_054_664);
+});
