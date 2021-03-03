@@ -8,7 +8,7 @@ test('Solve Day eleven part one', function () {
     $solution = $solver->solve('1');
 
     expect($solution->value())->toBe(2164);
-});
+})->skip('Is very slow');
 
 test('Solve Day eleven part two', function () {
     $solver = new Day11\Solver();
@@ -16,4 +16,4 @@ test('Solve Day eleven part two', function () {
     $solution = $solver->solve('2');
 
     expect($solution->value())->toBe(1974);
-});
+})->skip('Is very slow');

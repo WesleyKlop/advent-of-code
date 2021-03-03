@@ -16,4 +16,4 @@ test('Solve Day five part two', function () {
     $solution = $solver->solve('2');
 
     expect($solution->value())->toBe(617);
-});
+})->skip('Is slow');

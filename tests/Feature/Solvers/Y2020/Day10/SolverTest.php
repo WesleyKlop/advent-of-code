@@ -17,4 +17,4 @@ test('Solve Day ten part two', function () {
     $solution = $solver->solve('2');
 
     expect($solution)->toBeInstanceOf(TodoSolution::class);
-});
+})->skip('Not finished');;

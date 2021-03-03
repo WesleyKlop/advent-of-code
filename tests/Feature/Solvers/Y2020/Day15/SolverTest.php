@@ -3,6 +3,8 @@
 
 use App\Solvers\Y2020\Day15\Solver;
 
+uses()->group('Day 15');
+
 test('Solve Day fifteen part one', function () {
     $solver = new Solver();
 
@@ -17,4 +19,4 @@ test('Solve Day fifteen part two', function () {
     $solution = $solver->solve('2');
 
     expect($solution->value())->toBe(31916);
-});
+})->skip("Is very slow");
