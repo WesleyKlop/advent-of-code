@@ -18,7 +18,7 @@ class Tile
         [, $tileId] = explode(' ', substr($tile[0], 0, -1));
         unset($tile[0]);
         $grid = array_map(fn (string $line) => str_split($line), $tile);
-        return new static($tileId, $grid);
+        return new static((int)$tileId, $grid);
     }
 
     public function getId(): int
@@ -28,12 +28,12 @@ class Tile
 
     public function rotateRight(): static
     {
-        new static($this->id, array_map(null, ...array_reverse($this->grid)));
+        return new static($this->id, array_map(null, ...array_reverse($this->grid)));
     }
 
     public function rotateLeft(): static
     {
-        new static($this->id, array_reverse(array_map(null, ...$this->grid)));
+        return new static($this->id, array_reverse(array_map(null, ...$this->grid)));
     }
 
     public function print(): string
