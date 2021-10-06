@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day12;
 
  class ShipPosition implements Position
  {
-     public function __construct(protected int $north = 0, protected int $east = 0, protected int $direction = Position::DIRECTION_EAST)
-     {
+     public function __construct(
+         protected int $north = 0,
+         protected int $east = 0,
+         protected int $direction = Position::DIRECTION_EAST
+     ) {
      }
 
      public function manhattanDistance(): int

@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day19;
 
@@ -9,15 +10,18 @@ use Illuminate\Support\Str;
 
 class RuleCollection
 {
-    private function __construct(private Collection $list)
-    {
+    private function __construct(
+        private Collection $list
+    ) {
     }
 
     public static function parseList(Collection $list): static
     {
         $list = $list->mapWithKeys(function (string $line) {
             [$id, $rules] = explode(': ', $line);
-            return [$id => $rules];
+            return [
+                $id => $rules,
+            ];
         });
         return new static($list);
     }
@@ -25,7 +29,7 @@ class RuleCollection
     public function getRule(int $idx): Rule
     {
         $rule = $this->list->get($idx);
-        if (!$rule instanceof Rule) {
+        if (! $rule instanceof Rule) {
             $rule = $this->resolveRule($idx);
         }
         return $rule;
@@ -34,8 +38,8 @@ class RuleCollection
     private function parseRule(string $rules): Rule
     {
         $andGroups = Str::of($rules)
-            ->explode(" | ")
-            ->map(fn (string $andGroup) => Str::of($andGroup)->explode(" "))
+            ->explode(' | ')
+            ->map(fn (string $andGroup) => Str::of($andGroup)->explode(' '))
             ->map(fn (Enumerable $andGroup) => $andGroup->map(
                 fn (string $rule) => $this->parseRuleValue($rule)
             ))
@@ -46,8 +50,6 @@ class RuleCollection
                 return new AndRule($andGroup->all());
             })
             ->all();
-
-
 
         if (count($andGroups) === 1) {
             return reset($andGroups);

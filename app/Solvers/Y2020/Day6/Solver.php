@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day6;
 
@@ -20,11 +21,11 @@ class Solver extends AbstractSolver
                 // Map each group to members with an array of their given answers.
                 return Str
                     ::of($group)
-                    ->explode("\n")
-                    ->map(fn (string $answers) => str_split($answers))
+                        ->explode("\n")
+                        ->map(fn (string $answers) => str_split($answers))
                     // Map a dictionary containing the keys of every answer given
-                    ->flatten()
-                    ->flip();
+                        ->flatten()
+                        ->flip();
             })
             ->sum(fn (Collection $group) => $group->count());
 
@@ -38,13 +39,13 @@ class Solver extends AbstractSolver
             ->explode("\n\n")
             // Create a dictionary containing answers that everyone answers yes to
             ->map(fn (string $group) => Str::of($group)
-                ->explode("\n")
+            ->explode("\n")
                 // Create a dictionary containing answers that everyone answers yes to
-                ->map(fn (string $answers) => str_split($answers))
-                ->reduce(fn (
-                    ?Collection $group,
-                    array $member
-                ) => $group === null ? collect($member) : $group->intersect($member)))
+            ->map(fn (string $answers) => str_split($answers))
+            ->reduce(fn (
+                ?Collection $group,
+                array $member
+            ) => $group === null ? collect($member) : $group->intersect($member)))
             ->sum(fn (Collection $group) => $group->count());
 
         return new PrimitiveValueSolution($uniqueAnswersPerGroup);

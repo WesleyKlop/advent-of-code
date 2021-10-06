@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day4;
 
@@ -36,8 +37,8 @@ class PassportValidator
             'iyr' => fn (int $year) => ($year >= 2010 && $year <= 2020),
             'eyr' => fn (int $year) => ($year >= 2020 && $year <= 2030),
             'hgt' => fn (int $height) => ($height >= 150 && $height <= 193),
-            'hcl' => fn (string $hairColor) => preg_match("/^#[a-f0-9]{6}$/", $hairColor) === 1,
-            'ecl' => fn (string $eyeColor) => in_array($eyeColor, explode(' ', 'amb blu brn gry grn hzl oth')),
+            'hcl' => fn (string $hairColor) => preg_match('/^#[a-f0-9]{6}$/', $hairColor) === 1,
+            'ecl' => fn (string $eyeColor) => in_array($eyeColor, explode(' ', 'amb blu brn gry grn hzl oth'), true),
             'pid' => fn (string $pid) => preg_match("/^\d{9}$/", $pid) === 1,
         ]);
     }

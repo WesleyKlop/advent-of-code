@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Solvers\Y2019\Day14\Chemical;
 use App\Solvers\Y2019\Day14\NanoFactory;
 use App\Solvers\Y2019\Day14\Reaction;
@@ -30,7 +32,7 @@ it('can retrieve a reaction from a nanofactory', function () use ($reactionsList
 });
 
 it('can break down a piece of fuel into its direct components', function () {
-    $factory = new NanoFactory(ReactionFactory::fromString("7 A, 1 E => 1 FUEL"));
+    $factory = new NanoFactory(ReactionFactory::fromString('7 A, 1 E => 1 FUEL'));
 
     $toBreakDown = collect([
         Chemical::FUEL => 1,

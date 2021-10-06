@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day18;
 
@@ -18,8 +19,8 @@ class PartTwoTokenParser extends TokenParser
                 $output->push($token);
                 continue;
             }
-            if (in_array($token, ['*', '+'])) {
-                while (!$operators->isEmpty() && !in_array($operators->top(), ['(', '*'])) {
+            if (in_array($token, ['*', '+'], true)) {
+                while (! $operators->isEmpty() && ! in_array($operators->top(), ['(', '*'], true)) {
                     $output->push($operators->pop());
                 }
                 $operators->push($token);
@@ -39,7 +40,7 @@ class PartTwoTokenParser extends TokenParser
             }
         }
 
-        while (!$operators->isEmpty()) {
+        while (! $operators->isEmpty()) {
             $output->push($operators->pop());
         }
 

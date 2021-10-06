@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Commands;
 
 use App\Http\Client\AdventOfCodeApiClient;
@@ -38,7 +40,7 @@ class FetchCommand extends Command
             $this->option('force'),
         );
 
-        $this->info("Retrieved input file for year $year day $day");
+        $this->info("Retrieved input file for year ${year} day ${day}");
 
         return 0;
     }

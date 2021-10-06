@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Solvers\Y2020\Day19;
 
 use App\Contracts\Solution;
@@ -15,17 +14,6 @@ use Illuminate\Support\Str;
 class Solver extends AbstractSolver
 {
     protected string $fileName = 'input.txt';
-
-    private function getInput(): array
-    {
-        [$rules, $input] = $this
-            ->read('2020', '19')
-            ->explode("\n\n");
-        return [
-            RuleCollection::parseList(Str::of($rules)->explode("\n")),
-            Str::of($input)->explode("\n"),
-        ];
-    }
 
     protected function solvePartOne(): Solution
     {
@@ -50,5 +38,16 @@ class Solver extends AbstractSolver
     protected function solvePartTwo(): Solution
     {
         return new TodoSolution();
+    }
+
+    private function getInput(): array
+    {
+        [$rules, $input] = $this
+            ->read('2020', '19')
+            ->explode("\n\n");
+        return [
+            RuleCollection::parseList(Str::of($rules)->explode("\n")),
+            Str::of($input)->explode("\n"),
+        ];
     }
 }

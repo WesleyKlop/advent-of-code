@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2019\Day14;
 
@@ -8,15 +9,17 @@ use Illuminate\Support\Str;
 class Reaction
 {
     private Chemical $output;
+
     /**
      * @var Chemical[]
      */
     private array $inputs;
+
     private bool $isBaseReaction;
 
     public function __construct(string $reaction)
     {
-        [$input, $output] = explode(" => ", $reaction);
+        [$input, $output] = explode(' => ', $reaction);
         $this->output = new Chemical($output);
         $this->inputs = Str::of($input)
             ->explode(', ')
@@ -50,11 +53,11 @@ class Reaction
         $requiredForOutput = $this->getOutput()->getAmount();
         $result = [
             'remaining' => $input,
-            'output' => []
+            'output' => [],
         ];
 
         // How many times can we do this reaction given this input? In case of ORE it's at least one reaction.
-        $amountOfReactions = (int)floor($input / $requiredForOutput);
+        $amountOfReactions = (int) floor($input / $requiredForOutput);
         if ($amountOfReactions === 0 && $this->isBaseReaction) {
             $amountOfReactions = 1;
         }

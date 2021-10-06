@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day19;
 
@@ -9,8 +10,9 @@ class OrRule implements Rule
      * OrRule constructor.
      * @param array<int, Rule> $rules
      */
-    public function __construct(private array $rules)
-    {
+    public function __construct(
+        private array $rules
+    ) {
     }
 
     public function matches(string $other): bool

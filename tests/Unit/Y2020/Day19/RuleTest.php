@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Solvers\Y2020\Day19\AndRule;
 use App\Solvers\Y2020\Day19\OrRule;
 use App\Solvers\Y2020\Day19\StringRule;
@@ -43,7 +45,7 @@ test('AndRule compiles to 1 pattern', function () {
 test('AndRule with OrRule compiles to two patterns', function () {
     $rule = new AndRule([
         new StringRule('a'),
-        new OrRule([new StringRule('a'), new StringRule('b')])
+        new OrRule([new StringRule('a'), new StringRule('b')]),
     ]);
     $compiled = $rule->compile();
 
@@ -56,7 +58,7 @@ test('AndRule with more than 2 rules compiles', function () {
         new StringRule('a'),
         new StringRule('a'),
         new StringRule('a'),
-        ]);
+    ]);
 
     $compiled = $rule->compile();
 

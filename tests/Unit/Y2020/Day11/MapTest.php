@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Solvers\Y2020\Day11\Map;
 use App\Solvers\Y2020\Day11\PartOneStrategy;
 

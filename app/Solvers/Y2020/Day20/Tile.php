@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day20;
-
 
 class Tile
 {
@@ -18,7 +18,7 @@ class Tile
         [, $tileId] = explode(' ', substr($tile[0], 0, -1));
         unset($tile[0]);
         $grid = array_map(fn (string $line) => str_split($line), $tile);
-        return new Tile($tileId, $grid);
+        return new static($tileId, $grid);
     }
 
     public function getId(): int
@@ -26,25 +26,43 @@ class Tile
         return $this->id;
     }
 
-    public function rotateRight(): void
+    public function rotateRight(): static
     {
-        $this->grid = array_map(null, ...array_reverse($this->grid));
+        new static($this->id, array_map(null, ...array_reverse($this->grid)));
     }
 
-    public function rotateLeft(): void {
-        $this->grid = array_reverse(array_map(null, ...$this->grid));
+    public function rotateLeft(): static
+    {
+        new static($this->id, array_reverse(array_map(null, ...$this->grid)));
     }
 
     public function print(): string
     {
-        return implode("\n", array_map(fn(array $line) => implode(', ', $line), $this->grid));
+        return implode("\n", array_map(fn (array $line) => implode(', ', $line), $this->grid));
     }
 
-    public function flipHorizontal(): void {
-        $this->grid = array_reverse($this->grid);
+    public function flipHorizontal(): static
+    {
+        return new static($this->id, array_reverse($this->grid));
     }
 
-    public function flipVertical(): void {
-        $this->grid = array_map(fn(array $line) => array_reverse($line), $this->grid);
+    public function flipVertical(): static
+    {
+        return new static($this->id, array_map(fn (array $line) => array_reverse($line), $this->grid));
+    }
+
+    /**
+     * @return iterable<static>
+     */
+    public function possibilities(): iterable
+    {
+        yield $this;
+        yield $this->flipVertical();
+        yield $this->flipHorizontal();
+        $rotatedOnce = $this->rotateLeft();
+        yield $rotatedOnce;
+        $rotatedTwice = $rotatedOnce->rotateLeft();
+        yield $rotatedTwice;
+        yield $rotatedTwice->rotateLeft();
     }
 }

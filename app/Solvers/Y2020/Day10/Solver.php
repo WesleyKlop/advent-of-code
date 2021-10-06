@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day10;
 
@@ -11,21 +12,13 @@ use Illuminate\Support\Collection;
 
 class Solver extends AbstractSolver
 {
-    private function getAdapters(): Collection
-    {
-        return $this
-            ->read('2020', '10')
-            ->explode("\n")
-            ->map(fn (string $val) => (int) $val);
-    }
-
     protected function solvePartOne(): Solution
     {
         $jolts = 0;
         $adapters = $this->getAdapters()->sort();
         $diffs = [
             1 => 0,
-            3 => 1
+            3 => 1,
         ];
         $prevAdapter = 0;
         foreach ($adapters as $adapter) {
@@ -41,5 +34,13 @@ class Solver extends AbstractSolver
     protected function solvePartTwo(): Solution
     {
         return new TodoSolution();
+    }
+
+    private function getAdapters(): Collection
+    {
+        return $this
+            ->read('2020', '10')
+            ->explode("\n")
+            ->map(fn (string $val) => (int) $val);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day19;
 
@@ -11,13 +12,14 @@ class AndRule implements Rule
      * AndRule constructor.
      * @param array<int, Rule> $rules
      */
-    public function __construct(private array $rules)
-    {
+    public function __construct(
+        private array $rules
+    ) {
     }
 
     public function matches(string $other): bool
     {
-        throw new ApplicationException("dunno");
+        throw new ApplicationException('dunno');
     }
 
     public function compile(string $prepend = '', string $append = ''): iterable

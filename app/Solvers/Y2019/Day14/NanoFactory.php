@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2019\Day14;
 
@@ -7,8 +8,9 @@ use Illuminate\Support\Collection;
 
 class NanoFactory
 {
-    public function __construct(private Collection $reactions)
-    {
+    public function __construct(
+        private Collection $reactions
+    ) {
     }
 
     public function process(Collection $inventory): Collection
@@ -17,7 +19,7 @@ class NanoFactory
             // Into what input can we break down our output chemical?
             $reaction = $this->getReactionThatProduces($type, $amount);
 
-            if (is_null($reaction)) {
+            if ($reaction === null) {
                 continue;
             }
 

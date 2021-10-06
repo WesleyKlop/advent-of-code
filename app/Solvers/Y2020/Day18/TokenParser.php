@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day18;
 
@@ -7,6 +8,14 @@ use Illuminate\Support\Str;
 
 abstract class TokenParser
 {
+    public static function fromString(string $expression): Expression
+    {
+        $tokens = static::parseExpression($expression);
+        return static::fromTokens($tokens);
+    }
+
+    abstract public static function fromTokens(array $tokens): Expression;
+
     protected static function parseExpression(string $expression): array
     {
         return Str::of($expression)
@@ -23,11 +32,4 @@ abstract class TokenParser
             ->filter() // Remove empty tokens
             ->all();
     }
-    public static function fromString(string $expression): Expression
-    {
-        $tokens = static::parseExpression($expression);
-        return static::fromTokens($tokens);
-    }
-
-    abstract public static function fromTokens(array $tokens): Expression;
 }

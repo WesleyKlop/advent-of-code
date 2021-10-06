@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Solvers\Y2020\Day18;
 
 use App\Contracts\Solution;
@@ -13,11 +12,6 @@ use Illuminate\Support\LazyCollection;
 class Solver extends AbstractSolver
 {
     protected string $fileName = 'input.txt';
-
-    private function getInput(): LazyCollection
-    {
-        return $this->readLazy('2020', '18');
-    }
 
     protected function solvePartOne(): Solution
     {
@@ -35,5 +29,10 @@ class Solver extends AbstractSolver
             ->map(fn (Expression $expression) => $expression->solve())
             ->sum();
         return new PrimitiveValueSolution($result);
+    }
+
+    private function getInput(): LazyCollection
+    {
+        return $this->readLazy('2020', '18');
     }
 }

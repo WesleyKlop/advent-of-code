@@ -1,16 +1,20 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day11;
 
 class Tile
 {
     public const TYPE_FLOOR = '.';
+
     public const TYPE_EMPTY = 'L';
+
     public const TYPE_OCCUPIED = '#';
 
-    public function __construct(private string $type)
-    {
+    public function __construct(
+        private string $type
+    ) {
     }
 
     public function getType(): string
@@ -18,15 +22,13 @@ class Tile
         return $this->type;
     }
 
-    public function flip(): Tile
+    public function flip(): self
     {
-        switch ($this->type) {
-            case self::TYPE_OCCUPIED:
-                return new static(self::TYPE_EMPTY);
-            case self::TYPE_EMPTY:
-                return new static(self::TYPE_OCCUPIED);
-        }
-        return $this;
+        return match ($this->type) {
+            self::TYPE_OCCUPIED => new static(self::TYPE_EMPTY),
+            self::TYPE_EMPTY => new static(self::TYPE_OCCUPIED),
+            default => $this,
+        };
     }
 
     public function isOccupied(): bool
@@ -34,7 +36,7 @@ class Tile
         return $this->type === static::TYPE_OCCUPIED;
     }
 
-    public function equals(Tile $tile): bool
+    public function equals(self $tile): bool
     {
         return $this->type === $tile->type;
     }

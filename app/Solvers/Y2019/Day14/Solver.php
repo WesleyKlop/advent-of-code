@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2019\Day14;
 
@@ -13,11 +14,6 @@ class Solver extends AbstractSolver
 {
     use UsesInput;
 
-    private function getReactions(): Collection
-    {
-        return ReactionFactory::fromStringable($this->read('2019', '14'));
-    }
-
     protected function solvePartOne(): Solution
     {
         $reactions = $this->getReactions();
@@ -27,14 +23,17 @@ class Solver extends AbstractSolver
 
         $factory = new NanoFactory($reactions);
 
-
         $result = $factory->process($inventory);
         return new PrimitiveValueSolution($result);
-        // TODO: Implement solvePartOne() method.
     }
 
     protected function solvePartTwo(): Solution
     {
         return new PrimitiveValueSolution(0);
+    }
+
+    private function getReactions(): Collection
+    {
+        return ReactionFactory::fromStringable($this->read('2019', '14'));
     }
 }

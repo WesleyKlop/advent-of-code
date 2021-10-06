@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day14;
 
@@ -10,13 +11,6 @@ use Illuminate\Support\LazyCollection;
 
 class Solver extends AbstractSolver
 {
-    private function getInput(): LazyCollection
-    {
-        return $this
-            ->readLazy('2020', '14')
-            ->map(fn (string $line) => Instruction::fromLine($line));
-    }
-
     protected function solvePartOne(): Solution
     {
         $emulator = new Emulator();
@@ -36,5 +30,12 @@ class Solver extends AbstractSolver
             ->each(fn (Instruction $instruction) => $instruction->execute($emulator));
 
         return new PrimitiveValueSolution($emulator->sumMemory());
+    }
+
+    private function getInput(): LazyCollection
+    {
+        return $this
+            ->readLazy('2020', '14')
+            ->map(fn (string $line) => Instruction::fromLine($line));
     }
 }

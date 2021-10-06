@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day8;
 
@@ -8,10 +9,13 @@ use App\Exceptions\InfiniteLoopException;
 class Computer
 {
     private Memory $memory;
+
     private bool $isRunning = false;
 
-    public function __construct(private Program $program, Memory $memory = null)
-    {
+    public function __construct(
+        private Program $program,
+        Memory $memory = null
+    ) {
         $this->memory = $memory ?? new Memory();
     }
 

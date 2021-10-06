@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers;
 
@@ -42,6 +43,6 @@ trait UsesInput
 
     private function getPath(string $year, string $day, string $name): string
     {
-        return resource_path(sprintf("inputs/%s/%s/%s", $year, $day, $name));
+        return resource_path(sprintf('inputs/%s/%s/%s', $year, $day, $name));
     }
 }

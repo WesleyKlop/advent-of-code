@@ -1,15 +1,13 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day17;
 
 class Cube
 {
-    public function getState(): string
-    {
-        return $this->state;
-    }
     public const STATE_ACTIVE = '#';
+
     public const STATE_INACTIVE = '.';
 
     public function __construct(
@@ -19,6 +17,11 @@ class Cube
         public int $z = 0,
         public int $w = 0,
     ) {
+    }
+
+    public function getState(): string
+    {
+        return $this->state;
     }
 
     public function isActive(): bool
@@ -37,7 +40,7 @@ class Cube
 
     public function shouldFlip(iterable $neighbours): bool
     {
-        return ($this->isActive() && !in_array(iterator_count($neighbours), [2, 3]))
-            || (!$this->isActive() && iterator_count($neighbours) === 3);
+        return ($this->isActive() && ! in_array(iterator_count($neighbours), [2, 3], true))
+            || (! $this->isActive() && iterator_count($neighbours) === 3);
     }
 }

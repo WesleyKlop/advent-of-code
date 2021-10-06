@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Commands;
 
 use App\Exceptions\ApplicationException;
@@ -40,14 +42,14 @@ class ScaffoldCommand extends Command
 
         $stub = $this->loadStub();
         $solver = str_replace(
-            [":year", ":day"],
+            [':year', ':day'],
             [$this->option('year'), $this->argument('day')],
             $stub,
         );
 
         $this->writeSolver($solver);
 
-        if ($this->confirm("Would you like to fetch the input file?", true)) {
+        if ($this->confirm('Would you like to fetch the input file?', true)) {
             $this->call(FetchCommand::class, [
                 '--year' => $this->option('year'),
                 'day' => $this->argument('day'),
@@ -61,7 +63,8 @@ class ScaffoldCommand extends Command
     {
         $path = $this->getDestinationPath();
         // Make sure the directory to place the file in exists
-        if (!is_dir($dir = dirname($path)) && !mkdir($dir) && !is_dir($dir)) {
+        $dir = dirname($path);
+        if (! is_dir($dir) && ! mkdir($dir) && ! is_dir($dir)) {
             throw new ApplicationException(sprintf('Directory "%s" was not created', $dir));
         }
     }
@@ -73,7 +76,7 @@ class ScaffoldCommand extends Command
 
     private function loadStub(): string
     {
-        return file_get_contents(resource_path("stubs/Solver.stub"));
+        return file_get_contents(resource_path('stubs/Solver.stub'));
     }
 
     private function writeSolver(string $solver): void
@@ -84,7 +87,7 @@ class ScaffoldCommand extends Command
     private function shouldKeepExistingSolver(): bool
     {
         return file_exists($this->getDestinationPath())
-            && !$this->option('force')
-            && !$this->confirm("The solver already exists. Overwrite?", false);
+            && ! $this->option('force')
+            && ! $this->confirm('The solver already exists. Overwrite?', false);
     }
 }

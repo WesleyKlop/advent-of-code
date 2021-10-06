@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2019\Day14;
 
 class Chemical
 {
-    private string $type;
-    private int $amount;
-
     public const ORE = 'ORE';
+
     public const FUEL = 'FUEL';
+
+    private string $type;
+
+    private int $amount;
 
     public function __construct(string $output)
     {
@@ -31,6 +34,6 @@ class Chemical
 
     public function isBaseChemical(): bool
     {
-        return $this->type === Chemical::ORE;
+        return $this->type === self::ORE;
     }
 }

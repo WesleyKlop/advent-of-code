@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day16\Support;
 
@@ -9,7 +10,9 @@ use Illuminate\Support\Enumerable;
 
 class Ticket
 {
-    /** @var int[] $fields */
+    /**
+     * @var int[]
+     */
     private array $fields;
 
     public function __construct(
@@ -23,7 +26,7 @@ class Ticket
         foreach ($this->fields as $field) {
             $isValidField = $constraints->some(fn (Constraint $constraint) => $constraint->isValid($field));
 
-            if (!$isValidField) {
+            if (! $isValidField) {
                 return $field;
             }
         }

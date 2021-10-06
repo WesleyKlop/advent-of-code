@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Solvers\Y2020\Day3;
 
 test('Solve Day three part one', function () {
     $solver = new Day3\Solver();
 
-    $solution = $solver->solve('1');
+    $solution = $solver->solve(Solver::PART_ONE);
 
     expect($solution->value())->toBe(145);
 });
@@ -13,7 +15,7 @@ test('Solve Day three part one', function () {
 test('Solve Day three part two', function () {
     $solver = new Day3\Solver();
 
-    $solution = $solver->solve('2');
+    $solution = $solver->solve(Solver::PART_TWO);
 
     expect($solution->value())->toBe(3424528800);
 });

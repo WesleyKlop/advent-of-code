@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day14;
 
@@ -7,7 +8,7 @@ abstract class Instruction
 {
     public static function fromLine(string $line): static
     {
-        [$instruction, $value] = explode(" = ", $line);
+        [$instruction, $value] = explode(' = ', $line);
         if ($instruction === 'mask') {
             return new MaskInstruction($value);
         }

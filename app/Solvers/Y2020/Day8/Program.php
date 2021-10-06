@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day8;
 
@@ -14,8 +15,9 @@ use Illuminate\Support\Stringable;
 
 class Program
 {
-    public function __construct(private Collection $instructions)
-    {
+    public function __construct(
+        private Collection $instructions
+    ) {
     }
 
     public function print(): void
@@ -23,7 +25,7 @@ class Program
         $this->instructions->each(fn (AbstractInstruction $instruction) => $instruction->print());
     }
 
-    public static function fromStringable(Stringable $txtProgram): Program
+    public static function fromStringable(Stringable $txtProgram): self
     {
         $instructions = $txtProgram
             ->explode("\n")

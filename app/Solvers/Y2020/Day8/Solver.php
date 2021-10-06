@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day8;
 
@@ -23,7 +24,7 @@ class Solver extends AbstractSolver
             return new PrimitiveValueSolution($exception->getMemory()->getAccumulator());
         }
 
-        throw new ApplicationException("Could not find value");
+        throw new ApplicationException('Could not find value');
     }
 
     protected function solvePartTwo(): Solution

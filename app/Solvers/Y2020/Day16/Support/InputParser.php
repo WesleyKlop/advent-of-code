@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day16\Support;
 
@@ -33,7 +34,7 @@ class InputParser
         return Str::of($yourTicket)
             ->explode("\n")
             ->skip(1)
-            ->map(fn (string $line) => explode(",", $line))
+            ->map(fn (string $line) => explode(',', $line))
             ->map(fn (array $line) => new Ticket($line));
     }
 }

@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Solvers\Y2020\Day16;
 
 use App\Contracts\Solution;
@@ -17,15 +16,9 @@ class Solver extends AbstractSolver
 {
     protected string $fileName = 'input.txt';
 
-    public function __construct(private InputParser $inputParser)
-    {
-    }
-
-    private function getInput(): ParseResult
-    {
-        return $this
-            ->inputParser
-            ->fromStringable($this->read('2020', '16'));
+    public function __construct(
+        private InputParser $inputParser
+    ) {
     }
 
     protected function solvePartOne(): Solution
@@ -62,7 +55,7 @@ class Solver extends AbstractSolver
                 if ($validTickets->every->isValidFieldForConstraint($field, $constraint)) {
                     $possibleMappings[$constraint->getName()] = [
                         ...$possibleMappings->get($constraint->getName(), []),
-                        $field
+                        $field,
                     ];
                 }
             }
@@ -73,7 +66,7 @@ class Solver extends AbstractSolver
             ->sort(fn ($a, $b) => count($a) <=> count($b))
             ->each(function (array $options, string $field) use (&$mapping) {
                 foreach ($options as $option) {
-                    if (!isset($mapping[$option])) {
+                    if (! isset($mapping[$option])) {
                         $mapping[$option] = $field;
                         break;
                     }
@@ -86,11 +79,18 @@ class Solver extends AbstractSolver
         $answer = 1;
         foreach ($ticket->all() as $key => $value) {
             // There is a single mapping we couldnt't figure out lol
-            if (str_starts_with((string)$key, "departure")) {
+            if (str_starts_with((string) $key, 'departure')) {
                 $answer *= $value;
             }
         }
 
         return new PrimitiveValueSolution($answer);
+    }
+
+    private function getInput(): ParseResult
+    {
+        return $this
+            ->inputParser
+            ->fromStringable($this->read('2020', '16'));
     }
 }

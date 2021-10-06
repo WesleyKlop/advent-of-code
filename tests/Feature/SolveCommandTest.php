@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 test('solve command', function () {
     $cmd = $this->artisan('solve', [
         '--year' => 2020,

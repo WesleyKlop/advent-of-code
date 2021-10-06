@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers;
 
@@ -11,19 +12,16 @@ abstract class AbstractSolver implements Solver
 {
     use UsesInput;
 
+    public function solve(string $part): Solution
+    {
+        return match ($part) {
+            '1' => $this->solvePartOne(),
+            '2' => $this->solvePartTwo(),
+            default => throw new ApplicationException(sprintf('Invalid part %s', $part)),
+        };
+    }
+
     abstract protected function solvePartOne(): Solution;
 
     abstract protected function solvePartTwo(): Solution;
-
-    public function solve(string $part): Solution
-    {
-        switch ($part) {
-            case '1':
-                return $this->solvePartOne();
-            case '2':
-                return $this->solvePartTwo();
-            default:
-                throw new ApplicationException(sprintf("Invalid part %s", $part));
-        }
-    }
 }

@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Solvers\Y2020\Day15;
 
 use App\Contracts\Solution;
@@ -11,6 +10,20 @@ use App\Solvers\AbstractSolver;
 
 class Solver extends AbstractSolver
 {
+    protected function solvePartOne(): Solution
+    {
+        $solution = $this->solveForIterations(2020);
+
+        return new PrimitiveValueSolution($solution);
+    }
+
+    protected function solvePartTwo(): Solution
+    {
+        $solution = $this->solveForIterations(30_000_000);
+
+        return new PrimitiveValueSolution($solution);
+    }
+
     private function solveForIterations(int $iterations): int
     {
         /** @var int[][] $cache */
@@ -39,20 +52,6 @@ class Solver extends AbstractSolver
 
         // Turns are zero-index so we should do iterations - 1
         return $lastNumberSpoken;
-    }
-
-    protected function solvePartOne(): Solution
-    {
-        $solution = $this->solveForIterations(2020);
-
-        return new PrimitiveValueSolution($solution);
-    }
-
-    protected function solvePartTwo(): Solution
-    {
-        $solution = $this->solveForIterations(30_000_000);
-
-        return new PrimitiveValueSolution($solution);
     }
 
     private function getInput(): array

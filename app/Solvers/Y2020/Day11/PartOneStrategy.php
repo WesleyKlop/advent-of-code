@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day11;
 
@@ -11,6 +12,14 @@ class PartOneStrategy implements FlipStrategy
         [1, -1], [1, 0], [1, 1],
     ];
 
+    public function shouldFlip(Map $map, Tile $tile, int $rowIdx, int $colIdx): bool
+    {
+        $occupiedSeats = $this->countOccupiedSeats($map, $rowIdx, $colIdx);
+
+        return ($tile->isEmpty() && $occupiedSeats === 0)
+            || ($tile->isOccupied() && $occupiedSeats >= 4);
+    }
+
     protected function countOccupiedSeats(Map $map, int $cy, int $cx): int
     {
         $occupiedSeats = 0;
@@ -21,13 +30,5 @@ class PartOneStrategy implements FlipStrategy
             }
         }
         return $occupiedSeats;
-    }
-
-    public function shouldFlip(Map $map, Tile $tile, int $rowIdx, int $colIdx): bool
-    {
-        $occupiedSeats = $this->countOccupiedSeats($map, $rowIdx, $colIdx);
-
-        return ($tile->isEmpty() && $occupiedSeats === 0)
-            || ($tile->isOccupied() && $occupiedSeats >= 4);
     }
 }

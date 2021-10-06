@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Solvers\Y2020\Day20;
 
 use App\Contracts\Solution;
@@ -14,17 +13,6 @@ class Solver extends AbstractSolver
 {
     protected string $fileName = 'input.txt';
 
-    private function getInput(): Collection
-    {
-        return $this
-            ->read('2020', '20')
-            ->explode("\n\n")
-            ->mapWithKeys(function (string $tile) {
-                $tile = Tile::fromString($tile);
-                return [$tile->getId() => $tile];
-            });
-    }
-
     protected function solvePartOne(): Solution
     {
         $this->overrideFileName('test.txt');
@@ -35,5 +23,18 @@ class Solver extends AbstractSolver
     protected function solvePartTwo(): Solution
     {
         return new TodoSolution();
+    }
+
+    private function getInput(): Collection
+    {
+        return $this
+            ->read('2020', '20')
+            ->explode("\n\n")
+            ->mapWithKeys(function (string $tile) {
+                $tile = Tile::fromString($tile);
+                return [
+                    $tile->getId() => $tile,
+                ];
+            });
     }
 }

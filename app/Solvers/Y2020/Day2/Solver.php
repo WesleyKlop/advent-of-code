@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day2;
 
@@ -10,23 +11,6 @@ use Illuminate\Support\Collection;
 
 class Solver extends AbstractSolver
 {
-    private function getInput(): Collection
-    {
-        return $this->read('2020', '2')
-            ->explode("\n")
-            ->map(function ($line) {
-                preg_match("/^(\d+)-(\d+) (\w): (\w+)$/", $line, $matches);
-                [,$min, $max, $letter, $password] = $matches;
-
-                return [
-                    'min' => $min,
-                    'max' => $max,
-                    'letter' => $letter,
-                    'password' => $password,
-                ];
-            });
-    }
-
     protected function solvePartOne(): Solution
     {
         $input = $this->getInput();
@@ -48,5 +32,22 @@ class Solver extends AbstractSolver
         });
 
         return new PrimitiveValueSolution($validPasswords->count());
+    }
+
+    private function getInput(): Collection
+    {
+        return $this->read('2020', '2')
+            ->explode("\n")
+            ->map(function ($line) {
+                preg_match("/^(\d+)-(\d+) (\w): (\w+)$/", $line, $matches);
+                [,$min, $max, $letter, $password] = $matches;
+
+                return [
+                    'min' => $min,
+                    'max' => $max,
+                    'letter' => $letter,
+                    'password' => $password,
+                ];
+            });
     }
 }

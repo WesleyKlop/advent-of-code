@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day19;
 
 class StringRule implements Rule
 {
-    public function __construct(private string $value)
-    {
+    public function __construct(
+        private string $value
+    ) {
     }
 
     public function matches(string $other): bool

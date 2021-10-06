@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Solvers\Y2020\Day17;
 
 use Illuminate\Support\Stringable;
@@ -13,8 +12,9 @@ class PocketDimension
      * PocketDimension constructor.
      * @param Cube[] $region
      */
-    public function __construct(private array $region)
-    {
+    public function __construct(
+        private array $region
+    ) {
     }
 
     public static function fromStringable(Stringable $input): static
@@ -25,21 +25,7 @@ class PocketDimension
                 $region[self::getKey($x, $y, 0)] = new Cube($state, $x, $y, z: 0);
             }
         }
-        return new PocketDimension($region);
-    }
-
-    private static function getKey(int $x, int $y, int $z): string
-    {
-        return sprintf("x%dy%dz%d", $x, $y, $z);
-    }
-
-    private function getCube(bool $create, int $x, int $y, int $z): ?array
-    {
-        $key = self::getKey($x, $y, $z);
-        if (!$create && !isset($this->region[$key])) {
-            return null;
-        }
-        return [$key, $this->region[$key] ??= new Cube(x: $x, y: $y, z: $z)];
+        return new self($region);
     }
 
     public function cycle(): static
@@ -61,9 +47,6 @@ class PocketDimension
         return new static($this->region);
     }
 
-    /**
-     * @param string|null $state
-     */
     public function getNeighbours(Cube $cube, string $state = null, bool $create = true): iterable
     {
         foreach ($this->getMatrix() as $delta) {
@@ -73,6 +56,32 @@ class PocketDimension
             }
             yield $result[0] => $result[1];
         }
+    }
+
+    public function countActiveCubes(): int
+    {
+        $count = 0;
+        foreach ($this->region as $cube) {
+            if ($cube->isActive()) {
+                ++$count;
+            }
+        }
+
+        return $count;
+    }
+
+    private static function getKey(int $x, int $y, int $z): string
+    {
+        return sprintf('x%dy%dz%d', $x, $y, $z);
+    }
+
+    private function getCube(bool $create, int $x, int $y, int $z): ?array
+    {
+        $key = self::getKey($x, $y, $z);
+        if (! $create && ! isset($this->region[$key])) {
+            return null;
+        }
+        return [$key, $this->region[$key] ??= new Cube(x: $x, y: $y, z: $z)];
     }
 
     private function getMatrix(): array
@@ -124,23 +133,11 @@ class PocketDimension
         foreach ($this->region as $key => $resolvedCube) {
             $neighbours = $this->getNeighbours($resolvedCube, create: false);
             foreach ($neighbours as $nKey => $neighbour) {
-                if (!isset($seenCubes[$nKey])) {
+                if (! isset($seenCubes[$nKey])) {
                     $seenCubes[$nKey] = null;
                     yield $nKey => $neighbour;
                 }
             }
         }
-    }
-
-    public function countActiveCubes(): int
-    {
-        $count = 0;
-        foreach ($this->region as $cube) {
-            if ($cube->isActive()) {
-                $count += 1;
-            }
-        }
-
-        return $count;
     }
 }

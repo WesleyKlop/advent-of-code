@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day14;
 
 class Emulator
 {
-    /** @var array<int, string> */
+    /**
+     * @var array<int, string>
+     */
     protected array $bitmask = [];
+
     protected array $memory = [];
 
     public function updateBitmask(string $bitmask): void
@@ -40,6 +44,6 @@ class Emulator
 
     protected function convertValueToBinary(int $value): string
     {
-        return str_pad(decbin($value), 36, "0", STR_PAD_LEFT);
+        return str_pad(decbin($value), 36, '0', STR_PAD_LEFT);
     }
 }

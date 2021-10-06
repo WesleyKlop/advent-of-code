@@ -1,14 +1,19 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Solvers\Y2020\Day12;
 
 class WaypointShipPosition implements Position
 {
     protected float $waypointDeltaNorth = 1;
+
     protected float $waypointDeltaEast = 10;
+
     protected int $shipNorth = 0;
+
     protected int $shipEast = 0;
+
     protected int $rotation = Position::DIRECTION_EAST;
 
     public function process(string $instruction): self
@@ -34,12 +39,6 @@ class WaypointShipPosition implements Position
         return abs($this->shipNorth) + abs($this->shipEast);
     }
 
-    private function moveShipTowardsWayPoint(int $amount)
-    {
-        $this->shipEast += $this->waypointDeltaEast * $amount;
-        $this->shipNorth += $this->waypointDeltaNorth * $amount;
-    }
-
     protected function moveWaypoint(int $direction, int $amount): void
     {
         match ($direction % 360) {
@@ -48,6 +47,12 @@ class WaypointShipPosition implements Position
             self::DIRECTION_SOUTH => $this->waypointDeltaNorth -= $amount,
             self::DIRECTION_WEST => $this->waypointDeltaEast -= $amount,
         };
+    }
+
+    private function moveShipTowardsWayPoint(int $amount)
+    {
+        $this->shipEast += $this->waypointDeltaEast * $amount;
+        $this->shipNorth += $this->waypointDeltaNorth * $amount;
     }
 
     private function rotateWaypoint(int $amount): void
