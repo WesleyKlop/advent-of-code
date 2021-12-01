@@ -13,7 +13,7 @@ class Solver extends AbstractSolver
 {
     private const PREAMBLE = 25;
 
-    private const TARGET = 57195069;
+    private const TARGET = 57_195_069;
 
     protected function solvePartOne(): Solution
     {

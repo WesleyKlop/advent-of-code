@@ -39,7 +39,7 @@ class Solver extends AbstractSolver
     private function traverseMapForTreeCount(int $down, int $right): int
     {
         $map = $this->getMap();
-        $mapWidth = count($map->first());
+        $mapWidth = is_countable($map->first()) ? count($map->first()) : 0;
         $treeCount = 0;
         // Move one down and three to the right every step
         for ($y = 0, $x = 0; $y < $map->count(); $y += $down, $x += $right) {

@@ -17,16 +17,13 @@ class Solver extends AbstractSolver
         $uniqueAnswersPerGroup = $this
             ->read('2020', '6')
             ->explode("\n\n")
-            ->map(function (string $group) {
-                // Map each group to members with an array of their given answers.
-                return Str
-                    ::of($group)
-                        ->explode("\n")
-                        ->map(fn (string $answers) => str_split($answers))
-                    // Map a dictionary containing the keys of every answer given
-                        ->flatten()
-                        ->flip();
-            })
+            ->map(fn(string $group) => Str
+                ::of($group)
+                    ->explode("\n")
+                    ->map(fn (string $answers) => str_split($answers))
+                // Map a dictionary containing the keys of every answer given
+                    ->flatten()
+                    ->flip())
             ->sum(fn (Collection $group) => $group->count());
 
         return new PrimitiveValueSolution($uniqueAnswersPerGroup);

@@ -29,6 +29,7 @@ trait UsesInput
         $path = $this->getPath($year, $day, $this->fileName);
 
         return LazyCollection::make(function () use ($path) {
+            $handle = null;
             try {
                 $handle = fopen($path, 'rb');
 

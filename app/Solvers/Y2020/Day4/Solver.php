@@ -22,9 +22,7 @@ class Solver extends AbstractSolver
         $passports = $this->getPassports();
 
         $validPassports = $passports
-            ->filter(function (Collection $passport) {
-                return $this->validator->validateRequiredFieldsExist($passport);
-            })
+            ->filter(fn(Collection $passport) => $this->validator->validateRequiredFieldsExist($passport))
             ->count();
 
         return new PrimitiveValueSolution($validPassports);
@@ -35,9 +33,7 @@ class Solver extends AbstractSolver
         $passports = $this->getPassports();
 
         $validPassports = $passports
-            ->filter(function (Collection $passport) {
-                return $this->validator->validateRequiredFieldsValid($passport);
-            })
+            ->filter(fn(Collection $passport) => $this->validator->validateRequiredFieldsValid($passport))
             ->count();
 
         return new PrimitiveValueSolution($validPassports);

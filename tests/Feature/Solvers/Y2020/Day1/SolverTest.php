@@ -9,7 +9,7 @@ test('Solve Day one part one', function () {
 
     $solution = $solver->solve(Solver::PART_ONE);
 
-    expect($solution->value())->toBe(1020099);
+    expect($solution->value())->toBe(1_020_099);
 });
 
 test('Solve Day one part two', function () {
@@ -17,5 +17,5 @@ test('Solve Day one part two', function () {
 
     $solution = $solver->solve(Solver::PART_TWO);
 
-    expect($solution->value())->toBe(49214880);
+    expect($solution->value())->toBe(49_214_880);
 });

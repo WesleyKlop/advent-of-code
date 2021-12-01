@@ -10,7 +10,7 @@ test('Solve Day fourteen part one', function () {
 
     $solution = $solver->solve(Solver::PART_ONE);
 
-    expect($solution->value())->toBe(2346881602152);
+    expect($solution->value())->toBe(2_346_881_602_152);
 });
 
 test('Solve Day fourteen part two', function () {
@@ -18,5 +18,5 @@ test('Solve Day fourteen part two', function () {
 
     $solution = $solver->solve(Solver::PART_TWO);
 
-    expect($solution->value())->toBe(3885232834169);
+    expect($solution->value())->toBe(3_885_232_834_169);
 });

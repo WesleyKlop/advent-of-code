@@ -27,9 +27,7 @@ class Solver extends AbstractSolver
     {
         $input = $this->getInput();
 
-        $validPasswords = $input->filter(function ($row) {
-            return $row['password'][$row['min'] - 1] === $row['letter'] xor $row['password'][$row['max'] - 1] === $row['letter'];
-        });
+        $validPasswords = $input->filter(fn($row) => $row['password'][$row['min'] - 1] === $row['letter'] xor $row['password'][$row['max'] - 1] === $row['letter']);
 
         return new PrimitiveValueSolution($validPasswords->count());
     }

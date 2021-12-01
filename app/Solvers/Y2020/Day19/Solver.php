@@ -27,9 +27,7 @@ class Solver extends AbstractSolver
         $validPatterns = [...$ruleZero->compile()];
 
         $result = $inputs
-            ->filter(function (string $input) use ($validPatterns) {
-                return in_array($input, $validPatterns, true);
-            })
+            ->filter(fn(string $input) => in_array($input, $validPatterns, true))
             ->count();
 
         return new PrimitiveValueSolution($result);

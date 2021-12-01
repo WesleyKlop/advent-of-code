@@ -27,9 +27,7 @@ class Solver extends AbstractSolver
         $constraints = $info->getConstraints();
         $scanningErrorRate = $info
             ->getNearbyTickets()
-            ->map(function (Ticket $ticket) use ($constraints) {
-                return $ticket->calculateErrorRate($constraints);
-            })
+            ->map(fn(Ticket $ticket) => $ticket->calculateErrorRate($constraints))
             ->sum();
 
         return new PrimitiveValueSolution($scanningErrorRate);
@@ -41,9 +39,7 @@ class Solver extends AbstractSolver
         $constraints = $info->getConstraints();
         $validTickets = $info
             ->getNearbyTickets()
-            ->filter(function (Ticket $ticket) use ($constraints) {
-                return $ticket->isValid($constraints);
-            });
+            ->filter(fn(Ticket $ticket) => $ticket->isValid($constraints));
 
         $possibleMappings = collect([]);
 
@@ -63,7 +59,7 @@ class Solver extends AbstractSolver
 
         $mapping = [];
         $possibleMappings
-            ->sort(fn ($a, $b) => count($a) <=> count($b))
+            ->sort(fn ($a, $b) => (is_countable($a) ? count($a) : 0) <=> (is_countable($b) ? count($b) : 0))
             ->each(function (array $options, string $field) use (&$mapping) {
                 foreach ($options as $option) {
                     if (! isset($mapping[$option])) {

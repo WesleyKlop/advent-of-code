@@ -17,5 +17,5 @@ test('Solve Day three part two', function () {
 
     $solution = $solver->solve(Solver::PART_TWO);
 
-    expect($solution->value())->toBe(3424528800);
+    expect($solution->value())->toBe(3_424_528_800);
 });
