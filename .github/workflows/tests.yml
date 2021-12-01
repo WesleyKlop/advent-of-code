@@ -7,7 +7,7 @@ on:
       - main
 
 env:
-  PHP_VERSION: 8.0
+  PHP_VERSION: 8.1
 
 jobs:
   lint:
