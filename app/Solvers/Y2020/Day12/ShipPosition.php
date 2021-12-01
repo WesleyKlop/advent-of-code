@@ -21,7 +21,7 @@ namespace App\Solvers\Y2020\Day12;
      public function process(string $instruction): self
      {
          $move = $instruction[0];
-         $amount = substr($instruction, 1);
+         $amount = (int) substr($instruction, 1);
 
          match ($move) {
              'F' => $this->moveShip($this->direction, $amount),

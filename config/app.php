@@ -58,4 +58,10 @@ return [
 //        Intonate\TinkerZero\TinkerZeroServiceProvider::class,
     ],
 
+    'defaults' => [
+        'year' => env('DEFAULT_YEAR'),
+        'part' => env('DEFAULT_PART'),
+    ],
+
+    'session_token' => env('AOC_SESSION_TOKEN'),
 ];

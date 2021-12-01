@@ -48,7 +48,7 @@ it('can rotate a tile 90 degrees clockwise', function (array $grid): void {
 24, 19, 14, 9, 4
 EOT
     );
-})->with([[$bigArrayTile]]);
+})->with([[$bigArrayTile]])->skip('Not finished');
 
 it('can flip a tile horizontally', function (array $grid): void {
     $tile = new Tile(1337, $grid);
@@ -61,7 +61,7 @@ it('can flip a tile horizontally', function (array $grid): void {
 0, 1, 2
 EOT
     );
-})->with([[$smallArrayTile]]);
+})->with([[$smallArrayTile]])->skip('Not finished');
 
 it('can flip a tile vertically', function (array $grid): void {
     $tile = new Tile(1337, $grid);
@@ -74,4 +74,4 @@ it('can flip a tile vertically', function (array $grid): void {
 8, 7, 6
 EOT
     );
-})->with([[$smallArrayTile]]);
+})->with([[$smallArrayTile]])->skip('Not finished');

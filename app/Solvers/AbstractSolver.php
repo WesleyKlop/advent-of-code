@@ -12,12 +12,12 @@ abstract class AbstractSolver implements Solver
 {
     use UsesInput;
 
-    public function solve(string $part): Solution
+    public function solve(int $part): Solution
     {
         return match ($part) {
-            '1' => $this->solvePartOne(),
-            '2' => $this->solvePartTwo(),
-            default => throw new ApplicationException(sprintf('Invalid part %s', $part)),
+            Solver::PART_ONE => $this->solvePartOne(),
+            Solver::PART_TWO => $this->solvePartTwo(),
+            default => throw new ApplicationException(sprintf('Invalid part %d', $part)),
         };
     }
 

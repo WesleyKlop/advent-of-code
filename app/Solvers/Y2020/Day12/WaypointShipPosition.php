@@ -10,9 +10,9 @@ class WaypointShipPosition implements Position
 
     protected float $waypointDeltaEast = 10;
 
-    protected int $shipNorth = 0;
+    protected float $shipNorth = 0;
 
-    protected int $shipEast = 0;
+    protected float $shipEast = 0;
 
     protected int $rotation = Position::DIRECTION_EAST;
 
@@ -36,7 +36,7 @@ class WaypointShipPosition implements Position
 
     public function manhattanDistance(): int
     {
-        return abs($this->shipNorth) + abs($this->shipEast);
+        return (int) (abs($this->shipNorth) + abs($this->shipEast));
     }
 
     protected function moveWaypoint(int $direction, int $amount): void

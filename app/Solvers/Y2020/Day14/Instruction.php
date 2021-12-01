@@ -15,7 +15,7 @@ abstract class Instruction
 
         preg_match("/^mem\[(\d+)\]$/", $instruction, $matches);
 
-        return new MemoryInstruction($matches[1], $value);
+        return new MemoryInstruction((int) $matches[1], (int) $value);
     }
 
     abstract public function execute(Emulator $emulator): void;

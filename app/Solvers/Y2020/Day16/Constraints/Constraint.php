@@ -12,8 +12,16 @@ abstract class Constraint
     {
         preg_match('/^([a-z ]+): ([0-9-]+) or ([0-9-]+)$/', $line, $matches);
         return new NamedConstraint($matches[1], new OrConstraint(
-            new RangeConstraint(...explode('-', $matches[2])),
-            new RangeConstraint(...explode('-', $matches[3])),
+            static::explodeMatchesIntoRange($matches[2]),
+            static::explodeMatchesIntoRange($matches[3]),
+        ));
+    }
+
+    private static function explodeMatchesIntoRange(string $match): RangeConstraint
+    {
+        return new RangeConstraint(...array_map(
+            fn ($v) => (int) $v,
+            explode('-', $match)
         ));
     }
 }

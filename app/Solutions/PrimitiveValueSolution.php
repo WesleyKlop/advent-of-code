@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class PrimitiveValueSolution extends AbstractSolution
 {
     public function __construct(
-        protected int | string | iterable | null $value
+        protected int | float | string | iterable | null $value
     ) {
     }
 
@@ -20,7 +20,7 @@ class PrimitiveValueSolution extends AbstractSolution
         $output->writeln($this->value);
     }
 
-    public function value(): iterable | null | string | int
+    public function value(): iterable | null | string | int | float
     {
         return $this->value;
     }

@@ -14,22 +14,22 @@ class AdventOfCodeApiClient
 
     public const API_ENDPOINT = 'https://%s/%s/day/%s/input';
 
-    public function fetchInput(string $year, string $day, bool $force = false): void
+    public function fetchInput(int $year, int $day, bool $force = false): void
     {
-        if (! file_exists($this->getPath($year, $day)) || $force === true) {
+        if ($force === true || ! file_exists($this->getPath($year, $day))) {
             $this->handleFileMissing($year, $day);
         }
     }
 
-    protected function getPath(string $year, string $day): string
+    protected function getPath(int $year, int $day): string
     {
-        return resource_path(sprintf('inputs/%s/%s/%s', $year, $day, 'input.txt'));
+        return resource_path(sprintf('inputs/%d/%d/%s', $year, $day, 'input.txt'));
     }
 
-    private function handleFileMissing(string $year, string $day): void
+    private function handleFileMissing(int $year, int $day): void
     {
         $path = $this->getPath($year, $day);
-        $session = env('AOC_SESSION_TOKEN');
+        $session = config('app.session_token');
 
         if (! $session) {
             throw new MissingSessionTokenException();

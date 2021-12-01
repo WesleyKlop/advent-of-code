@@ -9,13 +9,13 @@ use Symfony\Component\Console\Output\OutputInterface as Output;
 
 abstract class AbstractSolution implements Solution
 {
-    private string $year;
+    private int $year;
 
-    private string $day;
+    private int $day;
 
-    private string $part;
+    private int $part;
 
-    public function setMeta(string $year, string $day, string $part): void
+    public function setMeta(int $year, int $day, int $part): void
     {
         $this->year = $year;
         $this->day = $day;

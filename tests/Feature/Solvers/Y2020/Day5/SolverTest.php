@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Contracts\Solver;
 use App\Solvers\Y2020\Day5;
 
 test('Solve Day five part one', function () {

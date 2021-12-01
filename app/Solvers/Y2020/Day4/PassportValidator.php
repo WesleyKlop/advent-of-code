@@ -33,10 +33,10 @@ class PassportValidator
     private function createValidators(): Collection
     {
         return collect([
-            'byr' => fn (int $year) => ($year >= 1920 && $year <= 2002),
-            'iyr' => fn (int $year) => ($year >= 2010 && $year <= 2020),
-            'eyr' => fn (int $year) => ($year >= 2020 && $year <= 2030),
-            'hgt' => fn (int $height) => ($height >= 150 && $height <= 193),
+            'byr' => fn (string $year) => ($year >= 1920 && $year <= 2002),
+            'iyr' => fn (string $year) => ($year >= 2010 && $year <= 2020),
+            'eyr' => fn (string $year) => ($year >= 2020 && $year <= 2030),
+            'hgt' => fn (float $height) => ($height >= 150 && $height <= 193),
             'hcl' => fn (string $hairColor) => preg_match('/^#[a-f0-9]{6}$/', $hairColor) === 1,
             'ecl' => fn (string $eyeColor) => in_array($eyeColor, explode(' ', 'amb blu brn gry grn hzl oth'), true),
             'pid' => fn (string $pid) => preg_match("/^\d{9}$/", $pid) === 1,

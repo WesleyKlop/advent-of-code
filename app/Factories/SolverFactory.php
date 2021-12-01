@@ -10,7 +10,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 
 class SolverFactory
 {
-    public function make(string $year, string $day): Solver
+    public function make(int $year, int $day): Solver
     {
         try {
             return app()->make(sprintf('\\App\\Solvers\\Y%s\\Day%s\\Solver', $year, $day));
