@@ -19,7 +19,7 @@ class SolveCommand extends Command
      * @var string
      */
     protected $signature = 'solve
-        {--year=2020 : Year to look for the solver}
+        {--year=2021 : Year to look for the solver}
         {--part= : The part to solve, defaults to both}
         {--fetch : If we want to fetch the input from the AoC website}
         {day : Day to solve}

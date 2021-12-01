@@ -17,7 +17,7 @@ class ScaffoldCommand extends Command
      * @var string
      */
     protected $signature = 'scaffold
-        {--year=2020 : The year to fetch input for}
+        {--year=2021 : The year to fetch input for}
         {--force : Overwrite existing file}
         {day : The day to fetch input for}';
 
