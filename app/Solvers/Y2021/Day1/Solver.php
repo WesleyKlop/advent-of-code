@@ -14,29 +14,52 @@ use Illuminate\Support\Stringable;
 
 class Solver extends AbstractSolver
 {
-    protected string $fileName = 'input.txt';
 
     private function getInput(): Collection
     {
-        return $this->read('2021', '1')
-            ->explode("\n");
+        return $this
+            ->read('2021', '1')
+            ->explode("\n")
+            ->map(fn(string $val) => (int)$val);
     }
 
-    protected function solvePartOne(): Solution
-    {
+    private function solveForList(iterable $list): int {
         $prevDepth = null;
         $incrementations = 0;
-        foreach ($this->getInput() as $i => $depth) {
-            if($prevDepth !== null && $depth > $prevDepth) {
+        foreach ($list as $depth) {
+            if ($prevDepth !== null && $depth > $prevDepth) {
                 ++$incrementations;
             }
             $prevDepth = $depth;
         }
-        return new PrimitiveValueSolution($incrementations);
+        return $incrementations;
+    }
+
+    protected function solvePartOne(): Solution
+    {
+        return new PrimitiveValueSolution(
+            $this->solveForList($this->getInput())
+        );
     }
 
     protected function solvePartTwo(): Solution
     {
-        return new TodoSolution();
+        $input = $this->getInput();
+        $windows = $input
+            ->map(function (int $depth, int $idx) use ($input) {
+                if (! $input->has($idx + 2)) {
+                    return false;
+                }
+                return [
+                    $depth,
+                    $input->get($idx + 1),
+                    $input->get($idx + 2),
+                ];
+            })
+            ->filter()
+            ->map(fn(array $val) => array_sum($val));
+        return new PrimitiveValueSolution(
+            $this->solveForList($windows)
+        );
     }
 }
