@@ -17,7 +17,7 @@ class Solver extends AbstractSolver
         $uniqueAnswersPerGroup = $this
             ->read('2020', '6')
             ->explode("\n\n")
-            ->map(fn(string $group) => Str
+            ->map(fn (string $group) => Str
                 ::of($group)
                     ->explode("\n")
                     ->map(fn (string $answers) => str_split($answers))

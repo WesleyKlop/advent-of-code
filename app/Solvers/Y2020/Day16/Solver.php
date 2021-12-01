@@ -27,7 +27,7 @@ class Solver extends AbstractSolver
         $constraints = $info->getConstraints();
         $scanningErrorRate = $info
             ->getNearbyTickets()
-            ->map(fn(Ticket $ticket) => $ticket->calculateErrorRate($constraints))
+            ->map(fn (Ticket $ticket) => $ticket->calculateErrorRate($constraints))
             ->sum();
 
         return new PrimitiveValueSolution($scanningErrorRate);
@@ -39,7 +39,7 @@ class Solver extends AbstractSolver
         $constraints = $info->getConstraints();
         $validTickets = $info
             ->getNearbyTickets()
-            ->filter(fn(Ticket $ticket) => $ticket->isValid($constraints));
+            ->filter(fn (Ticket $ticket) => $ticket->isValid($constraints));
 
         $possibleMappings = collect([]);
 

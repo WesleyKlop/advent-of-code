@@ -2,39 +2,15 @@
 
 declare(strict_types=1);
 
-
 namespace App\Solvers\Y2021\Day1;
 
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
-use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Stringable;
 
 class Solver extends AbstractSolver
 {
-
-    private function getInput(): Collection
-    {
-        return $this
-            ->read('2021', '1')
-            ->explode("\n")
-            ->map(fn(string $val) => (int)$val);
-    }
-
-    private function solveForList(iterable $list): int {
-        $prevDepth = null;
-        $incrementations = 0;
-        foreach ($list as $depth) {
-            if ($prevDepth !== null && $depth > $prevDepth) {
-                ++$incrementations;
-            }
-            $prevDepth = $depth;
-        }
-        return $incrementations;
-    }
-
     protected function solvePartOne(): Solution
     {
         return new PrimitiveValueSolution(
@@ -57,9 +33,30 @@ class Solver extends AbstractSolver
                 ];
             })
             ->filter()
-            ->map(fn(array $val) => array_sum($val));
+            ->map(fn (array $val) => array_sum($val));
         return new PrimitiveValueSolution(
             $this->solveForList($windows)
         );
+    }
+
+    private function getInput(): Collection
+    {
+        return $this
+            ->read('2021', '1')
+            ->explode("\n")
+            ->map(fn (string $val) => (int) $val);
+    }
+
+    private function solveForList(iterable $list): int
+    {
+        $prevDepth = null;
+        $incrementations = 0;
+        foreach ($list as $depth) {
+            if ($prevDepth !== null && $depth > $prevDepth) {
+                ++$incrementations;
+            }
+            $prevDepth = $depth;
+        }
+        return $incrementations;
     }
 }

@@ -18,7 +18,7 @@ class Tile
         [, $tileId] = explode(' ', substr($tile[0], 0, -1));
         unset($tile[0]);
         $grid = array_map(fn (string $line) => str_split($line), $tile);
-        return new static((int)$tileId, $grid);
+        return new static((int) $tileId, $grid);
     }
 
     public function getId(): int
