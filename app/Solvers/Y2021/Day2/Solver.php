@@ -11,8 +11,6 @@ use Illuminate\Support\LazyCollection;
 
 class Solver extends AbstractSolver
 {
-    protected string $fileName = 'input.txt';
-
     protected function solvePartOne(): Solution
     {
         return new PrimitiveValueSolution(

@@ -10,8 +10,6 @@ use App\Solvers\AbstractSolver;
 
 class Solver extends AbstractSolver
 {
-    protected string $fileName = 'input.txt';
-
     protected function solvePartOne(): Solution
     {
         $pocketDimension = $this->createPocketDimension();

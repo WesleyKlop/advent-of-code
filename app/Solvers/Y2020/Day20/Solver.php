@@ -11,8 +11,6 @@ use Illuminate\Support\Collection;
 
 class Solver extends AbstractSolver
 {
-    protected string $fileName = 'input.txt';
-
     protected function solvePartOne(): Solution
     {
         $this->overrideFileName('test.txt');

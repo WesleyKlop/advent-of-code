@@ -13,8 +13,6 @@ use Illuminate\Support\Str;
 
 class Solver extends AbstractSolver
 {
-    protected string $fileName = 'input.txt';
-
     protected function solvePartOne(): Solution
     {
         /**
