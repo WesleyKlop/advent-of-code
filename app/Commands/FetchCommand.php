@@ -31,8 +31,8 @@ class FetchCommand extends Command
      */
     public function handle(AdventOfCodeApiClient $apiClient): int
     {
-        $year = (int)$this->option('year');
-        $day = (int)$this->argument('day');
+        $year = (int) $this->option('year');
+        $day = (int) $this->argument('day');
 
         $apiClient->fetchInput(
             $year,

@@ -38,8 +38,8 @@ class SolveCommand extends Command
      */
     public function handle(SolverFactory $solverFactory, AdventOfCodeApiClient $apiClient): int
     {
-        $year = (int)($this->option('year') ?? config('app.defaults.year'));
-        $day = (int)$this->argument('day');
+        $year = (int) ($this->option('year') ?? config('app.defaults.year'));
+        $day = (int) $this->argument('day');
 
         if ($this->option('fetch')) {
             // Make sure we have input to work with.
@@ -65,8 +65,7 @@ class SolveCommand extends Command
             $solver->setProgressBar($this->getOutput()->createProgressBar());
         }
 
-
-        $parts = $this->option('part') ? [(int)$this->option('part')] : [1, 2];
+        $parts = $this->option('part') ? [(int) $this->option('part')] : [1, 2];
 
         foreach ($parts as $part) {
             $solution = $solver->solve($part);
