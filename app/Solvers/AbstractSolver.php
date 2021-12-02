@@ -21,6 +21,11 @@ abstract class AbstractSolver implements Solver
         };
     }
 
+    public function useTestInput(): void
+    {
+        $this->fileName = 'test.txt';
+    }
+
     abstract protected function solvePartOne(): Solution;
 
     abstract protected function solvePartTwo(): Solution;

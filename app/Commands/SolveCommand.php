@@ -22,6 +22,7 @@ class SolveCommand extends Command
         {--year=2021 : Year to look for the solver}
         {--part= : The part to solve, defaults to both}
         {--fetch : If we want to fetch the input from the AoC website}
+        {--test : Use the test.txt instead of input.txt}
         {day : Day to solve}
         {arguments?* : Extra arguments}';
 
@@ -37,8 +38,8 @@ class SolveCommand extends Command
      */
     public function handle(SolverFactory $solverFactory, AdventOfCodeApiClient $apiClient): int
     {
-        $year = (int) ($this->option('year') ?? config('app.defaults.year'));
-        $day = (int) $this->argument('day');
+        $year = (int)($this->option('year') ?? config('app.defaults.year'));
+        $day = (int)$this->argument('day');
 
         if ($this->option('fetch')) {
             // Make sure we have input to work with.
@@ -47,9 +48,13 @@ class SolveCommand extends Command
 
         try {
             $solver = $solverFactory->make($year, $day);
-        } catch (ApplicationException $reee) {
-            $this->error($reee->getMessage());
+        } catch (ApplicationException $exception) {
+            $this->error($exception->getMessage());
             return 1;
+        }
+
+        if ($this->option('test')) {
+            $solver->useTestInput();
         }
 
         if ($solver instanceof AcceptsArguments) {
@@ -60,7 +65,10 @@ class SolveCommand extends Command
             $solver->setProgressBar($this->getOutput()->createProgressBar());
         }
 
-        foreach ([(int) $this->option('part')] ?? [1, 2] as $part) {
+
+        $parts = $this->option('part') ? [(int)$this->option('part')] : [1, 2];
+
+        foreach ($parts as $part) {
             $solution = $solver->solve($part);
 
             $solution->setMeta($year, $day, $part);
