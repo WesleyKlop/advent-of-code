@@ -3,13 +3,12 @@
 declare(strict_types=1);
 
 use Rector\Core\Configuration\Option;
-use Rector\Core\ValueObject\PhpVersion;
 use Rector\Set\ValueObject\LevelSetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
-    $containerConfigurator->import(LevelSetList::UP_TO_PHP_80);
+    $containerConfigurator->import(LevelSetList::UP_TO_PHP_81);
 
     $parameters->set(Option::PATHS, [
         __DIR__ . '/app',
@@ -19,8 +18,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/advent-of-code',
     ]);
 
-    // is your PHP version different from the one your refactor to? [default: your PHP version], uses PHP_VERSION_ID format
-    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_80);
+    $parameters->set(Option::SKIP, [
+        \Rector\Php81\Rector\Property\ReadOnlyPropertyRector::class,
+    ]);
 
     // auto import fully qualified class names? [default: false]
     $parameters->set(Option::AUTO_IMPORT_NAMES, false);

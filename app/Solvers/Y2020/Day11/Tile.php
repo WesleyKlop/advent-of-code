@@ -6,11 +6,11 @@ namespace App\Solvers\Y2020\Day11;
 
 class Tile
 {
-    public const TYPE_FLOOR = '.';
+    final public const TYPE_FLOOR = '.';
 
-    public const TYPE_EMPTY = 'L';
+    final public const TYPE_EMPTY = 'L';
 
-    public const TYPE_OCCUPIED = '#';
+    final public const TYPE_OCCUPIED = '#';
 
     public function __construct(
         private string $type

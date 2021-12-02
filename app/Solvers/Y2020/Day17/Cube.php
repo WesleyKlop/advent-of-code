@@ -6,9 +6,9 @@ namespace App\Solvers\Y2020\Day17;
 
 class Cube
 {
-    public const STATE_ACTIVE = '#';
+    final public const STATE_ACTIVE = '#';
 
-    public const STATE_INACTIVE = '.';
+    final public const STATE_INACTIVE = '.';
 
     public function __construct(
         private string $state = self::STATE_INACTIVE,

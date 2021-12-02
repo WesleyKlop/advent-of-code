@@ -17,7 +17,7 @@ class AndRule implements Rule
     ) {
     }
 
-    public function matches(string $other): bool
+    public function matches(string $other): never
     {
         throw new ApplicationException('dunno');
     }

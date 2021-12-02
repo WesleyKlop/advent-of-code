@@ -8,11 +8,11 @@ use App\Solvers\Y2020\Day8\Memory;
 
 interface Instruction
 {
-    public const JUMP = 'jmp';
+    final public const JUMP = 'jmp';
 
-    public const ACC = 'acc';
+    final public const ACC = 'acc';
 
-    public const NOOP = 'nop';
+    final public const NOOP = 'nop';
 
     public function execute(Memory $memory, int $ptr): int;
 

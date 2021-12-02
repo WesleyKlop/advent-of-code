@@ -6,9 +6,9 @@ namespace App\Solvers\Y2019\Day14;
 
 class Chemical
 {
-    public const ORE = 'ORE';
+    final public const ORE = 'ORE';
 
-    public const FUEL = 'FUEL';
+    final public const FUEL = 'FUEL';
 
     private string $type;
 

@@ -6,13 +6,13 @@ namespace App\Solvers\Y2020\Day12;
 
 interface Position
 {
-    public const DIRECTION_EAST = 90;
+    final public const DIRECTION_EAST = 90;
 
-    public const DIRECTION_SOUTH = 180;
+    final public const DIRECTION_SOUTH = 180;
 
-    public const DIRECTION_WEST = 270;
+    final public const DIRECTION_WEST = 270;
 
-    public const DIRECTION_NORTH = 0;
+    final public const DIRECTION_NORTH = 0;
 
     public function process(string $instruction): self;
 

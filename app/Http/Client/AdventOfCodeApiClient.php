@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Http;
 
 class AdventOfCodeApiClient
 {
-    public const API_DOMAIN = 'adventofcode.com';
+    final public const API_DOMAIN = 'adventofcode.com';
 
-    public const API_ENDPOINT = 'https://%s/%s/day/%s/input';
+    final public const API_ENDPOINT = 'https://%s/%s/day/%s/input';
 
     public function fetchInput(int $year, int $day, bool $force = false): void
     {
