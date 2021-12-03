@@ -11,8 +11,6 @@ use App\Solvers\AbstractSolver;
 
 class Solver extends AbstractSolver
 {
-    protected string $fileName = 'input.txt';
-
     private function getInput(): mixed
     {
         return $this->read(':year', ':day');
