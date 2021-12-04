@@ -30,10 +30,10 @@ class Solver extends AbstractSolver
     {
         $puzzle = $this->getInput();
 
-        foreach($puzzle->numbers() as $number) {
+        foreach ($puzzle->numbers() as $number) {
             $completedBoards = $puzzle->markBoards($number);
-            foreach($completedBoards as $board) {
-                if($puzzle->boardCount() === 1) {
+            foreach ($completedBoards as $board) {
+                if ($puzzle->boardCount() === 1) {
                     return new PrimitiveValueSolution($board->sum() * $number);
                 }
                 $puzzle->removeBoard($board);

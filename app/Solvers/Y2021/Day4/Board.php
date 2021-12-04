@@ -17,16 +17,18 @@ class Board
 
     private int $sub = 0;
 
-    public function __construct(string $raw, private int $id)
-    {
+    public function __construct(
+        string $raw,
+        private int $id
+    ) {
         $this->content = Str::of($raw)
             ->trim()
             ->explode("\n")
             ->transform(
-                fn(string $line) => Str::of($line)
+                fn (string $line) => Str::of($line)
                     ->trim()
                     ->split('/ +/')
-                    ->transform(fn(string $int) => (int)$int)
+                    ->transform(fn (string $int) => (int) $int)
             );
     }
 
@@ -45,13 +47,15 @@ class Board
     {
         foreach ($this->content as $rowIdx => $row) {
             foreach ($row as $colIdx => $column) {
-                if ($column === $number) {
-                    $this->markedRows[$rowIdx]++;
-                    $this->markedCols[$colIdx]++;
-                    $this->sub += $column;
-                    if ($this->markedCols[$colIdx] === 5 || $this->markedRows[$rowIdx] === 5) {
-                        return true;
-                    }
+                if ($column !== $number) {
+                    continue;
+                }
+
+                $this->markedRows[$rowIdx]++;
+                $this->markedCols[$colIdx]++;
+                $this->sub += $column;
+                if ($this->markedCols[$colIdx] === 5 || $this->markedRows[$rowIdx] === 5) {
+                    return true;
                 }
             }
         }

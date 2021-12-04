@@ -36,7 +36,7 @@ class PuzzleInput
     {
         $originalCount = $this->boards->count();
         $this->boards = $this->boards->reject(
-            fn(Board $board) => $board->is($completedBoard)
+            fn (Board $board) => $board->is($completedBoard)
         );
     }
 
