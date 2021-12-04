@@ -19,17 +19,15 @@ class PuzzleInput
         return $this->numbers;
     }
 
-    public function markBoards(int $number): array
+    public function markBoards(int $number): iterable
     {
-        $winners = [];
         /** @var \App\Solvers\Y2021\Day4\Board $board */
         foreach ($this->boards as $board) {
             $won = $board->mark($number);
             if ($won === true) {
-                $winners[] = $board;
+                yield $board;
             }
         }
-        return $winners;
     }
 
     public function removeBoard(Board $completedBoard): void
