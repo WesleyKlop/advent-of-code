@@ -17,16 +17,16 @@ class Board
 
     private int $sub = 0;
 
-    public function __construct(string $raw)
+    public function __construct(string $raw, private int $id)
     {
         $this->content = Str::of($raw)
             ->trim()
             ->explode("\n")
             ->transform(
-                fn (string $line) => Str::of($line)
-            ->trim()
-            ->split('/ +/')
-            ->transform(fn (string $int) => (int) $int)
+                fn(string $line) => Str::of($line)
+                    ->trim()
+                    ->split('/ +/')
+                    ->transform(fn(string $int) => (int)$int)
             );
     }
 
@@ -41,11 +41,11 @@ class Board
         return $sum;
     }
 
-    public function mark(int $value): bool
+    public function mark(int $number): bool
     {
         foreach ($this->content as $rowIdx => $row) {
             foreach ($row as $colIdx => $column) {
-                if ($column === $value) {
+                if ($column === $number) {
                     $this->markedRows[$rowIdx]++;
                     $this->markedCols[$colIdx]++;
                     $this->sub += $column;
@@ -56,5 +56,10 @@ class Board
             }
         }
         return false;
+    }
+
+    public function is(self $other): bool
+    {
+        return $this->id === $other->id;
     }
 }

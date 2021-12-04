@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Solvers\Y2021\Day4;
 
 use App\Contracts\Solution;
+use App\Exceptions\AnswerNotFoundException;
 use App\Solutions\PrimitiveValueSolution;
 use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
@@ -17,8 +18,8 @@ class Solver extends AbstractSolver
         $puzzle = $this->getInput();
 
         foreach ($puzzle->numbers() as $number) {
-            $winner = $puzzle->markBoards($number);
-            if ($winner) {
+            $winners = $puzzle->markBoards($number);
+            foreach ($winners as $winner) {
                 return new PrimitiveValueSolution($winner->sum() * $number);
             }
         }
@@ -27,7 +28,18 @@ class Solver extends AbstractSolver
 
     protected function solvePartTwo(): Solution
     {
-        return new TodoSolution();
+        $puzzle = $this->getInput();
+
+        foreach($puzzle->numbers() as $number) {
+            $completedBoards = $puzzle->markBoards($number);
+            foreach($completedBoards as $board) {
+                if($puzzle->boardCount() === 1) {
+                    return new PrimitiveValueSolution($board->sum() * $number);
+                }
+                $puzzle->removeBoard($board);
+            }
+        }
+        throw new AnswerNotFoundException();
     }
 
     private function getInput(): PuzzleInput
