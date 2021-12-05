@@ -6,7 +6,6 @@ namespace App\Solvers\Y2021\Day5;
 
 use App\Contracts\Solution;
 use App\Solutions\GridSolution;
-use App\Solutions\PrimitiveValueSolution;
 use App\Solvers\AbstractSolver;
 use Illuminate\Support\Collection;
 
@@ -17,7 +16,7 @@ class Solver extends AbstractSolver
         $grid = [];
         $input = $this
             ->getInput()
-            ->reject(fn(Vector $vector) => $vector->isDiagonal());
+            ->reject(fn (Vector $vector) => $vector->isDiagonal());
         /** @var Vector $vector */
         foreach ($input as $vector) {
             $vector->applyToGrid($grid);
@@ -45,7 +44,7 @@ class Solver extends AbstractSolver
     {
         return $this->read('2021', '5')
             ->explode("\n")
-            ->map(fn(string $line) => Vector::fromString($line));
+            ->map(fn (string $line) => Vector::fromString($line));
     }
 
     private function calculatePointsWhereTwoLinesOverlap(array $grid): int

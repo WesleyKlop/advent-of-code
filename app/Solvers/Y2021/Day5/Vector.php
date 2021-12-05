@@ -13,6 +13,7 @@ class Vector
         private Point $to
     ) {
     }
+
     /**
      * Generate a list of points between the two points.
      * @return iterable<Point>
