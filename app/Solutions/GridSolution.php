@@ -17,12 +17,12 @@ class GridSolution extends AbstractSolution
     public function display(OutputInterface $output): void
     {
         $this->displayInfo($output);
-
         $output->writeln('Grid: ');
         $output->write($this->printGrid());
 
+        $this->displayInfo($output);
         $output->write('Solution: ');
-        $output->writeln($this->value()); 
+        $output->writeln($this->value());
     }
 
     public function value(): int
