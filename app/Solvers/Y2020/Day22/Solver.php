@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Solvers\Y2020\Day22;
 
 use App\Contracts\Solution;
@@ -13,15 +12,6 @@ use App\Solvers\AbstractSolver;
 
 class Solver extends AbstractSolver
 {
-    /** @return Player[] */
-    private function getInput(): array
-    {
-        return $this->read('2020', '22')
-            ->explode("\n\n")
-            ->map(fn($player) => $this->parsePlayer($player))
-            ->all();
-    }
-
     protected function solvePartOne(): Solution
     {
         [$player1, $player2] = $this->getInput();
@@ -49,6 +39,17 @@ class Solver extends AbstractSolver
     protected function solvePartTwo(): Solution
     {
         return new TodoSolution();
+    }
+
+    /**
+     * @return Player[]
+     */
+    private function getInput(): array
+    {
+        return $this->read('2020', '22')
+            ->explode("\n\n")
+            ->map(fn ($player) => $this->parsePlayer($player))
+            ->all();
     }
 
     private function parsePlayer(string $player): Player
