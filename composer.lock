@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7def96fc8941d757a6478f7719fead85",
+    "content-hash": "407895ef0b5322f7b97787d44f3b5be9",
     "packages": [
         {
             "name": "brick/math",
@@ -8058,16 +8058,16 @@
         },
         {
             "name": "symplify/easy-coding-standard",
-            "version": "10.0.0-beta16",
+            "version": "10.0.0-beta17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/easy-coding-standard.git",
-                "reference": "d3311ec2c767a978f6e64001f14a4f6119d0477f"
+                "reference": "84852e277ff8cd2ffcb18adf7ab2efd2a22c05a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/d3311ec2c767a978f6e64001f14a4f6119d0477f",
-                "reference": "d3311ec2c767a978f6e64001f14a4f6119d0477f",
+                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/84852e277ff8cd2ffcb18adf7ab2efd2a22c05a6",
+                "reference": "84852e277ff8cd2ffcb18adf7ab2efd2a22c05a6",
                 "shasum": ""
             },
             "require": {
@@ -8097,7 +8097,7 @@
             ],
             "description": "Prefixed scoped version of ECS package",
             "support": {
-                "source": "https://github.com/symplify/easy-coding-standard/tree/10.0.0-beta16"
+                "source": "https://github.com/symplify/easy-coding-standard/tree/10.0.0-beta17"
             },
             "funding": [
                 {
@@ -8109,7 +8109,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-12-02T10:55:20+00:00"
+            "time": "2021-12-06T18:24:53+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -8325,7 +8325,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.0"
+        "php": "^8.1"
     },
     "platform-dev": [],
     "plugin-api-version": "2.1.0"
