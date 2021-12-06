@@ -2,49 +2,16 @@
 
 declare(strict_types=1);
 
-
 namespace App\Solvers\Y2021\Day6;
 
-use App\Contracts\AcceptsArguments;
-use App\Contracts\HasProgressBar;
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
-use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
 use Illuminate\Support\Collection;
-use Symfony\Component\Console\Helper\ProgressBar;
 
-class Solver extends AbstractSolver implements HasProgressBar
+class Solver extends AbstractSolver
 {
     private int $simulateDays = 0;
-    private ProgressBar $progressBar;
-
-    /** @return Collection */
-    private function getInput(): Collection
-    {
-        return $this
-            ->read('2021', '6')
-            ->explode(',')
-            ->mapInto(LanternFish::class);
-    }
-
-    private function simulateLanternFish(): int
-    {
-        $this->progressBar->start($this->simulateDays);
-        $input = $this->getInput();
-        for ($i = 1; $i <= $this->simulateDays; $i++) {
-            $this->progressBar->advance();
-            /** @var LanternFish $fish */
-            foreach ($input as $fish) {
-                $shouldCreateNewFish = $fish->generation();
-                if ($shouldCreateNewFish) {
-                    $input->push(new LanternFish());
-                }
-            }
-        }
-        $this->progressBar->clear();
-        return $input->count();
-    }
 
     protected function solvePartOne(): Solution
     {
@@ -62,8 +29,41 @@ class Solver extends AbstractSolver implements HasProgressBar
         );
     }
 
-    public function setProgressBar(ProgressBar $progressBar): void
+    private function emptyGroup(): Collection
     {
-        $this->progressBar = $progressBar;
+        return collect(range(0, 9))
+            ->map(fn () => 0);
+    }
+
+    private function getInput(): Collection
+    {
+        $groups = $this->emptyGroup();
+        return $this
+            ->read('2021', '6')
+            ->explode(',')
+            ->reduce(function (Collection $groups, string $fish) {
+                $timer = (int) $fish;
+                $value = $groups->get($timer, 0);
+                $value++;
+                return $groups->put($timer, $value);
+            }, $groups);
+    }
+
+    private function simulateLanternFish(): int
+    {
+        $input = $this->getInput();
+        for ($i = 1; $i <= $this->simulateDays; $i++) {
+            $newInput = $this->emptyGroup();
+            foreach ($input as $timer => $fishCount) {
+                if ($timer === 0) {
+                    $newInput[6] += $fishCount;
+                    $newInput[8] += $fishCount;
+                    continue;
+                }
+                $newInput[$timer - 1] += $fishCount;
+            }
+            $input = $newInput;
+        }
+        return $input->sum();
     }
 }

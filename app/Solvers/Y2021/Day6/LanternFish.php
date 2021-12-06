@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Solvers\Y2021\Day6;
 
 class LanternFish
 {
-    public function __construct(private int $timer = 8)
-    {
+    public function __construct(
+        private int $timer = 8
+    ) {
     }
 
     public function age(): int
