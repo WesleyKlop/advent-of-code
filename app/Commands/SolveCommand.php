@@ -6,6 +6,7 @@ namespace App\Commands;
 
 use App\Contracts\AcceptsArguments;
 use App\Contracts\HasProgressBar;
+use App\DataTransferObjects\SolveConfiguration;
 use App\Exceptions\ApplicationException;
 use App\Factories\SolverFactory;
 use App\Http\Client\AdventOfCodeApiClient;
@@ -19,11 +20,11 @@ class SolveCommand extends Command
      * @var string
      */
     protected $signature = 'solve
-        {--year=2021 : Year to look for the solver}
+        {--year= : Year to look for the solver, defaults to current year}
         {--part= : The part to solve, defaults to both}
         {--fetch : If we want to fetch the input from the AoC website}
         {--test : Use the test.txt instead of input.txt}
-        {day : Day to solve}
+        {day? : Day to solve, defaults to today}
         {arguments?* : Extra arguments}';
 
     /**
@@ -38,16 +39,21 @@ class SolveCommand extends Command
      */
     public function handle(SolverFactory $solverFactory, AdventOfCodeApiClient $apiClient): int
     {
-        $year = (int) ($this->option('year') ?? config('app.defaults.year'));
-        $day = (int) $this->argument('day');
+        $config = SolveConfiguration::parse(
+            $this->option('year'),
+            $this->argument('day'),
+        );
 
         if ($this->option('fetch')) {
             // Make sure we have input to work with.
-            $apiClient->fetchInput($year, $day);
+            $apiClient->fetchInput(
+                $config->year,
+                $config->day,
+            );
         }
 
         try {
-            $solver = $solverFactory->make($year, $day);
+            $solver = $solverFactory->make($config);
         } catch (ApplicationException $exception) {
             $this->error($exception->getMessage());
             return 1;
@@ -65,15 +71,33 @@ class SolveCommand extends Command
             $solver->setProgressBar($this->getOutput()->createProgressBar());
         }
 
-        $parts = $this->option('part') ? [(int) $this->option('part')] : [1, 2];
+        $this->configurePart($config);
 
-        foreach ($parts as $part) {
+        foreach ($config->parts() as $part) {
             $solution = $solver->solve($part);
 
-            $solution->setMeta($year, $day, $part);
+            $solution->setMeta(
+                $config->year,
+                $config->day,
+                $part
+            );
             $solution->display($this->getOutput());
         }
 
         return 0;
+    }
+
+    public function configurePart(SolveConfiguration $config): void
+    {
+        switch ($this->option('part')) {
+            case '1':
+                $config->solveOnlyPartOne();
+                break;
+            case '2':
+                $config->solveOnlyPartTwo();
+                break;
+            default:
+                $config->solveBothParts();
+        }
     }
 }
