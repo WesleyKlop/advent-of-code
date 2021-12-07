@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Solvers\Y2021\Day7;
 
 use App\Contracts\HasProgressBar;
@@ -16,11 +15,9 @@ class Solver extends AbstractSolver implements HasProgressBar
 {
     private ProgressBar $progressBar;
 
-    private function getInput(): Collection
+    public function setProgressBar(ProgressBar $progressBar): void
     {
-        return $this->read('2021', '7')
-            ->explode(',')
-            ->map(fn($value): int => (int) $value);
+        $this->progressBar = $progressBar;
     }
 
     protected function solvePartOne(): Solution
@@ -61,15 +58,17 @@ class Solver extends AbstractSolver implements HasProgressBar
         return new PrimitiveValueSolution($bestCost);
     }
 
+    private function getInput(): Collection
+    {
+        return $this->read('2021', '7')
+            ->explode(',')
+            ->map(fn ($value): int => (int) $value);
+    }
+
     private function calculateFuelCost(int $crabPosition, int $targetPosition): int
     {
         $steps = abs($crabPosition - $targetPosition);
         // Gaussian sum formula
-        return (int)($steps * ($steps + 1) / 2);
-    }
-
-    public function setProgressBar(ProgressBar $progressBar): void
-    {
-        $this->progressBar = $progressBar;
+        return (int) ($steps * ($steps + 1) / 2);
     }
 }
