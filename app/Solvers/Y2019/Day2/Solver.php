@@ -2,63 +2,54 @@
 
 declare(strict_types=1);
 
-
 namespace App\Solvers\Y2019\Day2;
 
+use App\Common\IntCode\Computer;
+use App\Common\IntCode\IntCodeInput;
 use App\Contracts\Solution;
+use App\Exceptions\AnswerNotFoundException;
 use App\Solutions\PrimitiveValueSolution;
-use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Stringable;
 
 class Solver extends AbstractSolver
 {
-    private function getInput(): Collection
+    use IntCodeInput;
+
+    protected function getInput(): Stringable
     {
-        return $this
-            ->read('2019', '2')
-            ->explode(',')
-            ->map(fn($value) => (int) $value);
+        return $this->read('2019', '2');
     }
 
     protected function solvePartOne(): Solution
     {
-        $instructionPointer = 0;
-        $program = $this->getInput();
+        $program = $this->getProgram();
+        $computer = new Computer($program);
 
-        $program->put(1, 12);
-        $program->put(2, 2);
-        do {
-            $opcode = $program->get($instructionPointer);
-            [$aAddress, $bAddress, $destinationAddress] = $program->slice($instructionPointer + 1, 3)->values();
+        $program->write(1, 12);
+        $program->write(2, 2);
 
-            switch ($opcode) {
-                case 1:
-                    $a = $program->get($aAddress);
-                    $b = $program->get($bAddress);
-                    $program->put($destinationAddress, $a + $b);
-                    break;
-                case 2:
-                    $a = $program->get($aAddress);
-                    $b = $program->get($bAddress);
-                    $program->put($destinationAddress, $a * $b);
-                    break;
-                case 99:
-                    // We are finished!
-                    break;
-                default:
-                    throw new \Exception('Unknown opcode: ' . $opcode);
-            }
-            $instructionPointer += 4;
-            dump($program->join(','));
-        } while ($opcode !== 99);
+        $computer->run();
 
-        dump($program->join(','));
-        return new PrimitiveValueSolution($program->get(0));
+        return new PrimitiveValueSolution($program->read(0));
     }
 
     protected function solvePartTwo(): Solution
     {
-        return new TodoSolution();
+        $target = 19_690_720;
+        $computer = new Computer($this->getProgram());
+        foreach (range(0, 99) as $noun) {
+            foreach (range(0, 99) as $verb) {
+                $program = $this->getProgram();
+                $computer->reset($program);
+                $program->write(1, $noun);
+                $program->write(2, $verb);
+                $computer->run();
+                if ($program->read(0) === $target) {
+                    return new PrimitiveValueSolution($noun * 100 + $verb);
+                }
+            }
+        }
+        throw new AnswerNotFoundException('Failed to execute intcode program');
     }
 }
