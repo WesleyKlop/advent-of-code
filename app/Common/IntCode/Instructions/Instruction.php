@@ -19,32 +19,34 @@ abstract class Instruction
     public function __construct(
         public readonly Opcode $opcode,
         public readonly array $parameterModes,
-        public readonly int $raw,
         protected readonly int $instructionPointer,
     ) {
     }
 
-    public static function fromRaw(int $raw, int $instructionPointer): self
+    public static function fromRaw(int $raw, int $ip): self
     {
         $opcode = Opcode::from($raw % 100);
         $parameterModes = Str::of($raw)
             ->substr(0, -2)
             ->split(1)
-            ->transform(fn(string $char) => ParameterMode::from((int) $char))
-            ->all();
+            ->reverse()
+            ->map(fn(string $char) => ParameterMode::from((int) $char))
+            ->values()
+            ->toArray();
 
         return match ($opcode) {
-            Opcode::ADD => new AddInstruction($opcode, $parameterModes, $raw, $instructionPointer),
-            Opcode::MUL => new MulInstruction($opcode, $parameterModes, $raw, $instructionPointer),
-            Opcode::INPUT => new InputInstruction($opcode, $parameterModes, $raw, $instructionPointer),
-            Opcode::OUTPUT => new OutputInstruction($opcode, $parameterModes, $raw, $instructionPointer),
-            Opcode::HALT => new HaltInstruction($opcode, $parameterModes, $raw, $instructionPointer),
+            Opcode::ADD => new AddInstruction($opcode, $parameterModes, $ip),
+            Opcode::MUL => new MulInstruction($opcode, $parameterModes, $ip),
+            Opcode::INPUT => new InputInstruction($opcode, $parameterModes, $ip),
+            Opcode::OUTPUT => new OutputInstruction($opcode, $parameterModes, $ip),
+            Opcode::HALT => new HaltInstruction($opcode, $parameterModes, $ip),
         };
     }
 
     public function getParameterMode(int $idx): ParameterMode
     {
-        return $this->parameterModess[$idx] ?? ParameterMode::POSITION;
+        // By default, parameters are in position mode
+        return $this->parameterModes[$idx] ?? ParameterMode::POSITION;
     }
 
     public function readParameters(Program $program): array

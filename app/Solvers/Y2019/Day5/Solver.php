@@ -27,9 +27,12 @@ class Solver extends AbstractSolver
         $program = $this->getProgram();
         $computer = new Computer($program);
         $io = new SimpleArrayIo();
-        $io->write(1);
         $computer->attach($io);
+
+        $io->write(1);
+
         $computer->run();
+
         return new PrimitiveValueSolution($io->read());
     }
 
