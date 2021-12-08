@@ -2,28 +2,20 @@
 
 declare(strict_types=1);
 
-
 namespace App\Solvers\Y2019\Day7;
 
 use App\Common\IntCode\Computer;
 use App\Common\IntCode\IntCodeInput;
 use App\Common\IntCode\IO\QueueIo;
-use App\Common\IntCode\Program;
 use App\Common\Permutations;
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
-use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
 use Illuminate\Support\Stringable;
 
 class Solver extends AbstractSolver
 {
     use IntCodeInput;
-
-    private function getInput(): Stringable
-    {
-        return $this->read('2019', '7');
-    }
 
     protected function solvePartOne(): Solution
     {
@@ -98,5 +90,10 @@ class Solver extends AbstractSolver
             $results[] = $startIo->read();
         }
         return new PrimitiveValueSolution(max(...$results));
+    }
+
+    private function getInput(): Stringable
+    {
+        return $this->read('2019', '7');
     }
 }

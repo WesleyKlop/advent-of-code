@@ -12,7 +12,7 @@ trait IntCodeInput
     {
         $program = $this->getInput()
             ->explode(',')
-            ->map(fn($value) => (int) $value)
+            ->map(fn ($value) => (int) $value)
             ->all();
         return new Program($program);
     }
@@ -21,7 +21,7 @@ trait IntCodeInput
     {
         $parsed = Str::of($raw)
             ->explode(',')
-            ->map(fn($value) => (int) $value)
+            ->map(fn ($value) => (int) $value)
             ->all();
         return new Program($parsed);
     }

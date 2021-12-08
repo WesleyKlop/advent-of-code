@@ -10,15 +10,17 @@ use App\Common\IntCode\IO\InputProvider;
 
 class Computer
 {
-    private static int $idCounter = 0;
     use HasIoDevice;
 
+    private static int $idCounter = 0;
+
     private int $instructionPointer = 0;
+
     private int $id;
 
-
-    public function __construct(private Program $program,)
-    {
+    public function __construct(
+        private Program $program,
+    ) {
         $this->id = ++self::$idCounter;
     }
 
