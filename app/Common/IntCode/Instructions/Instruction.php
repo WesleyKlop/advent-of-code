@@ -30,7 +30,7 @@ class Instruction
             ->substr(0, -2)
             ->split(1)
             ->reverse()
-            ->map(fn(string $char) => ParameterMode::from((int) $char))
+            ->map(fn (string $char) => ParameterMode::from((int) $char))
             ->values()
             ->toArray();
         $parameterCount = match ($opcode) {
@@ -75,7 +75,7 @@ class Instruction
         if ($paramMode === ParameterMode::RELATIVE) {
             $program->write($destinationAddress + $relativeBase, $value);
         } elseif ($paramMode === ParameterMode::IMMEDIATE) {
-            throw new IntCodeException("Cannot write to immediate address");
+            throw new IntCodeException('Cannot write to immediate address');
         } else {
             $program->write($destinationAddress, $value);
         }

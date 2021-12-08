@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Common\IntCode\IO;
 
 class FiberIo extends QueueIo
@@ -15,7 +17,9 @@ class FiberIo extends QueueIo
         return parent::read();
     }
 
-    /** @throws \Throwable */
+    /**
+     * @throws \Throwable
+     */
     public function write(int $value): void
     {
         parent::write($value);
@@ -24,5 +28,4 @@ class FiberIo extends QueueIo
             $this->client->resume();
         }
     }
-
 }

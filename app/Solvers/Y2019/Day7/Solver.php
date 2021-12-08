@@ -8,7 +8,6 @@ use App\Common\IntCode\Computer;
 use App\Common\IntCode\IntCodeInput;
 use App\Common\IntCode\IO\FiberIo;
 use App\Common\IntCode\IO\QueueIo;
-use App\Common\IntCode\Program;
 use App\Common\Permutations;
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
