@@ -9,11 +9,11 @@ use App\Common\IntCode\Computer;
 use App\Common\IntCode\IntCodeInput;
 use App\Common\IntCode\IO\QueueIo;
 use App\Common\IntCode\Program;
+use App\Common\Permutations;
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
 use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Stringable;
 
 class Solver extends AbstractSolver
@@ -27,13 +27,7 @@ class Solver extends AbstractSolver
 
     private function getPermutations(): iterable
     {
-        $collection = collect(range(0, 4));
-        return $collection->crossJoin(
-            $collection,
-            $collection,
-            $collection,
-            $collection,
-        );
+        return Permutations::permuteUnique(range(0, 4));
     }
 
     protected function solvePartOne(): Solution
