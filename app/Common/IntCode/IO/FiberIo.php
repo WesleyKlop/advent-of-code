@@ -11,7 +11,9 @@ class FiberIo extends QueueIo
 {
     private ?Fiber $client = null;
 
-    /** @throws Throwable */
+    /**
+     * @throws Throwable
+     */
     public function read(): int
     {
         $this->client = Fiber::getCurrent();
@@ -21,7 +23,9 @@ class FiberIo extends QueueIo
         return parent::read();
     }
 
-    /** @throws Throwable */
+    /**
+     * @throws Throwable
+     */
     public function write(int $value): void
     {
         parent::write($value);
