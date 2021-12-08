@@ -25,15 +25,11 @@ class Solver extends AbstractSolver
         return $this->read('2019', '7');
     }
 
-    private function getPermutations(): iterable
-    {
-        return Permutations::permuteUnique(range(0, 4));
-    }
-
     protected function solvePartOne(): Solution
     {
+        $permutations = Permutations::permuteUnique(range(0, 4));
         $results = [];
-        foreach ($this->getPermutations() as $permutation) {
+        foreach ($permutations as $permutation) {
             $io1 = QueueIo::from([$permutation[0], 0]);
 
             $a = new Computer($this->getProgram());
@@ -69,6 +65,38 @@ class Solver extends AbstractSolver
 
     protected function solvePartTwo(): Solution
     {
-        return new TodoSolution();
+        $permutations = Permutations::permuteUnique(range(5, 9));
+        $results = [];
+        foreach ($permutations as $permutation) {
+            $startIo = QueueIo::from([$permutation[0], 0]);
+
+            $a = new Computer($this->getProgram());
+            $a->setInputProvider($startIo);
+            $a->setOutputProvider(QueueIo::from([$permutation[1]]));
+            $a->run();
+
+            $b = new Computer($this->getProgram());
+            $a->pipeOutputInto($b);
+            $b->setOutputProvider(QueueIo::from([$permutation[2]]));
+            $b->run();
+
+            $c = new Computer($this->getProgram());
+            $b->pipeOutputInto($c);
+            $c->setOutputProvider(QueueIo::from([$permutation[3]]));
+            $c->run();
+
+            $d = new Computer($this->getProgram());
+            $c->pipeOutputInto($d);
+            $d->setOutputProvider(QueueIo::from([$permutation[4]]));
+            $d->run();
+
+            $e = new Computer($this->getProgram());
+            $d->pipeOutputInto($e);
+            $e->pipeOutputInto($a);
+            $e->run();
+
+            $results[] = $startIo->read();
+        }
+        return new PrimitiveValueSolution(max(...$results));
     }
 }
