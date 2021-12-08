@@ -9,6 +9,7 @@ use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
 use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class Solver extends AbstractSolver
@@ -29,7 +30,7 @@ class Solver extends AbstractSolver
         9 => 6,
     ];
 
-    private function getInput(): mixed
+    private function getInput(): Collection
     {
         return $this->read('2021', '8')
             ->explode("\n")
@@ -45,10 +46,11 @@ class Solver extends AbstractSolver
     protected function solvePartOne(): Solution
     {
         $countByNumber = [];
-        $decoder = SegmentDisplayDecoder::make();
         foreach ($this->getInput() as [$signals, $values]) {
+            $decoder = SegmentDisplayDecoder::make();
+            $decoder->decodeWanted($signals + $values);
             foreach ($values as $digit) {
-                $int = $decoder->fitSegment($digit);
+                $int = $decoder->decode($digit);
                 if (! in_array($int, [1, 4, 7, 8], true)) {
                     continue;
                 }
@@ -61,13 +63,19 @@ class Solver extends AbstractSolver
 
     protected function solvePartTwo(): Solution
     {
-        $decoder = SegmentDisplayDecoder::make();
+        $sum = [];
         foreach ($this->getInput() as [$signals, $values]) {
-            foreach ($values as $digit) {
-                $decoder->fitSegment($digit);
+            $decoder = SegmentDisplayDecoder::make();
+            $decoder->decodeWanted($signals + $values);
+            foreach($signals + $values as $signal) {
+                $decoder->decode($signal);
             }
+            $output = '';
+            foreach($values as $value) {
+                $output .= $decoder->decode($value);
+            }
+            $sum[] = (int)$output;
         }
-        dd($decoder);
-        return new PrimitiveValueSolution(count($decoder->solved()));
+        return new PrimitiveValueSolution(array_sum($sum));
     }
 }
