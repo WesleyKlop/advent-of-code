@@ -33,13 +33,12 @@ class Instruction
             ->values()
             ->toArray();
         $parameterCount = match ($opcode) {
-            Opcode::ADD, Opcode::MUL => 2,
             Opcode::OUTPUT => 1,
             Opcode::INPUT, Opcode::HALT => 0,
+            default => 2,
         };
 
-        return new static(
-            $opcode, $parameterModes, $ip, $parameterCount);
+        return new static($opcode, $parameterModes, $ip, $parameterCount);
     }
 
     public function getParameterMode(int $idx): ParameterMode

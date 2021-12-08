@@ -11,5 +11,10 @@ enum Opcode: int
     case INPUT = 3;
     case OUTPUT = 4;
 
+    case JUMP_IF_TRUE = 5;
+    case JUMP_IF_FALSE = 6;
+    case LESS_THAN = 7;
+    case EQUALS = 8;
+
     case HALT = 99;
 }

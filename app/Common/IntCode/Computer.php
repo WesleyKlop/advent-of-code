@@ -54,6 +54,28 @@ class Computer
                 [$output] = $instruction->readParameters($this->program);
                 $this->outputProvider->write($output);
                 return 2;
+            case Opcode::JUMP_IF_TRUE:
+                [$a, $b] = $instruction->readParameters($this->program);
+                if ($a !== 0) {
+                    return $b - $this->instructionPointer;
+                }
+                return 3;
+            case Opcode::JUMP_IF_FALSE:
+                [$a, $b] = $instruction->readParameters($this->program);
+                if ($a === 0) {
+                    return $b - $this->instructionPointer;
+                }
+                return 3;
+            case Opcode::LESS_THAN:
+                [$a, $b] = $instruction->readParameters($this->program);
+                $destinationAddress = $instruction->readDestinationAddress($this->program);
+                $this->program->write($destinationAddress, $a < $b ? 1 : 0);
+                return 4;
+            case Opcode::EQUALS:
+                [$a, $b] = $instruction->readParameters($this->program);
+                $destinationAddress = $instruction->readDestinationAddress($this->program);
+                $this->program->write($destinationAddress, $a === $b ? 1 : 0);
+                return 4;
             case Opcode::HALT:
                 // We are finished!
                 return 0;

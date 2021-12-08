@@ -9,7 +9,6 @@ use App\Common\IntCode\IntCodeInput;
 use App\Common\IntCode\IO\SimpleArrayIo;
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
-use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
 use Illuminate\Support\Stringable;
 
@@ -38,6 +37,15 @@ class Solver extends AbstractSolver
 
     protected function solvePartTwo(): Solution
     {
-        return new TodoSolution();
+        $program = $this->getProgram();
+        $computer = new Computer($program);
+        $io = new SimpleArrayIo();
+        $computer->attach($io);
+
+        $io->write(5);
+
+        $computer->run();
+
+        return new PrimitiveValueSolution($io->read());
     }
 }
