@@ -9,10 +9,8 @@ use App\Common\IntCode\ParameterMode;
 use App\Common\IntCode\Program;
 use Illuminate\Support\Str;
 
-abstract class Instruction
+class Instruction
 {
-    protected const PARAMETER_COUNT = 0;
-
     /**
      * @param list<ParameterMode> $parameterModes
      */
@@ -20,6 +18,7 @@ abstract class Instruction
         public readonly Opcode $opcode,
         public readonly array $parameterModes,
         protected readonly int $instructionPointer,
+        private readonly int $parameterCount,
     ) {
     }
 
@@ -30,17 +29,17 @@ abstract class Instruction
             ->substr(0, -2)
             ->split(1)
             ->reverse()
-            ->map(fn(string $char) => ParameterMode::from((int) $char))
+            ->map(fn (string $char) => ParameterMode::from((int) $char))
             ->values()
             ->toArray();
-
-        return match ($opcode) {
-            Opcode::ADD => new AddInstruction($opcode, $parameterModes, $ip),
-            Opcode::MUL => new MulInstruction($opcode, $parameterModes, $ip),
-            Opcode::INPUT => new InputInstruction($opcode, $parameterModes, $ip),
-            Opcode::OUTPUT => new OutputInstruction($opcode, $parameterModes, $ip),
-            Opcode::HALT => new HaltInstruction($opcode, $parameterModes, $ip),
+        $parameterCount = match ($opcode) {
+            Opcode::ADD, Opcode::MUL => 2,
+            Opcode::OUTPUT => 1,
+            Opcode::INPUT, Opcode::HALT => 0,
         };
+
+        return new static(
+            $opcode, $parameterModes, $ip, $parameterCount);
     }
 
     public function getParameterMode(int $idx): ParameterMode
@@ -51,7 +50,7 @@ abstract class Instruction
 
     public function readParameters(Program $program): array
     {
-        $parameters = range(1, static::PARAMETER_COUNT);
+        $parameters = range(1, $this->parameterCount);
         foreach ($parameters as $idx => $offset) {
             $mode = $this->getParameterMode($idx);
             $parameters[$idx] = $program->read($this->instructionPointer + $offset);
@@ -64,6 +63,6 @@ abstract class Instruction
 
     public function readDestinationAddress(Program $program): int
     {
-        return $program->read($this->instructionPointer + static::PARAMETER_COUNT + 1);
+        return $program->read($this->instructionPointer + $this->parameterCount + 1);
     }
 }
