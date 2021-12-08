@@ -4,22 +4,24 @@ declare(strict_types=1);
 
 namespace App\Common\IntCode\IO;
 
+use Fiber;
+use Throwable;
+
 class FiberIo extends QueueIo
 {
-    private ?\Fiber $client = null;
+    private ?Fiber $client = null;
 
+    /** @throws Throwable */
     public function read(): int
     {
+        $this->client = Fiber::getCurrent();
         if (empty($this->data)) {
-            $this->client = \Fiber::getCurrent();
-            \Fiber::suspend();
+            Fiber::suspend();
         }
         return parent::read();
     }
 
-    /**
-     * @throws \Throwable
-     */
+    /** @throws Throwable */
     public function write(int $value): void
     {
         parent::write($value);
