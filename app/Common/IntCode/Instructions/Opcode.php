@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Common\IntCode;
+namespace App\Common\IntCode\Instructions;
 
 enum Opcode: int
 {

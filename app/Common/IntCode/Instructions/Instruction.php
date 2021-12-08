@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Common\IntCode\Instructions;
 
 use App\Common\IntCode\IntCodeException;
-use App\Common\IntCode\Opcode;
-use App\Common\IntCode\ParameterMode;
 use App\Common\IntCode\Program;
 use Illuminate\Support\Str;
 

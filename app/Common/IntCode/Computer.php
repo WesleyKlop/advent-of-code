@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Common\IntCode;
 
 use App\Common\IntCode\Instructions\Instruction;
+use App\Common\IntCode\Instructions\Opcode;
 use App\Common\IntCode\IO\HasIoDevice;
 use App\Common\IntCode\IO\InputProvider;
 use Fiber;

@@ -31,11 +31,10 @@ class Program
     public function dump(): void
     {
         /** @noinspection ForgottenDebugOutputInspection */
-        dump(implode(',', array_merge(
-            [],
-            $this->readLayer,
-            $this->writeLayer,
-        )));
+        dump(implode(',', [
+            ...$this->readLayer,
+            ...$this->writeLayer,
+        ]));
     }
 
     public function read(int $address): int
