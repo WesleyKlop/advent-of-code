@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 
 abstract class Instruction
 {
+    protected const PARAMETER_COUNT = 0;
+
     /**
      * @param list<ParameterMode> $parameterModes
      */
@@ -28,7 +30,7 @@ abstract class Instruction
         $parameterModes = Str::of($raw)
             ->substr(0, -2)
             ->split(1)
-            ->transform(fn (string $char) => ParameterMode::from((int) $char))
+            ->transform(fn(string $char) => ParameterMode::from((int) $char))
             ->all();
 
         return match ($opcode) {
@@ -45,10 +47,21 @@ abstract class Instruction
         return $this->parameterModess[$idx] ?? ParameterMode::POSITION;
     }
 
-    /**
-     * @param Program $program *@return list<int>
-     */
-    abstract public function readParameters(Program $program): array;
+    public function readParameters(Program $program): array
+    {
+        $parameters = range(1, static::PARAMETER_COUNT);
+        foreach ($parameters as $idx => $offset) {
+            $mode = $this->getParameterMode($idx);
+            $parameters[$idx] = $program->read($this->instructionPointer + $offset);
+            if ($mode === ParameterMode::POSITION) {
+                $parameters[$idx] = $program->read($parameters[$idx]);
+            }
+        }
+        return $parameters;
+    }
 
-    abstract public function readDestinationAddress(Program $program): int;
+    public function readDestinationAddress(Program $program): int
+    {
+        return $program->read($this->instructionPointer + static::PARAMETER_COUNT + 1);
+    }
 }

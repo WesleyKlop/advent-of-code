@@ -24,11 +24,10 @@ class Solver extends AbstractSolver
     protected function solvePartOne(): Solution
     {
         $program = $this->getProgram();
-        $computer = new Computer($program);
-
         $program->write(1, 12);
         $program->write(2, 2);
 
+        $computer = new Computer($program);
         $computer->run();
 
         return new PrimitiveValueSolution($program->read(0));

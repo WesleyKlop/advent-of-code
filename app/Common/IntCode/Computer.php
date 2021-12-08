@@ -40,12 +40,12 @@ class Computer
                 [$a, $b] = $instruction->readParameters($this->program);
                 $destinationAddress = $instruction->readDestinationAddress($this->program);
                 $this->program->write($destinationAddress, $a + $b);
-                return 3;
+                return 4;
             case Opcode::MUL:
                 [$a, $b] = $instruction->readParameters($this->program);
                 $destinationAddress = $instruction->readDestinationAddress($this->program);
                 $this->program->write($destinationAddress, $a * $b);
-                return 3;
+                return 4;
             case Opcode::INPUT:
                 $destinationAddress = $instruction->readDestinationAddress($this->program);
                 $this->program->write($destinationAddress, $this->inputProvider->read());
