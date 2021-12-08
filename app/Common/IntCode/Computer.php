@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace App\Common\IntCode;
 
+use App\Common\IntCode\Instructions\Instruction;
+use App\Common\IntCode\IO\HasIoDevice;
+
 class Computer
 {
+    use HasIoDevice;
+
     private int $instructionPointer = 0;
 
     public function __construct(
@@ -13,47 +18,52 @@ class Computer
     ) {
     }
 
-    public function reset(Program $program): void
+    public function reset(): void
     {
         $this->instructionPointer = 0;
-        $this->program = $program;
+        $this->program->reset();
     }
 
     public function run(): void
     {
         do {
-            $opcode = $this->readOpcode();
-            [$aAddress, $bAddress, $destinationAddress] = $this->readArguments();
-
-            switch ($opcode) {
-                case Opcode::ADD:
-                    $a = $this->program->read($aAddress);
-                    $b = $this->program->read($bAddress);
-                    $this->program->write($destinationAddress, $a + $b);
-                    break;
-                case Opcode::MUL:
-                    $a = $this->program->read($aAddress);
-                    $b = $this->program->read($bAddress);
-                    $this->program->write($destinationAddress, $a * $b);
-                    break;
-                case Opcode::HALT:
-                    // We are finished!
-                    break;
-            }
-            $this->instructionPointer += 4;
-        } while ($opcode !== Opcode::HALT);
+            $instruction = $this->readInstruction();
+            $jump = $this->execute($instruction);
+            $this->instructionPointer += $jump;
+        } while ($instruction->opcode !== Opcode::HALT);
     }
 
-    private function readOpcode(): Opcode
+    public function execute(Instruction $instruction): int
+    {
+        switch ($instruction->opcode) {
+            case Opcode::ADD:
+                [$a, $b] = $instruction->readParameters($this->program);
+                $destinationAddress = $instruction->readDestinationAddress($this->program);
+                $this->program->write($destinationAddress, $a + $b);
+                return 3;
+            case Opcode::MUL:
+                [$a, $b] = $instruction->readParameters($this->program);
+                $destinationAddress = $instruction->readDestinationAddress($this->program);
+                $this->program->write($destinationAddress, $a * $b);
+                return 3;
+            case Opcode::INPUT:
+                $destinationAddress = $instruction->readDestinationAddress($this->program);
+                $this->program->write($destinationAddress, $this->inputProvider->read());
+                return 2;
+            case Opcode::OUTPUT:
+                [$output] = $instruction->readParameters($this->program);
+                $this->outputProvider->write($output);
+                return 2;
+            case Opcode::HALT:
+                // We are finished!
+                return 0;
+        }
+        throw new IntCodeException('Unreachable code reached');
+    }
+
+    private function readInstruction(): Instruction
     {
         $raw = $this->program->read($this->instructionPointer);
-        return (new Opcode())->from($raw);
-    }
-
-    private function readArguments(): array
-    {
-        return iterator_to_array(
-            $this->program->readMany($this->instructionPointer + 1, 3)
-        );
+        return Instruction::fromRaw($raw, $this->instructionPointer);
     }
 }

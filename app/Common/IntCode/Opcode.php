@@ -8,5 +8,8 @@ enum Opcode: int
 {
     case ADD = 1;
     case MUL = 2;
+    case INPUT = 3;
+    case OUTPUT = 4;
+
     case HALT = 99;
 }

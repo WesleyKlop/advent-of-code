@@ -19,6 +19,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $parameters->set(Option::SKIP, [
+        \Rector\Php70\Rector\StaticCall\StaticCallOnNonStaticToInstanceCallRector::class,
         \Rector\Php81\Rector\Property\ReadOnlyPropertyRector::class,
     ]);
 

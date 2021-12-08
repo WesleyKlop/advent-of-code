@@ -37,11 +37,11 @@ class Solver extends AbstractSolver
     protected function solvePartTwo(): Solution
     {
         $target = 19_690_720;
-        $computer = new Computer($this->getProgram());
+        $program = $this->getProgram();
+        $computer = new Computer($program);
         foreach (range(0, 99) as $noun) {
             foreach (range(0, 99) as $verb) {
-                $program = $this->getProgram();
-                $computer->reset($program);
+                $computer->reset();
                 $program->write(1, $noun);
                 $program->write(2, $verb);
                 $computer->run();
