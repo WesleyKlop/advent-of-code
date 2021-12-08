@@ -9,6 +9,7 @@ use App\Common\IntCode\Computer;
 use App\Common\IntCode\IntCodeInput;
 use App\Common\IntCode\IO\FiberIo;
 use App\Common\IntCode\IO\QueueIo;
+use App\Common\IntCode\Program;
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
 use App\Solutions\TodoSolution;
@@ -27,15 +28,21 @@ class Solver extends AbstractSolver
     protected function solvePartOne(): Solution
     {
         $program = $this->getProgram();
+//        $program = new Program([109, 1, 203, 2, 204, 2, 99]);
         $io = QueueIo::from([1]);
         $computer = new Computer($program);
         $computer->attach($io);
         $computer->run();
-        return new PrimitiveValueSolution(implode(',',$io->view()));
+        return new PrimitiveValueSolution(implode(',', $io->view()));
     }
 
     protected function solvePartTwo(): Solution
     {
-        return new TodoSolution();
+        $program = $this->getProgram();
+        $io = QueueIo::from([2]);
+        $computer = new Computer($program);
+        $computer->attach($io);
+        $computer->run();
+        return new PrimitiveValueSolution(implode(',', $io->view()));
     }
 }

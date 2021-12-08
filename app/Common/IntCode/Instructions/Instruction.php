@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Common\IntCode\Instructions;
 
+use App\Common\IntCode\IntCodeException;
 use App\Common\IntCode\Opcode;
 use App\Common\IntCode\ParameterMode;
 use App\Common\IntCode\Program;
@@ -55,8 +56,7 @@ class Instruction
             $parameters[$idx] = $program->read($this->instructionPointer + $offset);
             if ($mode === ParameterMode::POSITION) {
                 $parameters[$idx] = $program->read($parameters[$idx]);
-            }
-            if ($mode === ParameterMode::RELATIVE) {
+            } elseif ($mode === ParameterMode::RELATIVE) {
                 $parameters[$idx] = $program->read($parameters[$idx] + $relativeBase);
             }
         }
@@ -71,9 +71,11 @@ class Instruction
     public function writeResult(Program $program, int $relativeBase, int $value): void
     {
         $destinationAddress = $this->readDestinationAddress($program);
-        $paramMode = $this->getParameterMode($this->parameterCount + 1);
+        $paramMode = $this->getParameterMode($this->parameterCount);
         if ($paramMode === ParameterMode::RELATIVE) {
             $program->write($destinationAddress + $relativeBase, $value);
+        } elseif ($paramMode === ParameterMode::IMMEDIATE) {
+            throw new IntCodeException("Cannot write to immediate address");
         } else {
             $program->write($destinationAddress, $value);
         }
