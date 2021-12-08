@@ -7,6 +7,7 @@ namespace App\Common\IntCode;
 use App\Common\IntCode\Instructions\Instruction;
 use App\Common\IntCode\IO\HasIoDevice;
 use App\Common\IntCode\IO\InputProvider;
+use Fiber;
 
 class Computer
 {
@@ -39,13 +40,17 @@ class Computer
         $other->setInputProvider($this->outputProvider);
     }
 
-    public function run(): void
+    public function run(): Fiber
     {
-        do {
-            $instruction = $this->readInstruction();
-            $jump = $this->execute($instruction);
-            $this->instructionPointer += $jump;
-        } while ($instruction->opcode !== Opcode::HALT);
+        $fiber = new Fiber(function () {
+            do {
+                $instruction = $this->readInstruction();
+                $jump = $this->execute($instruction);
+                $this->instructionPointer += $jump;
+            } while ($instruction->opcode !== Opcode::HALT);
+        });
+        $fiber->start();
+        return $fiber;
     }
 
     public function execute(Instruction $instruction): int

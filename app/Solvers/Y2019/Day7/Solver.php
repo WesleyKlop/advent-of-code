@@ -6,7 +6,9 @@ namespace App\Solvers\Y2019\Day7;
 
 use App\Common\IntCode\Computer;
 use App\Common\IntCode\IntCodeInput;
+use App\Common\IntCode\IO\FiberIo;
 use App\Common\IntCode\IO\QueueIo;
+use App\Common\IntCode\Program;
 use App\Common\Permutations;
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
@@ -58,33 +60,33 @@ class Solver extends AbstractSolver
     protected function solvePartTwo(): Solution
     {
         $permutations = Permutations::permuteUnique(range(5, 9));
-        $results = [];
+        $results = [0];
         foreach ($permutations as $permutation) {
-            $startIo = QueueIo::from([$permutation[0], 0]);
+            $startIo = FiberIo::from([$permutation[0], 0]);
 
             $a = new Computer($this->getProgram());
             $a->setInputProvider($startIo);
-            $a->setOutputProvider(QueueIo::from([$permutation[1]]));
+            $a->setOutputProvider(FiberIo::from([$permutation[1]]));
             $a->run();
 
             $b = new Computer($this->getProgram());
             $a->pipeOutputInto($b);
-            $b->setOutputProvider(QueueIo::from([$permutation[2]]));
+            $b->setOutputProvider(FiberIo::from([$permutation[2]]));
             $b->run();
 
             $c = new Computer($this->getProgram());
             $b->pipeOutputInto($c);
-            $c->setOutputProvider(QueueIo::from([$permutation[3]]));
+            $c->setOutputProvider(FiberIo::from([$permutation[3]]));
             $c->run();
 
             $d = new Computer($this->getProgram());
             $c->pipeOutputInto($d);
-            $d->setOutputProvider(QueueIo::from([$permutation[4]]));
+            $d->setOutputProvider(FiberIo::from([$permutation[4]]));
             $d->run();
 
             $e = new Computer($this->getProgram());
             $d->pipeOutputInto($e);
-            $e->pipeOutputInto($a);
+            $e->setOutputProvider($startIo);
             $e->run();
 
             $results[] = $startIo->read();
