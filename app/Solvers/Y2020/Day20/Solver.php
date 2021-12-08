@@ -13,7 +13,6 @@ class Solver extends AbstractSolver
 {
     protected function solvePartOne(): Solution
     {
-        $this->overrideFileName('test.txt');
         $tiles = $this->getInput();
         return new TodoSolution();
     }

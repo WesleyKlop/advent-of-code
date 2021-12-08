@@ -8,10 +8,11 @@ namespace App\Solvers\Y:year\Day:day;
 use App\Contracts\Solution;
 use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
+use Illuminate\Support\Stringable;
 
 class Solver extends AbstractSolver
 {
-    private function getInput(): mixed
+    private function getInput(): Stringable
     {
         return $this->read(':year', ':day');
     }

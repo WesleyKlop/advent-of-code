@@ -6,22 +6,35 @@ namespace App\Common\IntCode;
 
 use App\Common\IntCode\Instructions\Instruction;
 use App\Common\IntCode\IO\HasIoDevice;
+use App\Common\IntCode\IO\InputProvider;
 
 class Computer
 {
+    private static int $idCounter = 0;
     use HasIoDevice;
 
     private int $instructionPointer = 0;
+    private int $id;
 
-    public function __construct(
-        private Program $program,
-    ) {
+
+    public function __construct(private Program $program,)
+    {
+        $this->id = ++self::$idCounter;
     }
 
     public function reset(): void
     {
         $this->instructionPointer = 0;
         $this->program->reset();
+    }
+
+    public function pipeOutputInto(self $other): void
+    {
+        if (! $this->outputProvider instanceof InputProvider) {
+            throw new IntCodeException("Could not attach two computers {$other->id} to {$this->id} :(");
+        }
+
+        $other->setInputProvider($this->outputProvider);
     }
 
     public function run(): void

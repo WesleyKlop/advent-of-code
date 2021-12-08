@@ -6,7 +6,7 @@ namespace App\Solvers\Y2019\Day5;
 
 use App\Common\IntCode\Computer;
 use App\Common\IntCode\IntCodeInput;
-use App\Common\IntCode\IO\SimpleArrayIo;
+use App\Common\IntCode\IO\QueueIo;
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
 use App\Solvers\AbstractSolver;
@@ -25,7 +25,7 @@ class Solver extends AbstractSolver
     {
         $program = $this->getProgram();
         $computer = new Computer($program);
-        $io = new SimpleArrayIo();
+        $io = new QueueIo();
         $computer->attach($io);
 
         $io->write(1);
@@ -39,7 +39,7 @@ class Solver extends AbstractSolver
     {
         $program = $this->getProgram();
         $computer = new Computer($program);
-        $io = new SimpleArrayIo();
+        $io = new QueueIo();
         $computer->attach($io);
 
         $io->write(5);

@@ -12,11 +12,6 @@ trait UsesInput
 {
     protected string $fileName = 'input.txt';
 
-    public function overrideFileName(string $fileName): void
-    {
-        $this->fileName = $fileName;
-    }
-
     protected function read(string $year, string $day): Stringable
     {
         $path = $this->getPath($year, $day, $this->fileName);

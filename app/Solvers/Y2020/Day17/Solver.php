@@ -23,7 +23,6 @@ class Solver extends AbstractSolver
 
     protected function solvePartTwo(): Solution
     {
-        $this->overrideFileName('test.txt');
         $pocketDimension = $this->createPocketDimension(4);
 
         for ($i = 0; $i < 6; $i++) {
