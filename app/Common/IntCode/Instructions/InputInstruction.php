@@ -8,5 +8,5 @@ use App\Common\IntCode\Program;
 
 class InputInstruction extends Instruction
 {
-    protected final const PARAMETER_COUNT = 1;
+    protected final const PARAMETER_COUNT = 0;
 }
