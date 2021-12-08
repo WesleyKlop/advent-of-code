@@ -29,4 +29,9 @@ class QueueIo implements OutputProvider, InputProvider
     {
         $this->data[] = $value;
     }
+
+    public function view(): array
+    {
+        return $this->data;
+    }
 }

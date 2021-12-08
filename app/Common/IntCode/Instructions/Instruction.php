@@ -29,11 +29,11 @@ class Instruction
             ->substr(0, -2)
             ->split(1)
             ->reverse()
-            ->map(fn (string $char) => ParameterMode::from((int) $char))
+            ->map(fn(string $char) => ParameterMode::from((int) $char))
             ->values()
             ->toArray();
         $parameterCount = match ($opcode) {
-            Opcode::OUTPUT => 1,
+            Opcode::OUTPUT, Opcode::ADJUST_RELATIVE_BASE => 1,
             Opcode::INPUT, Opcode::HALT => 0,
             default => 2,
         };
@@ -47,7 +47,7 @@ class Instruction
         return $this->parameterModes[$idx] ?? ParameterMode::POSITION;
     }
 
-    public function readParameters(Program $program): array
+    public function readParameters(Program $program, int $relativeBase): array
     {
         $parameters = range(1, $this->parameterCount);
         foreach ($parameters as $idx => $offset) {
@@ -56,6 +56,9 @@ class Instruction
             if ($mode === ParameterMode::POSITION) {
                 $parameters[$idx] = $program->read($parameters[$idx]);
             }
+            if ($mode === ParameterMode::RELATIVE) {
+                $parameters[$idx] = $program->read($parameters[$idx] + $relativeBase);
+            }
         }
         return $parameters;
     }
@@ -63,5 +66,16 @@ class Instruction
     public function readDestinationAddress(Program $program): int
     {
         return $program->read($this->instructionPointer + $this->parameterCount + 1);
+    }
+
+    public function writeResult(Program $program, int $relativeBase, int $value): void
+    {
+        $destinationAddress = $this->readDestinationAddress($program);
+        $paramMode = $this->getParameterMode($this->parameterCount + 1);
+        if ($paramMode === ParameterMode::RELATIVE) {
+            $program->write($destinationAddress + $relativeBase, $value);
+        } else {
+            $program->write($destinationAddress, $value);
+        }
     }
 }

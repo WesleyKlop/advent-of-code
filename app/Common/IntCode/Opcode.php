@@ -16,5 +16,7 @@ enum Opcode: int
     case LESS_THAN = 7;
     case EQUALS = 8;
 
+    case ADJUST_RELATIVE_BASE = 9;
+
     case HALT = 99;
 }

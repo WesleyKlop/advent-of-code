@@ -40,6 +40,6 @@ class Program
 
     public function read(int $address): int
     {
-        return $this->writeLayer[$address] ?? $this->readLayer[$address];
+        return $this->writeLayer[$address] ?? $this->readLayer[$address] ?? 0;
     }
 }
