@@ -1,90 +1,78 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Solvers\Y2021\Day8;
 
 class SegmentDisplayDecoder
 {
-    /**
-     * Corresponds to how many segments a digit has.
-     */
-    private const NUMBER_SEGMENT_MAP = [
-        0 => 6,
-        1 => 2,
-        2 => 5,
-        3 => 5,
-        4 => 4,
-        5 => 5,
-        6 => 6,
-        7 => 3,
-        8 => 7,
-        9 => 6,
-    ];
-
-    private function __construct(public array $mapping)
-    {
+    private function __construct(
+        private array $segmentsToNumber,
+        private array $numberToSegments
+    ) {
     }
 
     public static function make(): static
     {
-        return new static ([
+        $mapping = [
             'abcdefg' => 8,
-        ]);
+        ];
+        return new static (
+            $mapping,
+            array_flip($mapping)
+        );
     }
 
-    public function isDecoded(int $val): bool
+    public function addMapping(int $number, string $segments): void
     {
-        return collect($this->mapping)
-            ->filter()
-            ->flip()
-            ->has($val);
+        $this->segmentsToNumber[$segments] = $number;
+        $this->numberToSegments[$number] = $segments;
     }
 
-    private function normalizeDigit(string $digit): string
+    public function hasMapping(int|string $value): bool
     {
-        $exploded = str_split($digit);
-        sort($exploded);
-        return implode('', $exploded);
+        if (is_int($value)) {
+            return array_key_exists($value, $this->numberToSegments);
+        }
+        return array_key_exists($value, $this->segmentsToNumber);
     }
 
     public function decode(string $digit): ?int
     {
         $normalized = $this->normalizeDigit($digit);
-        if (array_key_exists($normalized, $this->mapping)) {
-            return $this->mapping[$normalized];
+        if ($this->hasMapping($normalized)) {
+            return $this->segmentsToNumber[$normalized];
         }
 
-        $reverseArrayMapping = collect($this->mapping)
-            ->filter()
-            ->flip()
-            ->map(fn($str) => str_split($str));
+        $exploded = str_split($normalized);
 
         if (strlen($digit) === 5) {
-            if (count(array_intersect($reverseArrayMapping->get(7), str_split($normalized))) === 3) {
+            if ($this->countIntersection(7, $exploded) === 3) {
                 // If we intersect with 7 and get a length of 3, the number is 3
-                $this->mapping[$normalized] = 3;
-            } elseif (count(array_intersect($reverseArrayMapping->get(4), str_split($normalized))) === 3) {
+                $this->addMapping(3, $normalized);
+            } elseif ($this->countIntersection(4, $exploded) === 3) {
                 // If we intersect with 4 and get a length of 3, the number is 5
-                $this->mapping[$normalized] = 5;
+                $this->addMapping(5, $normalized);
             } else {
                 // Otherwise it's a 2
-                $this->mapping[$normalized] = 2;
+                $this->addMapping(2, $normalized);
             }
         }
 
         if (strlen($digit) === 6) {
-            if (count(array_intersect($reverseArrayMapping->get(4), str_split($normalized))) === 4) {
+            if ($this->countIntersection(4, $exploded) === 4) {
                 // If we intersect with 4 and get a length of 4, the number is 9
-                $this->mapping[$normalized] = 9;
-            } elseif (count(array_intersect($reverseArrayMapping->get(7), str_split($normalized))) === 3) {
+                $this->addMapping(9, $normalized);
+            } elseif ($this->countIntersection(7, $exploded) === 3) {
                 // If we intersect with 7 and get a length of 3, the number is 0
-                $this->mapping[$normalized] = 0;
+                $this->addMapping(0, $normalized);
             } else {
                 // Otherwise it's a 6
-                $this->mapping[$normalized] = 6;
+                $this->addMapping(6, $normalized);
             }
         }
 
-        return $this->mapping[$normalized];
+        return $this->segmentsToNumber[$normalized];
     }
 
     public function decodeWanted(array $input): void
@@ -93,21 +81,36 @@ class SegmentDisplayDecoder
             switch (strlen($wanted)) {
                 case 2:
                     $normalized = $this->normalizeDigit($wanted);
-                    $this->mapping[$normalized] = 1;
+                    $this->addMapping(1, $normalized);
                     break;
                 case 3:
                     $normalized = $this->normalizeDigit($wanted);
-                    $this->mapping[$normalized] = 7;
+                    $this->addMapping(7, $normalized);
                     break;
                 case 4:
                     $normalized = $this->normalizeDigit($wanted);
-                    $this->mapping[$normalized] = 4;
+                    $this->addMapping(4, $normalized);
                     break;
                 case 7:
                     $normalized = $this->normalizeDigit($wanted);
-                    $this->mapping[$normalized] = 8;
+                    $this->segmentsToNumber[$normalized] = 8;
                     break;
             }
         }
+    }
+
+    public function countIntersection(int $key, array $exploded): int
+    {
+        return count(array_intersect(
+            str_split($this->numberToSegments[$key]),
+            $exploded,
+        ));
+    }
+
+    private function normalizeDigit(string $digit): string
+    {
+        $exploded = str_split($digit);
+        sort($exploded);
+        return implode('', $exploded);
     }
 }

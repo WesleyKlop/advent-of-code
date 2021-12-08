@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-
 namespace App\Solvers\Y2021\Day8;
 
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
-use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -30,19 +28,6 @@ class Solver extends AbstractSolver
         9 => 6,
     ];
 
-    private function getInput(): Collection
-    {
-        return $this->read('2021', '8')
-            ->explode("\n")
-            ->map(
-                fn(string $row) => Str::of($row)
-                    ->explode(" | ")
-                    ->map(
-                        fn(string $segment) => explode(' ', $segment)
-                    )
-            );
-    }
-
     protected function solvePartOne(): Solution
     {
         $countByNumber = [];
@@ -54,7 +39,7 @@ class Solver extends AbstractSolver
                 if (! in_array($int, [1, 4, 7, 8], true)) {
                     continue;
                 }
-                $countByNumber[$int] ??=  0;
+                $countByNumber[$int] ??= 0;
                 $countByNumber[$int]++;
             }
         }
@@ -67,15 +52,28 @@ class Solver extends AbstractSolver
         foreach ($this->getInput() as [$signals, $values]) {
             $decoder = SegmentDisplayDecoder::make();
             $decoder->decodeWanted($signals + $values);
-            foreach($signals + $values as $signal) {
+            foreach ($signals + $values as $signal) {
                 $decoder->decode($signal);
             }
             $output = '';
-            foreach($values as $value) {
+            foreach ($values as $value) {
                 $output .= $decoder->decode($value);
             }
-            $sum[] = (int)$output;
+            $sum[] = (int) $output;
         }
         return new PrimitiveValueSolution(array_sum($sum));
+    }
+
+    private function getInput(): Collection
+    {
+        return $this->read('2021', '8')
+            ->explode("\n")
+            ->map(
+                fn (string $row) => Str::of($row)
+                    ->explode(' | ')
+                    ->map(
+                        fn (string $segment) => explode(' ', $segment)
+                    )
+            );
     }
 }
