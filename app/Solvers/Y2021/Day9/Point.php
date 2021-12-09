@@ -1,15 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Solvers\Y2021\Day9;
 
 class Point
 {
+    public ?Point $up = null;
+
+    public ?Point $right = null;
+
+    public ?Point $down = null;
+
+    public ?Point $left = null;
+
+    public ?int $basin = null;
+
     public function __construct(
-        private readonly int $value,
-        public ?Point $up = null,
-        public ?Point $right = null,
-        public ?Point $down = null,
-        public ?Point $left = null,
+        public readonly int $value,
     ) {
     }
 
@@ -24,5 +32,32 @@ class Point
     public function riskLevel(): int
     {
         return $this->value + 1;
+    }
+
+    /**
+     * @return iterable<Point>
+     */
+    public function neighbours(): iterable
+    {
+        foreach ([$this->up, $this->right, $this->down, $this->left] as $point) {
+            if ($point instanceof self) {
+                yield $point;
+            }
+        }
+    }
+
+    public function isInBasin(): bool
+    {
+        return $this->basin !== null;
+    }
+
+    public function isWall(): bool
+    {
+        return $this->value === 9;
+    }
+
+    public function canBeAddedToBasin(): bool
+    {
+        return ! $this->isWall() && ! $this->isInBasin();
     }
 }
