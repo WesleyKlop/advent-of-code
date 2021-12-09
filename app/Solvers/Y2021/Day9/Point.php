@@ -55,9 +55,4 @@ class Point
     {
         return $this->value === 9;
     }
-
-    public function canBeAddedToBasin(): bool
-    {
-        return ! $this->isWall() && ! $this->isInBasin();
-    }
 }

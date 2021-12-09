@@ -7,6 +7,7 @@ namespace App\Solvers\Y2021\Day9;
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
 use App\Solvers\AbstractSolver;
+use Illuminate\Support\Collection;
 
 class Solver extends AbstractSolver
 {
@@ -27,9 +28,7 @@ class Solver extends AbstractSolver
     protected function solvePartTwo(): Solution
     {
         $map = $this->getInput();
-        /** @var array<int, int> $basins */
-        $basins = [];
-        $basinId = 1;
+        $basins = collect([]);
 
         /** @var Point $point */
         foreach ($map->points() as $point) {
@@ -37,32 +36,28 @@ class Solver extends AbstractSolver
                 continue;
             }
 
-            $point->basin = $basinId++;
-            $basins[$point->basin] = 1;
+            $point->basin = $basins->count() + 1;
+            $basins->put($point->basin, 1);
             $this->visitNeighbours($basins, $point);
         }
 
-        sort($basins);
-        dump($basins);
-        $topThree = array_slice($basins, -3);
-        $map->dumpBasins();
-        $map->dumpValues();
-        return new PrimitiveValueSolution(array_product($topThree));
+        $topThree = $basins
+            ->sortDesc()
+            ->take(3)
+            ->reduce(fn ($acc, $curr) => $acc * $curr, 1);
+        return new PrimitiveValueSolution($topThree);
     }
 
     private function getInput(): HeightMap
     {
         $raw = $this->read('2021', '9')
             ->explode("\n")
-            ->map(fn(string $line) => str_split($line))
+            ->map(fn (string $line) => str_split($line))
             ->all();
         return new HeightMap($raw);
     }
 
-    /**
-     * @param array<int, int> $basins
-     */
-    private function visitNeighbours(array &$basins, Point $point, Point $origin = null): void
+    private function visitNeighbours(Collection $basins, Point $point, Point $origin = null): void
     {
         foreach ($point->neighbours() as $neighbour) {
             if ($origin === $neighbour || $neighbour->isInBasin() || $neighbour->isWall()) {
@@ -70,7 +65,7 @@ class Solver extends AbstractSolver
             }
 
             $neighbour->basin = $point->basin;
-            $basins[$point->basin]++;
+            $basins->put($point->basin, $basins->get($point->basin) + 1);
 
             $this->visitNeighbours($basins, $neighbour, $point);
         }

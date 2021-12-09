@@ -9,11 +9,16 @@ class HeightMap
     /**
      * @var list<list<Point>>
      */
-    private array $points;
+    private array $points = [];
 
     public function __construct(array $points)
     {
-        $this->points = array_map(fn($row) => array_map(fn($i) => new Point((int) $i), $row), $points);
+        foreach ($points as $rIdx => $rows) {
+            foreach ($rows as $cIdx => $rawPoint) {
+                $point = new Point((int) $rawPoint);
+                $this->points[$rIdx][$cIdx] = $point;
+            }
+        }
         foreach ($this->points as $rIdx => $rows) {
             foreach ($rows as $cIdx => $point) {
                 $point->up ??= $this->get($cIdx, $rIdx - 1);
@@ -40,29 +45,5 @@ class HeightMap
                 yield $point;
             }
         }
-    }
-
-    public function dumpBasins(): void
-    {
-        $output = '';
-        foreach ($this->points as $row) {
-            foreach ($row as $point) {
-                $output .= ($point->basin ? '#' :'.');
-            }
-            $output .= "\n";
-        }
-        dump($output);
-    }
-
-    public function dumpValues(): void
-    {
-        $output = '';
-        foreach ($this->points as $row) {
-            foreach ($row as $point) {
-                $output .= $point->value;
-            }
-            $output .= "\n";
-        }
-        dump($output);
     }
 }
