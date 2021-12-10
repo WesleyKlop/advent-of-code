@@ -24,7 +24,7 @@ class Solver extends AbstractSolver
     {
         $parser = new NavigationParser();
 
-        $scores = $parser->calculateAutocompleteScore($this->getInput());
+        $scores = $parser->calculateAutocompleteScores($this->getInput());
 
         $middle = (int) floor(count($scores) / 2);
 

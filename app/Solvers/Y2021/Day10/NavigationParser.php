@@ -29,11 +29,11 @@ class NavigationParser
         '<' => '>',
     ];
 
-    private \SplStack $expectedClosingTag;
+    private \SplStack $expectedClosingTags;
 
     public function __construct()
     {
-        $this->expectedClosingTag = new \SplStack();
+        $this->expectedClosingTags = new \SplStack();
     }
 
     public function calculateSyntaxErrorScore(Collection $lines): int
@@ -48,7 +48,7 @@ class NavigationParser
         return $score;
     }
 
-    public function calculateAutocompleteScore(Collection $lines): array
+    public function calculateAutocompleteScores(Collection $lines): array
     {
         $score = [];
         foreach ($lines as $line) {
@@ -70,14 +70,14 @@ class NavigationParser
     private function parse(string $char): int
     {
         if (! $this->isClosingTag($char)) {
-            $this->expectedClosingTag->push(self::MATCH_TAGS[$char]);
+            $this->expectedClosingTags->push(self::MATCH_TAGS[$char]);
             return 0;
         }
 
-        if ($this->expectedClosingTag->isEmpty()) {
+        if ($this->expectedClosingTags->isEmpty()) {
             return self::SYNTAX_ERROR_SCORE[$char];
         }
-        $expectedClosingTag = $this->expectedClosingTag->pop();
+        $expectedClosingTag = $this->expectedClosingTags->pop();
         if ($expectedClosingTag !== $char) {
             return self::SYNTAX_ERROR_SCORE[$char];
         }
@@ -86,7 +86,7 @@ class NavigationParser
 
     private function clearStack(): void
     {
-        $this->expectedClosingTag = new \SplStack();
+        $this->expectedClosingTags = new \SplStack();
     }
 
     private function isCorruptedLine($line): bool
@@ -102,8 +102,8 @@ class NavigationParser
     private function fixIncompleteLine(): int
     {
         $score = 0;
-        while ($this->expectedClosingTag->count() > 0) {
-            $char = $this->expectedClosingTag->pop();
+        while ($this->expectedClosingTags->count() > 0) {
+            $char = $this->expectedClosingTags->pop();
             $score = (int) ($score * 5);
             $score += self::AUTOCOMPLETE_SCORE[$char];
         }
