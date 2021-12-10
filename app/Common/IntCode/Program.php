@@ -9,7 +9,7 @@ class Program
     private array $writeLayer = [];
 
     public function __construct(
-        private array $readLayer
+        private readonly array $readLayer
     ) {
     }
 

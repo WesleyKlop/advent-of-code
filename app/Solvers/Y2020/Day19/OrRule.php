@@ -11,7 +11,7 @@ class OrRule implements Rule
      * @param array<int, Rule> $rules
      */
     public function __construct(
-        private array $rules
+        private readonly array $rules
     ) {
     }
 

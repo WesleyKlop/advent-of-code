@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 class RuleCollection
 {
     private function __construct(
-        private Collection $list
+        private readonly Collection $list
     ) {
     }
 

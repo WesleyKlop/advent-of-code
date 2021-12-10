@@ -9,7 +9,7 @@ use App\Solvers\Y2020\Day8\Memory;
 final class InfiniteLoopException extends ApplicationException
 {
     public function __construct(
-        private Memory $memory
+        private readonly Memory $memory
     ) {
         parent::__construct('Instruction executed twice');
     }

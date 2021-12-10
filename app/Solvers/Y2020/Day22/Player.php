@@ -9,10 +9,10 @@ use SplQueue as Queue;
 
 class Player
 {
-    private Queue $cards;
+    private readonly Queue $cards;
 
     public function __construct(
-        private string $name,
+        private readonly string $name,
         iterable $cards
     ) {
         $this->cards = new Queue();

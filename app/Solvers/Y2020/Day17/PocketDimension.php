@@ -13,7 +13,7 @@ class PocketDimension
      * @param Cube[] $region
      */
     public function __construct(
-        private array $region
+        private readonly array $region
     ) {
     }
 

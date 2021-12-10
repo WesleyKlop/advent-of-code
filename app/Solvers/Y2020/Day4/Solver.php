@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 class Solver extends AbstractSolver
 {
     public function __construct(
-        private PassportValidator $validator
+        private readonly PassportValidator $validator
     ) {
     }
 

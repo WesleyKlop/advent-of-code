@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 class PuzzleInput
 {
     public function __construct(
-        private Collection $numbers,
+        private readonly Collection $numbers,
         private Collection $boards,
     ) {
     }

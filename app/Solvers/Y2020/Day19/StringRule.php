@@ -7,7 +7,7 @@ namespace App\Solvers\Y2020\Day19;
 class StringRule implements Rule
 {
     public function __construct(
-        private string $value
+        private readonly string $value
     ) {
     }
 

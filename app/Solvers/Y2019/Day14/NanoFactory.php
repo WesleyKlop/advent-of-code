@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 class NanoFactory
 {
     public function __construct(
-        private Collection $reactions
+        private readonly Collection $reactions
     ) {
     }
 

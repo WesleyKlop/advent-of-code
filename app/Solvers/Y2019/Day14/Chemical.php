@@ -10,9 +10,9 @@ class Chemical
 
     final public const FUEL = 'FUEL';
 
-    private string $type;
+    private readonly string $type;
 
-    private int $amount;
+    private readonly int $amount;
 
     public function __construct(string $output)
     {

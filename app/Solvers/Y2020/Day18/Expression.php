@@ -10,7 +10,7 @@ use SplStack;
 class Expression
 {
     public function __construct(
-        private SplQueue $expressions,
+        private readonly SplQueue $expressions,
     ) {
     }
 

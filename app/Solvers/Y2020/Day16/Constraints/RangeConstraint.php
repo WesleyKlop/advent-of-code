@@ -7,8 +7,8 @@ namespace App\Solvers\Y2020\Day16\Constraints;
 class RangeConstraint extends Constraint
 {
     public function __construct(
-        private int $lower,
-        private int $upper
+        private readonly int $lower,
+        private readonly int $upper
     ) {
     }
 

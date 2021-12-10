@@ -8,14 +8,14 @@ use Illuminate\Support\Str;
 
 class Reaction
 {
-    private Chemical $output;
+    private readonly Chemical $output;
 
     /**
      * @var Chemical[]
      */
-    private array $inputs;
+    private readonly array $inputs;
 
-    private bool $isBaseReaction;
+    private readonly bool $isBaseReaction;
 
     public function __construct(string $reaction)
     {

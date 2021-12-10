@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 
 class PassportValidator
 {
-    private Collection $validators;
+    private readonly Collection $validators;
 
     public function __construct()
     {

@@ -10,11 +10,11 @@ use Illuminate\Support\Stringable;
 class Map
 {
     public function __construct(
-        private FlipStrategy $flipStrategy,
+        private readonly FlipStrategy $flipStrategy,
         /**
          * @var Tile[][]
          */
-        private array $map
+        private readonly array $map
     ) {
     }
 

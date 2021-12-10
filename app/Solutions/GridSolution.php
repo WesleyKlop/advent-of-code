@@ -9,8 +9,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 class GridSolution extends AbstractSolution
 {
     public function __construct(
-        private int $solution,
-        private array $grid
+        private readonly int $solution,
+        private readonly array $grid
     ) {
     }
 

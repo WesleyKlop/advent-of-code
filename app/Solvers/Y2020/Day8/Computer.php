@@ -13,7 +13,7 @@ class Computer
     private bool $isRunning = false;
 
     public function __construct(
-        private Program $program,
+        private readonly Program $program,
         Memory $memory = null
     ) {
         $this->memory = $memory ?? new Memory();

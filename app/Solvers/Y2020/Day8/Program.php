@@ -16,7 +16,7 @@ use Illuminate\Support\Stringable;
 class Program
 {
     public function __construct(
-        private Collection $instructions
+        private readonly Collection $instructions
     ) {
     }
 

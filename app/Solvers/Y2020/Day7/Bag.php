@@ -11,9 +11,9 @@ use Illuminate\Support\Str;
 class Bag
 {
     public function __construct(
-        private string $type,
-        private string $color,
-        private ?\Illuminate\Support\Collection $holds = null
+        private readonly string $type,
+        private readonly string $color,
+        private readonly ?\Illuminate\Support\Collection $holds = null
     ) {
     }
 

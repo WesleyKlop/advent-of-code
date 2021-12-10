@@ -7,7 +7,7 @@ namespace App\Solvers\Y2020\Day14;
 class MaskInstruction extends Instruction
 {
     public function __construct(
-        private string $mask
+        private readonly string $mask
     ) {
     }
 

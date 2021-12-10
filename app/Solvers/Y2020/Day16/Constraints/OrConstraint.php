@@ -9,7 +9,7 @@ class OrConstraint extends Constraint
     /**
      * @var Constraint[]
      */
-    private array $constraints;
+    private readonly array $constraints;
 
     public function __construct(
         Constraint ...$constraints,

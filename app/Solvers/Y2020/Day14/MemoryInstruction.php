@@ -7,8 +7,8 @@ namespace App\Solvers\Y2020\Day14;
 class MemoryInstruction extends Instruction
 {
     public function __construct(
-        private int $address,
-        private int $value
+        private readonly int $address,
+        private readonly int $value
     ) {
     }
 

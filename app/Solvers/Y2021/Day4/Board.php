@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class Board
 {
-    private Collection $content;
+    private readonly Collection $content;
 
     private array $markedRows = [0, 0, 0, 0, 0];
 
@@ -19,7 +19,7 @@ class Board
 
     public function __construct(
         string $raw,
-        private int $id
+        private readonly int $id
     ) {
         $this->content = Str::of($raw)
             ->trim()

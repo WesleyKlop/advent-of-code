@@ -13,7 +13,7 @@ class Tile
     final public const TYPE_OCCUPIED = '#';
 
     public function __construct(
-        private string $type
+        private readonly string $type
     ) {
     }
 

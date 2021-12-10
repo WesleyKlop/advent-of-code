@@ -15,7 +15,7 @@ use App\Solvers\Y2020\Day16\Support\Ticket;
 class Solver extends AbstractSolver
 {
     public function __construct(
-        private InputParser $inputParser
+        private readonly InputParser $inputParser
     ) {
     }
 

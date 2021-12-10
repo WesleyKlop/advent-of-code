@@ -9,8 +9,8 @@ use Illuminate\Support\Str;
 class Vector
 {
     public function __construct(
-        private Point $from,
-        private Point $to
+        private readonly Point $from,
+        private readonly Point $to
     ) {
     }
 

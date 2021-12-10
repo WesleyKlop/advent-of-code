@@ -18,12 +18,12 @@ class Computer
 
     private int $instructionPointer = 0;
 
-    private int $id;
+    private readonly int $id;
 
     private int $relativeBase = 0;
 
     public function __construct(
-        private Program $program,
+        private readonly Program $program,
     ) {
         $this->id = ++self::$idCounter;
     }

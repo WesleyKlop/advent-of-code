@@ -7,8 +7,8 @@ namespace App\Solvers\Y2020\Day20;
 class Tile
 {
     public function __construct(
-        private int $id,
-        private array $grid
+        private readonly int $id,
+        private readonly array $grid
     ) {
     }
 

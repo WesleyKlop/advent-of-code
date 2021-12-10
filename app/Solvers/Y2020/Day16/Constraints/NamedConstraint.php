@@ -7,8 +7,8 @@ namespace App\Solvers\Y2020\Day16\Constraints;
 class NamedConstraint extends Constraint
 {
     public function __construct(
-        private string $name,
-        private Constraint $child
+        private readonly string $name,
+        private readonly Constraint $child
     ) {
     }
 

@@ -9,9 +9,9 @@ use Illuminate\Support\Collection;
 class ParseResult
 {
     public function __construct(
-        private Collection $rules,
-        private Ticket $yourTicket,
-        private Collection $nearbyTickets
+        private readonly Collection $rules,
+        private readonly Ticket $yourTicket,
+        private readonly Collection $nearbyTickets
     ) {
     }
 

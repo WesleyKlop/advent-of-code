@@ -13,7 +13,7 @@ use Illuminate\Support\LazyCollection;
 
 class Solver extends AbstractSolver
 {
-    private Enumerable $seats;
+    private readonly Enumerable $seats;
 
     public function __construct()
     {
