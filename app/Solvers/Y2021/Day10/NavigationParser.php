@@ -8,11 +8,18 @@ use Illuminate\Support\Collection;
 
 class NavigationParser
 {
-    final public const SCORE_TABLE = [
+    final public const SYNTAX_ERROR_SCORE = [
         ')' => 3,
         ']' => 57,
         '}' => 1197,
         '>' => 25137,
+    ];
+
+    final public const AUTOCOMPLETE_SCORE = [
+        ')' => 1,
+        ']' => 2,
+        '}' => 3,
+        '>' => 4,
     ];
 
     final public const MATCH_TAGS = [
@@ -41,6 +48,20 @@ class NavigationParser
         return $score;
     }
 
+    public function calculateAutocompleteScore(Collection $lines): array
+    {
+        $score = [];
+        foreach ($lines as $line) {
+            $this->clearStack();
+            if ($this->isCorruptedLine($line)) {
+                continue;
+            }
+            $score[] = $this->fixIncompleteLine();
+        }
+        sort($score);
+        return $score;
+    }
+
     protected function isClosingTag(string $char): bool
     {
         return in_array($char, self::MATCH_TAGS, true);
@@ -54,11 +75,11 @@ class NavigationParser
         }
 
         if ($this->expectedClosingTag->isEmpty()) {
-            return self::SCORE_TABLE[$char];
+            return self::SYNTAX_ERROR_SCORE[$char];
         }
         $expectedClosingTag = $this->expectedClosingTag->pop();
         if ($expectedClosingTag !== $char) {
-            return self::SCORE_TABLE[$char];
+            return self::SYNTAX_ERROR_SCORE[$char];
         }
         return 0;
     }
@@ -66,5 +87,26 @@ class NavigationParser
     private function clearStack(): void
     {
         $this->expectedClosingTag = new \SplStack();
+    }
+
+    private function isCorruptedLine($line): bool
+    {
+        foreach (str_split($line) as $char) {
+            if ($this->parse($char) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function fixIncompleteLine(): int
+    {
+        $score = 0;
+        while ($this->expectedClosingTag->count() > 0) {
+            $char = $this->expectedClosingTag->pop();
+            $score = (int) ($score * 5);
+            $score += self::AUTOCOMPLETE_SCORE[$char];
+        }
+        return $score;
     }
 }

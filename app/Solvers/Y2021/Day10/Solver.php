@@ -6,7 +6,6 @@ namespace App\Solvers\Y2021\Day10;
 
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
-use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
 use Illuminate\Support\Collection;
 
@@ -23,7 +22,13 @@ class Solver extends AbstractSolver
 
     protected function solvePartTwo(): Solution
     {
-        return new TodoSolution();
+        $parser = new NavigationParser();
+
+        $scores = $parser->calculateAutocompleteScore($this->getInput());
+
+        $middle = (int) floor(count($scores) / 2);
+
+        return new PrimitiveValueSolution($scores[$middle]);
     }
 
     private function getInput(): Collection
