@@ -46,6 +46,11 @@ class OctopusGrid
         echo "\n\n";
     }
 
+    public function size(): int
+    {
+        return count($this->octopusGrid) * (is_countable($this->octopusGrid[0]) ? count($this->octopusGrid[0]) : 0);
+    }
+
     /**
      * @return iterable<int[]>
      */
