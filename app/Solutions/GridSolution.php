@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Solutions;
 
+use App\Contracts\DisplayableOnGrid;
+use App\Exceptions\ApplicationException;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GridSolution extends AbstractSolution
@@ -37,10 +39,22 @@ class GridSolution extends AbstractSolution
         $height = range(0, max(array_keys($this->grid)));
         foreach ($height as $y) {
             foreach ($width as $x) {
-                $output .= $this->grid[$x][$y] ?? '.';
+                $output .= $this->gridValue($y, $x);
             }
             $output .= "\n";
         }
         return $output;
+    }
+
+    private function gridValue(string|int $x, string|int $y): string
+    {
+        $value = $this->grid[$x][$y] ?? ' ';
+        if ($value instanceof DisplayableOnGrid) {
+            return $value->character();
+        }
+        if (is_string($value)) {
+            return $value;
+        }
+        throw new ApplicationException("Invalid value type: {$value}");
     }
 }

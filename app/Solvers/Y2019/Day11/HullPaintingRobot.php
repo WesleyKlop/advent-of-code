@@ -28,12 +28,12 @@ class HullPaintingRobot implements InputProvider, OutputProvider
 
     public function __construct(PanelColor $startColor = PanelColor::BLACK)
     {
-        $this->panels[$this->x][$this->y] = $startColor;
+        $this->panels[$this->y][$this->x] = $startColor;
     }
 
     public function read(): int
     {
-        return ($this->panels[$this->x][$this->y] ?? PanelColor::BLACK)->value;
+        return ($this->panels[$this->y][$this->x] ?? PanelColor::BLACK)->value;
     }
 
     public function write(int $value): void
@@ -65,10 +65,10 @@ class HullPaintingRobot implements InputProvider, OutputProvider
     private function paint(int $value): void
     {
         $color = PanelColor::from($value);
-        if (! ($this->panels[$this->x][$this->y] ?? null) instanceof PanelColor) {
+        if (! ($this->panels[$this->y][$this->x] ?? null) instanceof PanelColor) {
             $this->panelsPainted++;
         }
-        $this->panels[$this->x][$this->y] = $color;
+        $this->panels[$this->y][$this->x] = $color;
     }
 
     private function rotate(int $delta): void
