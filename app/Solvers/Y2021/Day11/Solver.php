@@ -16,10 +16,6 @@ class Solver extends AbstractSolver
         $flashes = 0;
         for ($i = 1; $i <= 100; $i++) {
             $flashes += $grid->step();
-//            if($i % 10 === 0) {
-//            echo "Iteration ${i}\n";
-//            $grid->dump();
-//            }
         }
         return new PrimitiveValueSolution($flashes);
     }
