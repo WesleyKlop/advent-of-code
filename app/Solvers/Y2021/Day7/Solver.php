@@ -4,20 +4,37 @@ declare(strict_types=1);
 
 namespace App\Solvers\Y2021\Day7;
 
+use App\Common\IntCode\Computer;
+use App\Common\IntCode\IntCodeInput;
+use App\Common\IntCode\IO\QueueIo;
+use App\Common\IntCode\Program;
 use App\Contracts\HasProgressBar;
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
 use App\Solvers\AbstractSolver;
+use App\Solvers\Y2019\Day11\HullPaintingRobot;
 use Illuminate\Support\Collection;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 class Solver extends AbstractSolver implements HasProgressBar
 {
+    use IntCodeInput;
+
     private ProgressBar $progressBar;
 
     public function setProgressBar(ProgressBar $progressBar): void
     {
         $this->progressBar = $progressBar;
+    }
+
+    protected function easterEgg(): void
+    {
+        $program = new Program($this->getInput()->all());
+        $io = new QueueIo();
+        $computer = new Computer($program);
+        $computer->attach($io);
+        $computer->run();
+        echo implode('', array_map(fn($c) => chr($c), $io->data));
     }
 
     protected function solvePartOne(): Solution
@@ -62,7 +79,7 @@ class Solver extends AbstractSolver implements HasProgressBar
     {
         return $this->read('2021', '7')
             ->explode(',')
-            ->map(fn ($value): int => (int) $value);
+            ->map(fn($value): int => (int) $value);
     }
 
     private function calculateFuelCost(int $crabPosition, int $targetPosition): int
