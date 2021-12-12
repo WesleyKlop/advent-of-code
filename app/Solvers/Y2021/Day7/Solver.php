@@ -12,7 +12,6 @@ use App\Contracts\HasProgressBar;
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
 use App\Solvers\AbstractSolver;
-use App\Solvers\Y2019\Day11\HullPaintingRobot;
 use Illuminate\Support\Collection;
 use Symfony\Component\Console\Helper\ProgressBar;
 
@@ -34,7 +33,7 @@ class Solver extends AbstractSolver implements HasProgressBar
         $computer = new Computer($program);
         $computer->attach($io);
         $computer->run();
-        echo implode('', array_map(fn($c) => chr($c), $io->data));
+        echo implode('', array_map(fn ($c) => chr($c), $io->data));
     }
 
     protected function solvePartOne(): Solution
@@ -79,7 +78,7 @@ class Solver extends AbstractSolver implements HasProgressBar
     {
         return $this->read('2021', '7')
             ->explode(',')
-            ->map(fn($value): int => (int) $value);
+            ->map(fn ($value): int => (int) $value);
     }
 
     private function calculateFuelCost(int $crabPosition, int $targetPosition): int
