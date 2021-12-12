@@ -19,7 +19,7 @@ enum CaveType
         if ($cave === 'end') {
             return self::END;
         }
-        if ($cave === strtoupper($cave)) {
+        if (ctype_upper($cave)) {
             return self::BIG;
         }
         return self::SMALL;

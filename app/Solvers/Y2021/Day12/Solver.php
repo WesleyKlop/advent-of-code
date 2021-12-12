@@ -6,7 +6,6 @@ namespace App\Solvers\Y2021\Day12;
 
 use App\Contracts\Solution;
 use App\Solutions\PrimitiveValueSolution;
-use App\Solutions\TodoSolution;
 use App\Solvers\AbstractSolver;
 use Illuminate\Support\Collection;
 
@@ -20,7 +19,10 @@ class Solver extends AbstractSolver
 
     protected function solvePartTwo(): Solution
     {
-        return new TodoSolution();
+        $map = CaveSystem::fromConnectionList($this->getInput());
+        $count = $map->countPathsVisitOneCaveTwice();
+        dump($count);
+        return new PrimitiveValueSolution($count);
     }
 
     private function getInput(): Collection

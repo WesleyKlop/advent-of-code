@@ -24,14 +24,14 @@ class CaveSystem
         return $system;
     }
 
-    public function countPaths(): int
+    public function countPaths(string $caveToVisitTwice = null): int
     {
         /** @var Node $start */
         $start = $this->nodes['start'];
         $root = [
             'start' => [],
         ];
-        $start->traverse($root);
+        $start->traverse($root, caveToVisitTwice: $caveToVisitTwice);
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveArrayIterator($root),
             \RecursiveIteratorIterator::SELF_FIRST
@@ -43,6 +43,18 @@ class CaveSystem
             }
         }
         return $count;
+    }
+
+    public function countPathsVisitOneCaveTwice(): array
+    {
+        $counts = [];
+        foreach ($this->nodes as $node) {
+            // Calculate the amount of possible paths to the end for every small cave that we can visit twice.
+            if ($node->type === CaveType::SMALL) {
+                $counts[] = $this->countPaths($node->cave);
+            }
+        }
+        return $counts;
     }
 
     private function addConnection(string $a, string $b): void
