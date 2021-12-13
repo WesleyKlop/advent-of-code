@@ -25,16 +25,16 @@ class Node
         $other->connections[$this->cave] = $this;
     }
 
-    public function traverse(array &$root, bool &$visitCaveTwice = false, array $seen = []): void
+    public function traverse(array &$root, array $visited = [], bool $twice = false): void
     {
         $root[$this->cave] ??= [];
         switch ($this->type) {
             case CaveType::SMALL:
-                if ($visitCaveTwice === true) {
+                if ($twice === true) {
                     dump("Allowing {$this->cave} to be visited twice");
-                    $visitCaveTwice = false;
+                    $twice = false;
                 } else {
-                    $seen[$this->cave] = true;
+                    $visited[$this->cave] = true;
                 }
                 break;
             case CaveType::END:
@@ -45,15 +45,15 @@ class Node
         }
         /** @var Node $connection */
         foreach ($this->connections as $connection) {
-            if ($connection->shouldVisit($this, $seen)) {
-                $connection->traverse($root[$this->cave], $visitCaveTwice, $seen);
+            if ($connection->shouldVisit($this, $visited)) {
+                $connection->traverse($root[$this->cave], $visited, $twice);
             }
         }
     }
 
     private function shouldVisit(self $from, array $skip): bool
     {
-        if ($skip[$this->cave] ?? false) {
+        if (isset($skip[$this->cave])) {
             return false;
         }
         if ($this->type === CaveType::START) {

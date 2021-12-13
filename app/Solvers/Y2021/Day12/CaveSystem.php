@@ -31,7 +31,7 @@ class CaveSystem
         $root = [
             'start' => [],
         ];
-        $start->traverse($root, $visitCaveTwice);
+        $start->traverse($root, twice: $visitCaveTwice);
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveArrayIterator($root),
             \RecursiveIteratorIterator::SELF_FIRST
