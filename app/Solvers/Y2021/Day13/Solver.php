@@ -80,7 +80,7 @@ class Solver extends AbstractSolver
         // Merge the original over the sliced
         foreach ($folded as $y => $row) {
             foreach ($row as $x => $val) {
-                $folded[$y][$x] = $val === '#' ? '#' : ($grid[$y][$x] ?? '.');
+                $folded[$y][$x] = $val === '#' ? '#' : ($grid[$y][$x]);
             }
         }
 

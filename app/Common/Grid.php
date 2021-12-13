@@ -6,7 +6,7 @@ namespace App\Common;
 
 class Grid
 {
-    public static function expand(array $grid, string $fill = '.'): array
+    public static function expand(array $grid, mixed $fill = '.'): array
     {
         $width = range(0, max(array_map('array_key_last', $grid)));
         $height = range(0, max(array_keys($grid)));
