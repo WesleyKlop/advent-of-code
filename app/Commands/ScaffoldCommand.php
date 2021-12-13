@@ -11,6 +11,8 @@ class ScaffoldCommand extends Command
 {
     private const DIRECTORY_TEMPLATE = __DIR__ . '/../Solvers/Y%d/Day%d/Solver.php';
 
+    private const URL_TEMPLATE = 'https://adventofcode.com/%d/day/%d';
+
     /**
      * The signature of the command.
      *
@@ -55,6 +57,8 @@ class ScaffoldCommand extends Command
                 'day' => $this->argument('day'),
             ]);
         }
+
+        $this->info(sprintf(self::URL_TEMPLATE, $this->option('year'), $this->argument('day')));
 
         return 0;
     }
