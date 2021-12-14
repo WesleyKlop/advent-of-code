@@ -67,26 +67,30 @@ class Solver extends AbstractSolver
     }
 
     /**
-     * Fold along the y axis
+     * Fold along the y-axis.
      */
     private function foldHorizontal(array $grid, int $point): array
     {
         // Get the array part after the pivot point
-        $folded = array_slice($grid, $point + 1);
+        $sideToFold = array_slice($grid, $point + 1);
+        $size = count($sideToFold);
 
         // Reverse the array
-        $folded = array_reverse($folded);
+        $sideToFold = array_reverse($sideToFold);
 
         // Merge the original over the sliced
-        foreach ($folded as $y => $row) {
+        foreach ($sideToFold as $y => $row) {
             foreach ($row as $x => $val) {
-                $folded[$y][$x] = $val === '#' ? '#' : ($grid[$y][$x]);
+                $sideToFold[$y][$x] = $val === '#' ? '#' : ($grid[$y][$x]);
             }
         }
 
-        return $folded;
+        return $sideToFold;
     }
 
+    /**
+     * Fold along the x-axis.
+     */
     private function foldVertical(array $grid, int $point): array
     {
         $folded = array_map(function (array $row) use ($point): array {
