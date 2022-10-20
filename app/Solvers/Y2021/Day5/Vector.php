@@ -55,7 +55,7 @@ class Vector
         return new static(...$points);
     }
 
-    public function applyToGrid(array & $grid): void
+    public function applyToGrid(array &$grid): void
     {
         foreach ($this->points() as $point) {
             $grid[$point->x][$point->y] ??= 0;

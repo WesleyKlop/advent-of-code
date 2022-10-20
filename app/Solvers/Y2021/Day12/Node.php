@@ -25,7 +25,7 @@ class Node
         $other->connections[$this->cave] = $this;
     }
 
-    public function traverse(array & $root, bool & $visitCaveTwice = false, array $seen = []): void
+    public function traverse(array &$root, bool &$visitCaveTwice = false, array $seen = []): void
     {
         $root[$this->cave] ??= [];
         switch ($this->type) {

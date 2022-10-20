@@ -97,6 +97,6 @@ class Solver extends AbstractSolver
         return $this
             ->read('2021', '3')
             ->explode("\n");
-//            ->map(fn($line) => collect(mb_str_split($line)));
+        //            ->map(fn($line) => collect(mb_str_split($line)));
     }
 }

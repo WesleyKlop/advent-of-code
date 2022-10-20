@@ -6,7 +6,7 @@ namespace App\Common;
 
 class Permutations
 {
-    public static function permuteUnique(array $items, array $perms = [], array & $return = []): array
+    public static function permuteUnique(array $items, array $perms = [], array &$return = []): array
     {
         if (empty($items)) {
             $return[] = $perms;

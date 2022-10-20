@@ -36,13 +36,13 @@ class Solver extends AbstractSolver
             ->explode("\n\n")
             // Create a dictionary containing answers that everyone answers yes to
             ->map(fn (string $group) => Str::of($group)
-            ->explode("\n")
+                ->explode("\n")
                 // Create a dictionary containing answers that everyone answers yes to
-            ->map(fn (string $answers) => str_split($answers))
-            ->reduce(fn (
-                ?Collection $group,
-                array $member
-            ) => $group === null ? collect($member) : $group->intersect($member)))
+                ->map(fn (string $answers) => str_split($answers))
+                ->reduce(fn (
+                    ?Collection $group,
+                    array $member
+                ) => $group === null ? collect($member) : $group->intersect($member)))
             ->sum(fn (Collection $group) => $group->count());
 
         return new PrimitiveValueSolution($uniqueAnswersPerGroup);
