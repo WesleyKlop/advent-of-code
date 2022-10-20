@@ -89,15 +89,10 @@ class SolveCommand extends Command
 
     public function configurePart(SolveConfiguration $config): void
     {
-        switch ($this->option('part')) {
-            case '1':
-                $config->solveOnlyPartOne();
-                break;
-            case '2':
-                $config->solveOnlyPartTwo();
-                break;
-            default:
-                $config->solveBothParts();
-        }
+        match ($this->option('part')) {
+            '1' => $config->solveOnlyPartOne(),
+            '2' => $config->solveOnlyPartTwo(),
+            default => $config->solveBothParts(),
+        };
     }
 }
