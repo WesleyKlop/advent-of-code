@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "php",
+            "name": "advent-of-code",
+            "file": "./advent-of-code",
+        },
+
+    ]
+}
