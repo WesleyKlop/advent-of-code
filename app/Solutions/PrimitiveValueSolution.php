@@ -17,7 +17,7 @@ class PrimitiveValueSolution extends AbstractSolution
     {
         $this->displayInfo($output);
         $output->write('Solution: ');
-        $output->write((string)$this->value, true);
+        $output->write((string) $this->value, true);
     }
 
     public function value(): iterable | null | string | int | float

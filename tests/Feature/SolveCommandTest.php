@@ -10,7 +10,7 @@ test('solve command', function () {
     ]);
 
     $cmd->assertExitCode(0);
-//        $cmd->expectsOutput('<info>[P1]</info>');
-//    $cmd->expectsOutput('[P1] Solution: 1020099');
-//    $cmd->expectsOutput('[P1] Solution: 1020099');
+    //    $cmd->expectsOutput('<info>[P1]</info>');
+    //    $cmd->expectsOutput('[P1] Solution: 1020099');
+    //    $cmd->expectsOutput('[P1] Solution: 1020099');
 });
