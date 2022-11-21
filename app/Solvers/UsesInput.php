@@ -32,7 +32,9 @@ trait UsesInput
                     yield trim($line);
                 }
             } finally {
-                fclose($handle);
+                if ($handle) {
+                    fclose($handle);
+                }
             }
         });
     }
