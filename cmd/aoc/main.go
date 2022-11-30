@@ -1,8 +1,10 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
+	"github.com/wesleyklop/advent-of-code/pkg/solvers/day1"
 	"log"
 	"os"
 	"strconv"
@@ -22,11 +24,11 @@ func getArgs() (year *int, day *int, err error) {
 	}
 	args := flag.Args()
 
-	if daynum, err := strconv.Atoi(args[0]); err != nil {
+	if dayVal, err := strconv.Atoi(args[0]); err != nil {
 		err = fmt.Errorf("%s is not a valid number", args[0])
 		return nil, nil, err
 	} else {
-		day = &daynum
+		day = &dayVal
 	}
 
 	if *day < 1 || *day > 31 {
@@ -37,6 +39,9 @@ func getArgs() (year *int, day *int, err error) {
 }
 
 func main() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
 	year, day, err := getArgs()
 	l := log.New(os.Stderr, "", log.LstdFlags|log.Lshortfile)
 
@@ -45,6 +50,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Printf("Executing day %d in %d\n", day, year)
+	fmt.Printf("Executing day %d in %d\n", *day, *year)
 
+	solver := day1.Solver{}
+
+	ans, err := solver.Solve(ctx, "foobar")
+	fmt.Printf("The answer is %d\n", ans)
 }
