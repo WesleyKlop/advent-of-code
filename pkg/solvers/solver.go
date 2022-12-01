@@ -3,5 +3,6 @@ package solvers
 import "context"
 
 type Solver interface {
-	Solve(ctx context.Context, input string) (int, error)
+	SolvePartOne(ctx context.Context, input *string) (int, error)
+	SolvePartTwo(ctx context.Context, input *string) (int, error)
 }
