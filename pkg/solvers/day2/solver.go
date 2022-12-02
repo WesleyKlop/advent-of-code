@@ -2,7 +2,6 @@ package day2
 
 import (
 	"context"
-	"fmt"
 	"strings"
 )
 
@@ -10,8 +9,10 @@ type Solver struct{}
 
 var (
 	ScoreRock        = 1
-	ScorePaper       = 1
+	ScorePaper       = 2
 	ScoreScissors    = 3
+	ScoreWin         = 6
+	ScoreDraw        = 3
 	OpponentRock     = "A"
 	OpponentPaper    = "B"
 	OpponentScissors = "C"
@@ -117,10 +118,10 @@ func (s *Solver) SolvePartOne(ctx context.Context, input *string) (int, error) {
 		result := playerWon(player, opponent)
 		score += scoreForShape(player)
 		if result == 1 {
-			score += 6
+			score += ScoreWin
 		}
 		if result == 0 {
-			score += 3
+			score += ScoreDraw
 		}
 	}
 
@@ -135,14 +136,14 @@ func (s *Solver) SolvePartTwo(ctx context.Context, input *string) (int, error) {
 		opponent := round[0]
 		wantedResult := round[1]
 		player := resultForMove(wantedResult, opponent)
-		fmt.Printf("Opponent: %s, wanted: %s, player: %s\n", opponent, wantedResult, player)
+		//fmt.Printf("Opponent: %s, wanted: %s, player: %s\n", opponent, wantedResult, player)
 		result := playerWon(player, opponent)
 		score += scoreForShape(player)
 		if result == 1 {
-			score += 6
+			score += ScoreWin
 		}
 		if result == 0 {
-			score += 3
+			score += ScoreDraw
 		}
 	}
 
