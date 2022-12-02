@@ -2,25 +2,22 @@ package day1
 
 import (
 	"context"
-	"github.com/wesleyklop/advent-of-code/pkg/solvers"
 	"github.com/wesleyklop/advent-of-code/pkg/util"
 	"strings"
 )
 
 type Solver struct{}
 
-var _ solvers.Solver = &Solver{}
-
 func (s *Solver) Parse(input *string) *[]*[]int {
 	trimmed := strings.Trim(*input, "\n")
 	elves := strings.Split(trimmed, "\n\n")
-	calories := make([]*[]int, len(elves))
+	caloriesPerElf := make([]*[]int, len(elves))
 	for i, elf := range elves {
 		elfList := strings.Split(elf, "\n")
 		elfCalories := util.MapStringsToInt(&elfList)
-		calories[i] = elfCalories
+		caloriesPerElf[i] = elfCalories
 	}
-	return &calories
+	return &caloriesPerElf
 }
 
 func (s *Solver) SolvePartOne(ctx context.Context, input *string) (int, error) {

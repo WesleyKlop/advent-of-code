@@ -4,7 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/wesleyklop/advent-of-code/pkg/solvers/day1"
+	"github.com/wesleyklop/advent-of-code/pkg/solvers"
 	"log"
 	"os"
 	"strconv"
@@ -70,7 +70,7 @@ func main() {
 
 	fmt.Printf("Executing day %d in %d\n", *args.Day, *args.Year)
 
-	solver := day1.Solver{}
+	solver := solvers.GetSolver(*args.Day)
 
 	input, err := os.ReadFile(args.InputFile())
 	if err != nil {
