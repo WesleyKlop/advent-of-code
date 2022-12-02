@@ -2,10 +2,13 @@ package day2
 
 import (
 	"context"
+	"github.com/wesleyklop/advent-of-code/pkg/util"
 	"strings"
 )
 
-type Solver struct{}
+type Solver struct {
+	Input *util.Input
+}
 
 var (
 	ScoreRock        = 1
@@ -24,9 +27,9 @@ var (
 	WantsWin         = "Z"
 )
 
-func (s *Solver) Parse(input *string) [][]string {
+func (s *Solver) Parse() [][]string {
 	result := make([][]string, 0)
-	for _, line := range strings.Split(strings.Trim(*input, "\n"), "\n") {
+	for _, line := range s.Input.Lines() {
 		result = append(result, strings.Split(line, " "))
 	}
 
@@ -108,8 +111,8 @@ func resultForMove(wantedResult string, opponent string) string {
 	panic("Invalid input")
 }
 
-func (s *Solver) SolvePartOne(ctx context.Context, input *string) (int, error) {
-	guide := s.Parse(input)
+func (s *Solver) SolvePartOne(ctx context.Context) (int, error) {
+	guide := s.Parse()
 	score := 0
 
 	for _, round := range guide {
@@ -128,8 +131,8 @@ func (s *Solver) SolvePartOne(ctx context.Context, input *string) (int, error) {
 	return score, nil
 }
 
-func (s *Solver) SolvePartTwo(ctx context.Context, input *string) (int, error) {
-	guide := s.Parse(input)
+func (s *Solver) SolvePartTwo(ctx context.Context) (int, error) {
+	guide := s.Parse()
 	score := 0
 
 	for _, round := range guide {

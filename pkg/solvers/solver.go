@@ -4,20 +4,20 @@ import (
 	"context"
 	"github.com/wesleyklop/advent-of-code/pkg/solvers/day1"
 	"github.com/wesleyklop/advent-of-code/pkg/solvers/day2"
+	"github.com/wesleyklop/advent-of-code/pkg/util"
 )
 
 type Solver interface {
-	SolvePartOne(ctx context.Context, input *string) (int, error)
-	SolvePartTwo(ctx context.Context, input *string) (int, error)
+	SolvePartOne(ctx context.Context) (int, error)
+	SolvePartTwo(ctx context.Context) (int, error)
 }
 
-func GetSolver(day int) Solver {
-	if day == 1 {
-		return &day1.Solver{}
-	}
-
-	if day == 2 {
-		return &day2.Solver{}
+func GetSolver(day int, input *util.Input) Solver {
+	switch day {
+	case 1:
+		return &day1.Solver{Input: input}
+	case 2:
+		return &day2.Solver{Input: input}
 	}
 	panic("Invalid day")
 }

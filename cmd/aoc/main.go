@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/wesleyklop/advent-of-code/pkg/solvers"
+	"github.com/wesleyklop/advent-of-code/pkg/util"
 	"log"
 	"os"
 	"strconv"
@@ -70,20 +71,22 @@ func main() {
 
 	fmt.Printf("Executing day %d in %d\n", *args.Day, *args.Year)
 
-	solver := solvers.GetSolver(*args.Day)
+	input := util.Input{
+		FileName: args.InputFile(),
+	}
+	input.Content, err = os.ReadFile(input.FileName)
+	solver := solvers.GetSolver(*args.Day, &input)
 
-	input, err := os.ReadFile(args.InputFile())
 	if err != nil {
 		panic(err)
 	}
-	inputStr := string(input)
-	ans, err := solver.SolvePartOne(ctx, &inputStr)
+	ans, err := solver.SolvePartOne(ctx)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Printf("The answer to part 1 is %d\n", ans)
 
-	ans, err = solver.SolvePartTwo(ctx, &inputStr)
+	ans, err = solver.SolvePartTwo(ctx)
 	if err != nil {
 		panic(err)
 	}
