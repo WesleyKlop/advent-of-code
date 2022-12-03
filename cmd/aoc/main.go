@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"time"
 )
 
 type Args struct {
@@ -38,13 +39,10 @@ func getArgs() (args *Args, err error) {
 		return nil, err
 	}
 	if flag.NArg() < 1 {
-		err = fmt.Errorf("missing required argument day")
-		return nil, err
-	}
-	argv := flag.Args()
-
-	if dayVal, err := strconv.Atoi(argv[0]); err != nil {
-		err = fmt.Errorf("%s is not a valid number", argv[0])
+		dayVal := time.Now().Day()
+		args.Day = &dayVal
+	} else if dayVal, err := strconv.Atoi(flag.Args()[0]); err != nil {
+		err = fmt.Errorf("%s is not a valid number", err.Error())
 		return nil, err
 	} else {
 		args.Day = &dayVal
@@ -81,14 +79,18 @@ func main() {
 		panic(err)
 	}
 	ans, err := solver.SolvePartOne(ctx)
-	if err != nil {
+	if _, isTodo := err.(util.Todo); !isTodo && err != nil {
 		panic(err)
+	} else if isTodo {
+		return
+	} else if err == nil {
+		fmt.Printf("The answer to part 1 is %d\n", *ans)
 	}
-	fmt.Printf("The answer to part 1 is %d\n", ans)
 
 	ans, err = solver.SolvePartTwo(ctx)
-	if err != nil {
+	if _, isTodo := err.(util.Todo); !isTodo && err != nil {
 		panic(err)
+	} else if err == nil {
+		fmt.Printf("The answer to part 2 is %d\n", *ans)
 	}
-	fmt.Printf("The answer to part 2 is %d\n", ans)
 }
