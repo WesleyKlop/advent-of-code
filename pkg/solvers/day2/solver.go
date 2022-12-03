@@ -28,12 +28,9 @@ var (
 )
 
 func (s *Solver) Parse() [][]string {
-	result := make([][]string, 0)
-	for _, line := range s.Input.Lines() {
-		result = append(result, strings.Split(line, " "))
-	}
-
-	return result
+	return util.Map(s.Input.Lines(), func(t string) []string {
+		return strings.Split(t, " ")
+	})
 }
 
 func scoreForShape(shape string) int {

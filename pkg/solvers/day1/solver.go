@@ -10,12 +10,12 @@ type Solver struct {
 	Input *util.Input
 }
 
-func (s *Solver) Parse() *[]*[]int {
+func (s *Solver) Parse() *[][]int {
 	elves := s.Input.SplitOn("\n\n")
-	caloriesPerElf := make([]*[]int, len(elves))
+	caloriesPerElf := make([][]int, len(elves))
 	for i, elf := range elves {
 		elfList := strings.Split(elf, "\n")
-		elfCalories := util.MapStringsToInt(&elfList)
+		elfCalories := util.MapStringsToInt(elfList)
 		caloriesPerElf[i] = elfCalories
 	}
 	return &caloriesPerElf
@@ -26,7 +26,7 @@ func (s *Solver) SolvePartOne(ctx context.Context) (int, error) {
 	max := 0
 	for _, elf := range *caloriesPerElf {
 		sum := 0
-		for _, cals := range *elf {
+		for _, cals := range elf {
 			sum += cals
 		}
 		if sum > max {
@@ -41,7 +41,7 @@ func (s *Solver) SolvePartTwo(ctx context.Context) (int, error) {
 	topThree := make([]int, 3)
 	for _, elf := range *caloriesPerElf {
 		sum := 0
-		for _, cals := range *elf {
+		for _, cals := range elf {
 			sum += cals
 		}
 
