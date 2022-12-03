@@ -21,7 +21,7 @@ func (s *Solver) Parse() *[][]int {
 	return &caloriesPerElf
 }
 
-func (s *Solver) SolvePartOne(ctx context.Context) (int, error) {
+func (s *Solver) SolvePartOne(ctx context.Context) (*int, error) {
 	caloriesPerElf := s.Parse()
 	max := 0
 	for _, elf := range *caloriesPerElf {
@@ -33,10 +33,10 @@ func (s *Solver) SolvePartOne(ctx context.Context) (int, error) {
 			max = sum
 		}
 	}
-	return max, nil
+	return &max, nil
 }
 
-func (s *Solver) SolvePartTwo(ctx context.Context) (int, error) {
+func (s *Solver) SolvePartTwo(ctx context.Context) (*int, error) {
 	caloriesPerElf := s.Parse()
 	topThree := make([]int, 3)
 	for _, elf := range *caloriesPerElf {
@@ -60,5 +60,5 @@ func (s *Solver) SolvePartTwo(ctx context.Context) (int, error) {
 	for _, val := range topThree {
 		sum += val
 	}
-	return sum, nil
+	return &sum, nil
 }

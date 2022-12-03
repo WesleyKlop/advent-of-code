@@ -108,7 +108,7 @@ func resultForMove(wantedResult string, opponent string) string {
 	panic("Invalid input")
 }
 
-func (s *Solver) SolvePartOne(ctx context.Context) (int, error) {
+func (s *Solver) SolvePartOne(ctx context.Context) (*int, error) {
 	guide := s.Parse()
 	score := 0
 
@@ -125,10 +125,10 @@ func (s *Solver) SolvePartOne(ctx context.Context) (int, error) {
 		}
 	}
 
-	return score, nil
+	return &score, nil
 }
 
-func (s *Solver) SolvePartTwo(ctx context.Context) (int, error) {
+func (s *Solver) SolvePartTwo(ctx context.Context) (*int, error) {
 	guide := s.Parse()
 	score := 0
 
@@ -147,5 +147,5 @@ func (s *Solver) SolvePartTwo(ctx context.Context) (int, error) {
 		}
 	}
 
-	return score, nil
+	return &score, nil
 }
