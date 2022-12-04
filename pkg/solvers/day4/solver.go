@@ -2,6 +2,7 @@ package day4
 
 import (
 	"context"
+	"fmt"
 	"github.com/wesleyklop/advent-of-code/pkg/util"
 	"strings"
 )
@@ -28,6 +29,13 @@ func (s *Solver) SolvePartOne(ctx context.Context) (*int, error) {
 }
 
 func (s *Solver) SolvePartTwo(ctx context.Context) (*int, error) {
-
-	return nil, util.Todo{}
+	sectionRanges := s.Parse()
+	pairsThatPartiallyContainTheOther := util.Reduce(sectionRanges, func(sum int, pair []sectionRange) int {
+		if pair[0].PartiallyContains(pair[1]) || pair[1].PartiallyContains(pair[0]) {
+			fmt.Printf("%+v\n", pair)
+			return sum + 1
+		}
+		return sum
+	}, 0)
+	return &pairsThatPartiallyContainTheOther, nil
 }

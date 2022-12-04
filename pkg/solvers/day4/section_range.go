@@ -21,3 +21,7 @@ func newSectionRange(ir string) sectionRange {
 func (s *sectionRange) FullyContains(other sectionRange) bool {
 	return s.LowerBound <= other.LowerBound && s.UpperBound >= other.UpperBound
 }
+
+func (s *sectionRange) PartiallyContains(other sectionRange) bool {
+	return s.LowerBound <= other.UpperBound && s.UpperBound >= other.LowerBound
+}
