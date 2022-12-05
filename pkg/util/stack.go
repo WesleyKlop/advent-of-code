@@ -1,33 +1,33 @@
 package util
 
 type Stack[T any] struct {
-	slice  *[]T
-	Push   func(T)
-	Pop    func() T
-	Length func() int
-	PopN   func(n int) []T
+	slice *[]T
+}
+
+func (receiver *Stack[T]) Push(val T) {
+	*receiver.slice = append(*receiver.slice, val)
+}
+func (receiver *Stack[T]) Pop() T {
+	slice := *receiver.slice
+	res := (slice)[len(slice)-1]
+	*receiver.slice = (slice)[:len(slice)-1]
+	return res
+}
+func (receiver *Stack[T]) Size() int {
+	return len(*receiver.slice)
+}
+
+func (receiver *Stack[T]) PopN(n int) []T {
+	slice := *receiver.slice
+	res := slice[len(slice)-n:]
+	*receiver.slice = slice[:len(slice)-n]
+	return res
 }
 
 func MakeStack[T any]() Stack[T] {
 	slice := make([]T, 0)
 	return Stack[T]{
-		slice: &slice, // To easily access it for debugging.
-		PopN: func(n int) []T {
-			tail := len(slice) - 1
-			res := slice[tail-n+1:]
-			slice = slice[:tail-n+1]
-			return res
-		},
-		Push: func(i T) {
-			slice = append(slice, i)
-		},
-		Pop: func() T {
-			res := slice[len(slice)-1]
-			slice = slice[:len(slice)-1]
-			return res
-		},
-		Length: func() int {
-			return len(slice)
-		},
+		// To easily access it for debugging.
+		slice: &slice,
 	}
 }
