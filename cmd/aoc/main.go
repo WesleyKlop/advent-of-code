@@ -82,15 +82,16 @@ func main() {
 	if _, isTodo := err.(util.Todo); !isTodo && err != nil {
 		panic(err)
 	} else if isTodo {
+		// Dont attept part two if p1 is still Todo.
 		return
-	} else if err == nil {
+	} else if err == nil && ans != nil {
 		fmt.Printf("The answer to part 1 is %d\n", *ans)
 	}
 
 	ans, err = solver.SolvePartTwo(ctx)
 	if _, isTodo := err.(util.Todo); !isTodo && err != nil {
 		panic(err)
-	} else if err == nil {
+	} else if err == nil && ans != nil {
 		fmt.Printf("The answer to part 2 is %d\n", *ans)
 	}
 }

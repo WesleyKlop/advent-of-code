@@ -44,4 +44,3 @@ func (i *Input) Lines() []string {
 func (i *Input) SplitOn(sep string) []string {
 	return strings.Split(i.AllTrimmed(), sep)
 }
-

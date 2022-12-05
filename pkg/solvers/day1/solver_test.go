@@ -9,9 +9,9 @@ import (
 )
 
 func TestSolver_SolvePartOne(t *testing.T) {
-	ctx, cancel := context.WithTimeout(context.TODO(), time.Second * 5)
+	ctx, cancel := context.WithTimeout(context.TODO(), time.Second*5)
 	defer cancel()
-	solver := Solver {
+	solver := Solver{
 		Input: util.NewInput(util.ResolveInputFile(1)),
 	}
 	solution, _ := solver.SolvePartOne(ctx)
@@ -19,9 +19,9 @@ func TestSolver_SolvePartOne(t *testing.T) {
 }
 
 func TestSolver_SolvePartTwo(t *testing.T) {
-	ctx, cancel := context.WithTimeout(context.TODO(), time.Second * 5)
+	ctx, cancel := context.WithTimeout(context.TODO(), time.Second*5)
 	defer cancel()
-	solver := Solver {
+	solver := Solver{
 		Input: util.NewInput(util.ResolveInputFile(1)),
 	}
 	solution, _ := solver.SolvePartTwo(ctx)

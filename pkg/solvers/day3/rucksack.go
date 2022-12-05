@@ -3,14 +3,14 @@ package day3
 import "strings"
 
 type rucksack struct {
-	FirstCompartment string
+	FirstCompartment  string
 	SecondCompartment string
 }
 
 func newRucksack(line string) rucksack {
 	size := len(line)
 	return rucksack{
-		FirstCompartment:  line[0:size/2],
+		FirstCompartment:  line[0 : size/2],
 		SecondCompartment: line[size/2:],
 	}
 }

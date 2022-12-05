@@ -1,17 +1,22 @@
 package util
 
 type Stack[T any] struct {
+	slice  *[]T
 	Push   func(T)
 	Pop    func() T
 	Length func() int
-	Peek   func() []T
+	PopN   func(n int) []T
 }
 
 func MakeStack[T any]() Stack[T] {
 	slice := make([]T, 0)
 	return Stack[T]{
-		Peek: func() []T {
-			return slice
+		slice: &slice, // To easily access it for debugging.
+		PopN: func(n int) []T {
+			tail := len(slice) - 1
+			res := slice[tail-n+1:]
+			slice = slice[:tail-n+1]
+			return res
 		},
 		Push: func(i T) {
 			slice = append(slice, i)
