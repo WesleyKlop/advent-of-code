@@ -7,6 +7,7 @@ import (
 	"github.com/wesleyklop/advent-of-code/pkg/solvers/day3"
 	"github.com/wesleyklop/advent-of-code/pkg/solvers/day4"
 	"github.com/wesleyklop/advent-of-code/pkg/solvers/day5"
+	"github.com/wesleyklop/advent-of-code/pkg/solvers/day6"
 	"github.com/wesleyklop/advent-of-code/pkg/util"
 )
 
@@ -27,6 +28,8 @@ func GetSolver(day int, input *util.Input) Solver {
 		return &day4.Solver{Input: input}
 	case 5:
 		return &day5.Solver{Input: input}
+	case 6:
+		return &day6.Solver{Input: input}
 	}
 	panic("Invalid day")
 }
