@@ -3,8 +3,6 @@ package d2
 type game struct {
 	Id int
 
-	Shown []map[string]int
-
 	RedCubeCount   int
 	BlueCubeCount  int
 	GreenCubeCount int
