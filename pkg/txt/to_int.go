@@ -10,6 +10,7 @@ var validNumbers = map[string]int{
 	"seven": 7,
 	"eight": 8,
 	"nine":  9,
+	"ten":   10,
 }
 
 func ExtractNumberFromString(s string, matcher func(s string, match string) bool) (int, bool) {

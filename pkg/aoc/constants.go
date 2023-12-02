@@ -7,3 +7,10 @@ const (
 )
 
 type Day int
+
+type Part int
+
+const (
+	P1 = 1
+	P2 = 2
+)

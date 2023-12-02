@@ -2,7 +2,8 @@ package input
 
 import (
 	"os"
-	"strings"
+
+	"github.com/wesleyklop/advent-of-code/pkg/txt"
 )
 
 func (i Input) ReadLines() ([]string, error) {
@@ -10,7 +11,5 @@ func (i Input) ReadLines() ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	return strings.Split(
-		strings.Trim(string(contents), "\n"),
-		"\n"), nil
+	return txt.ReadLines(string(contents)), nil
 }

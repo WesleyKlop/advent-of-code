@@ -1,13 +1,14 @@
 package d1
 
 import (
+	"context"
 	"unicode"
 
 	"github.com/wesleyklop/advent-of-code/pkg/input"
 	"github.com/wesleyklop/advent-of-code/pkg/problem"
 )
 
-func part1(inp input.Input) (problem.Answer, error) {
+func part1(_ context.Context, inp input.Input) (problem.Answer, error) {
 	lines, err := inp.ReadLines()
 	if err != nil {
 		return problem.NoAnswer, err

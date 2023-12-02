@@ -1,6 +1,7 @@
 package d1
 
 import (
+	"context"
 	"strconv"
 	"strings"
 	"unicode"
@@ -10,7 +11,7 @@ import (
 	"github.com/wesleyklop/advent-of-code/pkg/txt"
 )
 
-func part2(inp input.Input) (problem.Answer, error) {
+func part2(_ context.Context, inp input.Input) (problem.Answer, error) {
 	lines, err := inp.ReadLines()
 	if err != nil {
 		return problem.NoAnswer, err

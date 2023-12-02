@@ -15,3 +15,14 @@ func TestInput(nr int) FileType {
 func (ft FileType) Path() string {
 	return fmt.Sprintf("%s.txt", ft)
 }
+
+func ParseInputType(inpType int) (FileType, bool) {
+	switch {
+	case inpType < 0:
+		return "", false
+	case inpType == 0:
+		return PuzzleInput, true
+	default:
+		return TestInput(inpType), true
+	}
+}
