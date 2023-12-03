@@ -55,7 +55,7 @@ func main() {
 
 	a1, err := solver.SolvePart1(ctx)
 	if err != nil {
-		logger.Error("failed to solve part 1", "err", err)
+		logger.Error("failed to solve part 3", "err", err)
 		return
 	}
 	a1.Display()
