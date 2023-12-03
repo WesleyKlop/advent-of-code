@@ -1,6 +1,9 @@
 package d3
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 type ftype int
 
@@ -25,7 +28,7 @@ func (f nilField) Print() {
 }
 
 type nrField struct {
-	Val                rune
+	Val                []rune
 	IsAdjacentToSymbol bool
 }
 
@@ -38,6 +41,11 @@ func (f nrField) Print() {
 	} else {
 		fmt.Printf("\033[0;31m%s\033[0m", string(f.Val))
 	}
+}
+
+func (f nrField) Value() int {
+	val, _ := strconv.Atoi(string(f.Val))
+	return val
 }
 
 type symbolField struct {
