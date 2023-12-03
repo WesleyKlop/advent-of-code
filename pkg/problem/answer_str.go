@@ -1,10 +1,13 @@
 package problem
 
-import "fmt"
+import (
+	"context"
+	"fmt"
+)
 
 type StringAnswer string
 
-func (s StringAnswer) Display() {
+func (s StringAnswer) Display(context.Context) {
 	fmt.Printf("Answer: %s\n", s)
 }
 

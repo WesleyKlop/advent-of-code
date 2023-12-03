@@ -13,14 +13,14 @@ import (
 )
 
 var (
-	year aoc.Year = aoc.Y2023
-	day  aoc.Day  = aoc.Day(1)
-	test          = 0
+	year = aoc.Y2023
+	day  = aoc.Day(3)
+	test = 0
 )
 
 func init() {
-	rd := flag.Int("day", 1, "day to solve for")
-	ry := flag.Int("year", aoc.Y2023, "year to solve for")
+	rd := flag.Int("day", int(day), "day to solve for")
+	ry := flag.Int("year", int(year), "year to solve for")
 	flag.IntVar(&test, "test", 0, "which test case to use")
 
 	flag.Parse()
@@ -46,6 +46,7 @@ func main() {
 		logger.Error("failed to parse input type")
 		return
 	}
+	ctx = logging.ContextWithLogger(ctx, logger.With("year", year, "day", day))
 
 	solver, err := solvers.GetSolver(year, day, inputType)
 	if err != nil {
@@ -58,12 +59,12 @@ func main() {
 		logger.Error("failed to solve part 3", "err", err)
 		return
 	}
-	a1.Display()
+	a1.Display(ctx)
 
 	a2, err := solver.SolvePart2(ctx)
 	if err != nil {
 		logger.Error("failed to solve part 2", "err", err)
 		return
 	}
-	a2.Display()
+	a2.Display(ctx)
 }

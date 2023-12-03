@@ -1,8 +1,10 @@
 package problem
 
+import "context"
+
 type noAnswer struct{}
 
-func (n noAnswer) Display() {
+func (n noAnswer) Display(context.Context) {
 	panic("Failed to solve this puzzle")
 }
 

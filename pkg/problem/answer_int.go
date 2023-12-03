@@ -1,14 +1,16 @@
 package problem
 
 import (
-	"fmt"
+	"context"
+	"github.com/wesleyklop/advent-of-code/pkg/logging"
 	"strconv"
 )
 
 type IntAnswer int
 
-func (i IntAnswer) Display() {
-	fmt.Printf("Answer: %d\n", i)
+func (i IntAnswer) Display(ctx context.Context) {
+	logger := logging.FromContext(ctx)
+	logger.Info("Answer is", "value", i)
 }
 
 func (i IntAnswer) String() string {
