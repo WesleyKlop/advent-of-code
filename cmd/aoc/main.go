@@ -4,9 +4,12 @@ import (
 	"context"
 	"flag"
 	"log/slog"
+	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
+	"github.com/phsym/console-slog"
 	"github.com/wesleyklop/advent-of-code/internal/solvers"
 	"github.com/wesleyklop/advent-of-code/pkg/aoc"
 	"github.com/wesleyklop/advent-of-code/pkg/logging"
@@ -31,7 +34,12 @@ func init() {
 
 func initContext() (context.Context, context.CancelFunc) {
 	ctx := context.Background()
-	ctx = logging.ContextWithLogger(ctx, slog.Default())
+	ctx = logging.ContextWithLogger(ctx, slog.New(
+		console.NewHandler(os.Stderr, &console.HandlerOptions{
+			Level:      slog.LevelDebug,
+			TimeFormat: time.TimeOnly,
+		}),
+	))
 
 	return signal.NotifyContext(ctx, syscall.SIGINT, syscall.SIGTERM)
 }
@@ -46,7 +54,7 @@ func main() {
 		logger.Error("failed to parse input type")
 		return
 	}
-	ctx = logging.ContextWithLogger(ctx, logger.With("year", year, "day", day))
+	//ctx = logging.ContextWith(ctx, "year", year, "day", day)
 
 	solver, err := solvers.GetSolver(year, day, inputType)
 	if err != nil {
@@ -54,6 +62,7 @@ func main() {
 		return
 	}
 
+	ctx = logging.ContextWith(ctx, "part", 1)
 	a1, err := solver.SolvePart1(ctx)
 	if err != nil {
 		logger.Error("failed to solve part 3", "err", err)

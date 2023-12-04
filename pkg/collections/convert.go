@@ -1,6 +1,8 @@
 package collections
 
-import "strconv"
+import (
+	"strconv"
+)
 
 func MapStringsToInt(list []string) []int {
 	return MapSlice(list, func(t string) int {
