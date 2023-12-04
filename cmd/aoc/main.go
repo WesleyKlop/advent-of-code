@@ -5,8 +5,6 @@ import (
 	"flag"
 	"log/slog"
 	"os"
-	"os/signal"
-	"syscall"
 	"time"
 
 	"github.com/phsym/console-slog"
@@ -16,15 +14,17 @@ import (
 )
 
 var (
-	year = aoc.Y2023
-	day  = aoc.Day(3)
-	test = 0
+	year  = aoc.Y2023
+	day   = aoc.Day(3)
+	test  = 0
+	debug = false
 )
 
 func init() {
 	rd := flag.Int("day", int(day), "day to solve for")
 	ry := flag.Int("year", int(year), "year to solve for")
 	flag.IntVar(&test, "test", 0, "which test case to use")
+	flag.BoolVar(&debug, "debug", debug, "enable debug output")
 
 	flag.Parse()
 
@@ -34,14 +34,19 @@ func init() {
 
 func initContext() (context.Context, context.CancelFunc) {
 	ctx := context.Background()
+	level := slog.LevelInfo
+	if debug {
+		level = slog.LevelDebug
+	}
 	ctx = logging.ContextWithLogger(ctx, slog.New(
-		console.NewHandler(os.Stderr, &console.HandlerOptions{
-			Level:      slog.LevelDebug,
+		console.NewHandler(os.Stdout, &console.HandlerOptions{
+			Level:      level,
 			TimeFormat: time.TimeOnly,
 		}),
 	))
 
-	return signal.NotifyContext(ctx, syscall.SIGINT, syscall.SIGTERM)
+	return context.WithCancel(ctx)
+	//return signal.NotifyContext(ctx, syscall.SIGINT, syscall.SIGTERM)
 }
 
 func main() {
@@ -54,7 +59,6 @@ func main() {
 		logger.Error("failed to parse input type")
 		return
 	}
-	//ctx = logging.ContextWith(ctx, "year", year, "day", day)
 
 	solver, err := solvers.GetSolver(year, day, inputType)
 	if err != nil {
@@ -62,7 +66,7 @@ func main() {
 		return
 	}
 
-	ctx = logging.ContextWith(ctx, "part", 1)
+	ctx = logging.ContextWithLogger(ctx, logger.With("part", 1))
 	a1, err := solver.SolvePart1(ctx)
 	if err != nil {
 		logger.Error("failed to solve part 3", "err", err)
@@ -70,6 +74,7 @@ func main() {
 	}
 	a1.Display(ctx)
 
+	ctx = logging.ContextWithLogger(ctx, logger.With("part", 2))
 	a2, err := solver.SolvePart2(ctx)
 	if err != nil {
 		logger.Error("failed to solve part 2", "err", err)

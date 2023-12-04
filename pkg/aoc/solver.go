@@ -23,7 +23,7 @@ func (s solver) SolvePart1(ctx context.Context) (problem.Answer, error) {
 	if err != nil {
 		return problem.NoAnswer, err
 	}
-	return Answer{answer: a, part: P1}, nil
+	return Answer{answer: a}, nil
 }
 
 func (s solver) SolvePart2(ctx context.Context) (problem.Answer, error) {
@@ -31,7 +31,7 @@ func (s solver) SolvePart2(ctx context.Context) (problem.Answer, error) {
 	if err != nil {
 		return problem.NoAnswer, err
 	}
-	return Answer{answer: a, part: P2}, nil
+	return Answer{answer: a}, nil
 }
 
 func NewSolver(part1 problem.Solution, part2 problem.Solution, inp input.Input) Solver {

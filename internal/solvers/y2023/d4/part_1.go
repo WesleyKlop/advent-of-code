@@ -36,7 +36,7 @@ func part1(ctx context.Context, inp input.Input) (problem.Answer, error) {
 			//logger.Debug(meta, "winning nr", myNr, "newPoints", points)
 		}
 		if points > 0 {
-			logger.Info(meta+" is worth", "points", points)
+			logger.Debug(meta+" is worth", "points", points)
 		}
 		sum += points
 	}
