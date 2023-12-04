@@ -3,17 +3,14 @@ package errors
 import (
 	_ "embed"
 	"fmt"
-	"os"
+	"log/slog"
 )
 
 //go:embed panik.txt
 var panik string
 
-func PanicHandler() {
+func PanicHandler(logger *slog.Logger) {
 	if err := recover(); err != nil {
-		_, err = fmt.Fprintf(os.Stderr, "%s%v\n", panik, err)
-		if err != nil {
-			panic(err)
-		}
+		logger.Error(fmt.Sprintf("%v", err), "panik", "\n"+panik)
 	}
 }

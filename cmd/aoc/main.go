@@ -51,11 +51,11 @@ func initContext() (context.Context, context.CancelFunc) {
 }
 
 func main() {
-	defer errors.PanicHandler()
 	ctx, cancel := initContext()
 	defer cancel()
 
 	logger := logging.FromContext(ctx)
+	defer errors.PanicHandler(logger)
 	inputType, ok := aoc.ParseInputType(test)
 	if !ok {
 		logger.Error("failed to parse input type")
@@ -76,6 +76,7 @@ func main() {
 	}
 	a1.Display(ctx)
 
+	panic("Ik heb een fukkie wukkie gedaan :( ")
 	ctx = logging.ContextWithLogger(ctx, logger.With("part", 2))
 	a2, err := solver.SolvePart2(ctx)
 	if err != nil {
