@@ -10,6 +10,7 @@ import (
 	"github.com/phsym/console-slog"
 	"github.com/wesleyklop/advent-of-code/internal/solvers"
 	"github.com/wesleyklop/advent-of-code/pkg/aoc"
+	"github.com/wesleyklop/advent-of-code/pkg/errors"
 	"github.com/wesleyklop/advent-of-code/pkg/logging"
 )
 
@@ -50,6 +51,7 @@ func initContext() (context.Context, context.CancelFunc) {
 }
 
 func main() {
+	defer errors.PanicHandler()
 	ctx, cancel := initContext()
 	defer cancel()
 
