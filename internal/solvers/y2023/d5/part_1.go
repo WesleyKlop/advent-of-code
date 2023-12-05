@@ -71,14 +71,11 @@ func part1(ctx context.Context, inp input.Input) (problem.Answer, error) {
 				//logger.Debug("processing conversion", "src", conversion.SrcStart, "range", conversion.Range)
 				if conversion.IsInSrcRange(intermediate) {
 					converted := conversion.Convert(intermediate)
-					logger.Debug("converted", "type", mapType, "from", intermediate, "to", converted)
 					intermediate = converted
 					continue conversion
 				}
 			}
-			logger.Info("no valid mapping for", "type", mapType, "from", intermediate)
 		}
-		logger.Warn("finished computing", "seed", seed, "soil", intermediate)
 		if lowest > intermediate {
 			lowest = intermediate
 		}

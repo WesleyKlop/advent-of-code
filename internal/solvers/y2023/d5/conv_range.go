@@ -15,7 +15,7 @@ func (cr convRange) DestBounds() (int, int) {
 }
 
 func (cr convRange) IsInSrcRange(intermediate int) bool {
-	return cr.SrcStart < intermediate && intermediate < cr.SrcStart+cr.Range
+	return cr.SrcStart <= intermediate && intermediate < cr.SrcStart+cr.Range
 }
 
 func (cr convRange) Convert(src int) int {
