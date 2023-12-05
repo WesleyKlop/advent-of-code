@@ -2,7 +2,6 @@ package d5
 
 import (
 	"context"
-	"fmt"
 	"math"
 	"strconv"
 	"strings"
@@ -10,7 +9,6 @@ import (
 	"github.com/wesleyklop/advent-of-code/pkg/input"
 	"github.com/wesleyklop/advent-of-code/pkg/logging"
 	"github.com/wesleyklop/advent-of-code/pkg/problem"
-	"github.com/wesleyklop/advent-of-code/pkg/txt"
 )
 
 var processingOrder = [...]string{
@@ -39,24 +37,7 @@ func part1(ctx context.Context, inp input.Input) (problem.Answer, error) {
 			continue
 		}
 
-		// parse maps
-		mapType, contents, ok := strings.Cut(chunk, " map:\n")
-		if !ok {
-			panic(fmt.Sprintf("failed to parse idx %d", idx))
-		}
-
-		rawRanges := txt.ReadLines(contents)
-		ranges := make([]convRange, 0, len(rawRanges))
-		for _, line := range rawRanges {
-			var src, dest, size int
-			_, _ = fmt.Sscanf(line, "%d %d %d", &dest, &src, &size)
-			ranges = append(ranges, convRange{
-				SrcStart:  src,
-				DestStart: dest,
-				Range:     size,
-			})
-		}
-
+		mapType, ranges := parseMap(chunk)
 		maps[mapType] = ranges
 	}
 
@@ -64,18 +45,7 @@ func part1(ctx context.Context, inp input.Input) (problem.Answer, error) {
 
 	logger.Debug("Parsed ", "maps", maps)
 	for _, seed := range seeds {
-		intermediate := seed
-	conversion:
-		for _, mapType := range processingOrder {
-			for _, conversion := range maps[mapType] {
-				//logger.Debug("processing conversion", "src", conversion.SrcStart, "range", conversion.Range)
-				if conversion.IsInSrcRange(intermediate) {
-					converted := conversion.Convert(intermediate)
-					intermediate = converted
-					continue conversion
-				}
-			}
-		}
+		intermediate := processSeed(seed, maps)
 		if lowest > intermediate {
 			lowest = intermediate
 		}

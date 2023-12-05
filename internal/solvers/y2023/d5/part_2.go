@@ -57,22 +57,13 @@ func part2(_ context.Context, inp input.Input) (problem.Answer, error) {
 	lowest.Store(math.MaxInt)
 
 	wg := sync.WaitGroup{}
-	wg.Add(10)
+	wg.Add(len(seedRanges))
 	for _, seedRange := range seedRanges {
 		seedRange := seedRange
 		go func() {
 			defer wg.Done()
 			for seed := seedRange[0]; seed < seedRange[0]+seedRange[1]; seed++ {
-				intermediate := seed
-			conversion:
-				for _, mapType := range processingOrder {
-					for _, conversion := range maps[mapType] {
-						if conversion.IsInSrcRange(intermediate) {
-							intermediate = conversion.Convert(intermediate)
-							continue conversion
-						}
-					}
-				}
+				intermediate := processSeed(seed, maps)
 				if lowest.Load() > int64(intermediate) {
 					lowest.Store(int64(intermediate))
 				}
