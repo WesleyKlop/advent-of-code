@@ -76,7 +76,6 @@ func main() {
 	}
 	a1.Display(ctx)
 
-	panic("Ik heb een fukkie wukkie gedaan :( ")
 	ctx = logging.ContextWithLogger(ctx, logger.With("part", 2))
 	a2, err := solver.SolvePart2(ctx)
 	if err != nil {
