@@ -14,6 +14,9 @@ scaffold day=today:
       --output "{{ "inputs" / year / day / "input.txt" }}" \
       --cookie  "session=$(cat inputs/session)" \
       'https://adventofcode.com/{{ year }}/day/{{ day }}/input'
+    @cp -r "internal/solvers/y{{year}}/d0" "internal/solvers/y{{year}}/d{{day}}"
+    @find "internal/solvers/y{{year}}/d{{day}}" -name '*.go' -exec sed -i '' 's/d0/d{{day}}/g' {} \;
+
 
 build:
     go build -o bin/aoc "{{ pkg / "cmd/aoc" }}"
