@@ -2,9 +2,7 @@ package d7
 
 import (
 	"context"
-	"fmt"
 	"slices"
-	"strings"
 
 	"github.com/wesleyklop/advent-of-code/pkg/collections"
 	"github.com/wesleyklop/advent-of-code/pkg/input"
@@ -12,7 +10,7 @@ import (
 	"github.com/wesleyklop/advent-of-code/pkg/problem"
 )
 
-func handTypeFromHand(hand []string) handType {
+func handTypeFromHandPart1(hand []string) handType {
 	groups := collections.MapValues(collections.CountValues(hand))
 	// Shortcut
 	switch len(groups) {
@@ -40,65 +38,13 @@ func handTypeFromHand(hand []string) handType {
 	panic("Invalid hand!?")
 }
 
-var cardStrength = map[string]int{
-	"A": 13,
-	"K": 12,
-	"Q": 11,
-	"J": 10,
-	"T": 9,
-	"9": 8,
-	"8": 7,
-	"7": 6,
-	"6": 5,
-	"5": 4,
-	"4": 3,
-	"3": 2,
-	"2": 1,
-}
-
 func part1(ctx context.Context, inp input.Input) (problem.Answer, error) {
 	logger := logging.FromContext(ctx)
-	lines := inp.MustReadLines()
-	camelCards := make([]camelCard, 0, len(lines))
-	for _, line := range lines {
-		card := camelCard{}
-		rawHand := ""
-		_, _ = fmt.Sscanf(line, "%s %d", &rawHand, &card.Bid)
-		card.Hand = strings.Split(rawHand, "")
-		card.Type = handTypeFromHand(card.Hand)
-		camelCards = append(camelCards, card)
-	}
+	camelCards := parseCards(inp.MustReadLines(), handTypeFromHandPart1)
 
 	logger.Info("parsed", "cards", camelCards)
-	slices.SortFunc(camelCards, func(a, b camelCard) int {
-		// Primarily order by type
-		if a.Type < b.Type {
-			return -1
-		}
-		if a.Type > b.Type {
-			return 1
-		}
-
-		for i := 0; i < 5; i++ {
-			aCard, bCard := cardStrength[a.Hand[i]], cardStrength[b.Hand[i]]
-			if aCard > bCard {
-				return -1
-			}
-			if aCard < bCard {
-				return 1
-			}
-		}
-
-		logger.Warn("Hands are exactly the same", "a", a, "b", b)
-		return 0
-	})
+	slices.SortFunc(camelCards, sortCardsFunc(jokerValuePart1))
 	logger.Info("sorted", "cards", camelCards)
 
-	totalWinnings := 0
-	for idx, card := range camelCards {
-		rank := len(camelCards) - idx
-		totalWinnings += rank * card.Bid
-	}
-
-	return problem.IntAnswer(totalWinnings), nil
+	return problem.IntAnswer(calculateTotalWinnings(camelCards)), nil
 }
