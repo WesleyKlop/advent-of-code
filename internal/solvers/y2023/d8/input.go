@@ -1,8 +1,13 @@
 package d8
 
-import "regexp"
+import (
+	"regexp"
+	"strings"
 
-var re = regexp.MustCompile("^([A-Z]+) = \\(([A-Z]+), ([A-Z]+)\\)")
+	"github.com/wesleyklop/advent-of-code/pkg/txt"
+)
+
+var re = regexp.MustCompile("^([A-Z0-9]+) = \\(([A-Z0-9]+), ([A-Z0-9]+)\\)")
 
 func parseInput(inp []string) ([]string, nodeMap) {
 	rawNodeLines := txt.ReadLines(inp[1])
