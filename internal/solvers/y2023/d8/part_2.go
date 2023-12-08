@@ -11,7 +11,6 @@ import (
 
 func part2(_ context.Context, inp input.Input) (problem.Answer, error) {
 	instructions, nodes := parseInput(inp.MustReadSplitOn("\n\n"))
-
 	// For each starting node we calculate how many steps to ..Z
 	currentNodes := make(map[string]int, len(nodes))
 	for k, _ := range nodes {

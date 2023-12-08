@@ -8,11 +8,7 @@ import (
 )
 
 type Answer struct {
-	answer problem.Answer
-}
-
-func (a Answer) String() string {
-	return a.answer.String()
+	problem.Answer
 }
 
 func (a Answer) Display(ctx context.Context) {

@@ -7,8 +7,6 @@ import (
 	"github.com/wesleyklop/advent-of-code/pkg/problem"
 )
 
-type nodeMap map[string]map[string]string
-
 func part1(_ context.Context, inp input.Input) (problem.Answer, error) {
 	instructions, nodes := parseInput(inp.MustReadSplitOn("\n\n"))
 
