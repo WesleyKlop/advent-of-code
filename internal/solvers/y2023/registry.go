@@ -8,6 +8,7 @@ import (
 	"github.com/wesleyklop/advent-of-code/internal/solvers/y2023/d5"
 	"github.com/wesleyklop/advent-of-code/internal/solvers/y2023/d6"
 	"github.com/wesleyklop/advent-of-code/internal/solvers/y2023/d7"
+	"github.com/wesleyklop/advent-of-code/internal/solvers/y2023/d8"
 	"github.com/wesleyklop/advent-of-code/pkg/aoc"
 	"github.com/wesleyklop/advent-of-code/pkg/input"
 )
@@ -28,6 +29,8 @@ func GetSolver(day aoc.Day, inp input.Input) aoc.Solver {
 		return d6.NewSolver(inp)
 	case 7:
 		return d7.NewSolver(inp)
+	case 8:
+		return d8.NewSolver(inp)
 	}
 	panic("Invalid day!")
 }
