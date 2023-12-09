@@ -2,6 +2,7 @@ package collections
 
 import (
 	"strconv"
+	"strings"
 )
 
 func MapStringsToInt(list []string) []int {
@@ -17,4 +18,8 @@ func MapSlice[T any, R any](list []T, fn func(T) R) []R {
 		newList[i] = fn(t)
 	}
 	return newList
+}
+
+func IntFields(s string) []int {
+	return MapStringsToInt(strings.Fields(s))
 }
