@@ -13,6 +13,15 @@ func (i Input) Read() (string, error) {
 	}
 	return string(contents), nil
 }
+
+func (i Input) MustRead() string {
+	contents, err := i.Read()
+	if err != nil {
+		panic(err)
+	}
+	return contents
+}
+
 func (i Input) ReadLines() ([]string, error) {
 	contents, err := i.Read()
 	if err != nil {
