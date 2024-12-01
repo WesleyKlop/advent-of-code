@@ -1,36 +1,15 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"math"
 	"os"
 	"slices"
-	"strings"
+
+	"github.com/wesleyklop/pragmatic-advent-of-code/common"
 )
-
-func must[T any](v T, err error) T {
-	if err != nil {
-		panic(fmt.Errorf("must: %w", err))
-	}
-	return v
-}
-
-func parseLists(in string) ([]int, []int) {
-	rows := strings.Split(in, "\n")
-
-	listA := make([]int, len(rows))
-	listB := make([]int, len(rows))
-
-	for idx, row := range rows {
-		_, _ = fmt.Sscanf(row, "%d   %d", &listA[idx], &listB[idx])
-	}
-
-	slices.Sort(listA)
-	slices.Sort(listB)
-
-	return listA, listB
-}
 
 func part1(listA, listB []int) {
 	var total float64 = 0
@@ -56,15 +35,39 @@ func part2(listA, listB []int) {
 	fmt.Printf("ans: %d\n", similarityScore)
 }
 
+func readLists(f *os.File) ([]int, []int) {
+	listA, listB := make([]int, 1024), make([]int, 1024)
+
+	idx := 0
+	for {
+		_, err := fmt.Fscanf(f, "%d   %d\n", &listA[idx], &listB[idx])
+		if errors.Is(err, io.EOF) {
+			break
+		}
+		idx++
+	}
+
+	// Shrink slices to their actual size
+	listA, listB = listA[:idx], listB[:idx]
+
+	slices.Sort(listA)
+	slices.Sort(listB)
+
+	return listA, listB
+}
+
 func main() {
+	start := common.NewStopwatch()
 	fileToOpen := os.Args[1]
 
-	contents := strings.TrimSpace(string(must(io.ReadAll(must(os.Open(fileToOpen))))))
-	listA, listB := parseLists(contents)
+	listA, listB := readLists(common.Must(os.Open(fileToOpen)))
+	fmt.Printf("Finished parsing: %s\n", start.Click())
 
+	fmt.Printf("\n--- Part 1 ---\n")
 	part1(listA, listB)
+	fmt.Printf("Finished part 1: %s\n", start.Click())
 
-	fmt.Printf("--- Part 2 ---\n")
-
+	fmt.Printf("\n--- Part 2 ---\n")
 	part2(listA, listB)
+	fmt.Printf("Finished part 2: %s\n", start.Click())
 }
