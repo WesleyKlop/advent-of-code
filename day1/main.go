@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"io"
 	"math"
@@ -33,22 +32,41 @@ func parseLists(in string) ([]int, []int) {
 	return listA, listB
 }
 
-func main() {
-	_ = context.Background()
-	fileToOpen := os.Args[1]
-
-	contents := strings.TrimSpace(string(must(io.ReadAll(must(os.Open(fileToOpen))))))
-
-	fmt.Printf("contents: %s\n", contents)
-
+func part1(contents string) {
 	listA, listB := parseLists(contents)
-
-	fmt.Printf("%+v, %+v\n", listA, listB)
 
 	var total float64 = 0
 	for i := 0; i < len(listA); i++ {
 		total += math.Abs(float64(listA[i] - listB[i]))
 	}
 
-	fmt.Printf("ans: %f\n", total)
+	fmt.Printf("ans: %d\n", int(total))
+}
+
+func part2(contents string) {
+	listA, listB := parseLists(contents)
+
+	var similarityScore int = 0
+	for i := 0; i < len(listA); i++ {
+		occurences := 0
+		for _, v := range listB {
+			if listA[i] == v {
+				occurences++
+			}
+		}
+		similarityScore += listA[i] * occurences
+	}
+	fmt.Printf("ans: %d\n", similarityScore)
+}
+
+func main() {
+	fileToOpen := os.Args[1]
+
+	contents := strings.TrimSpace(string(must(io.ReadAll(must(os.Open(fileToOpen))))))
+
+	part1(contents)
+
+	fmt.Printf("--- Part 2 ---\n")
+
+	part2(contents)
 }
