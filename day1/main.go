@@ -35,7 +35,7 @@ func part2(listA, listB []int) {
 	fmt.Printf("ans: %d\n", similarityScore)
 }
 
-func readLists(f *os.File) ([]int, []int) {
+func readLists(f io.Reader) ([]int, []int) {
 	listA, listB := make([]int, 1024), make([]int, 1024)
 
 	idx := 0
