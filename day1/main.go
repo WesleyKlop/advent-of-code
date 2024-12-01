@@ -32,9 +32,7 @@ func parseLists(in string) ([]int, []int) {
 	return listA, listB
 }
 
-func part1(contents string) {
-	listA, listB := parseLists(contents)
-
+func part1(listA, listB []int) {
 	var total float64 = 0
 	for i := 0; i < len(listA); i++ {
 		total += math.Abs(float64(listA[i] - listB[i]))
@@ -43,19 +41,18 @@ func part1(contents string) {
 	fmt.Printf("ans: %d\n", int(total))
 }
 
-func part2(contents string) {
-	listA, listB := parseLists(contents)
-
-	var similarityScore int = 0
-	for i := 0; i < len(listA); i++ {
+func part2(listA, listB []int) {
+	similarityScore := 0
+	for _, a := range listA {
 		occurences := 0
-		for _, v := range listB {
-			if listA[i] == v {
+		for _, b := range listB {
+			if a == b {
 				occurences++
 			}
 		}
-		similarityScore += listA[i] * occurences
+		similarityScore += a * occurences
 	}
+
 	fmt.Printf("ans: %d\n", similarityScore)
 }
 
@@ -63,10 +60,11 @@ func main() {
 	fileToOpen := os.Args[1]
 
 	contents := strings.TrimSpace(string(must(io.ReadAll(must(os.Open(fileToOpen))))))
+	listA, listB := parseLists(contents)
 
-	part1(contents)
+	part1(listA, listB)
 
 	fmt.Printf("--- Part 2 ---\n")
 
-	part2(contents)
+	part2(listA, listB)
 }
