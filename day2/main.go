@@ -29,7 +29,6 @@ func parse(reader io.Reader) [][]int {
 func isValidReport(report []int, idx int, sign *bool) bool {
 	// End condition, idx+1 is nil
 	if len(report) == idx+1 {
-		fmt.Printf("report %v is valid\n", report)
 		return true
 	}
 
@@ -43,36 +42,33 @@ func isValidReport(report []int, idx int, sign *bool) bool {
 
 	// Rule 1: every step must be increasing/decreasing depending on sign
 	if *sign && a < b {
-		fmt.Printf("report %v is not valid because %v and %d > %d\n", report, *sign, a, b)
 		return false
 	}
 	if !*sign && b < a {
-		fmt.Printf("report %v is not valid because %v and %d > %d\n", report, *sign, b, a)
 		return false
 	}
 
 	// Rule 2: levels must differ between at least 1 and at most 3
 	if diff := int(math.Abs(float64(a - b))); diff < 1 || diff > 3 {
-		fmt.Printf("report %v is not valid because %d is not between 1 and 3\n", report, diff)
 		return false
 	}
 
 	return isValidReport(report, idx+1, sign)
 }
 
-func part1(in [][]int) {
+func part1(reports [][]int) int {
 	validReports := 0
-	for _, line := range in {
+	for _, line := range reports {
 		if isValidReport(line, 0, nil) {
 			validReports++
 		}
 	}
-	fmt.Printf("ans: %d\n", validReports)
+	return validReports
 }
 
-func part2(in [][]int) {
+func part2(reports [][]int) int {
 	validReports := 0
-	for _, line := range in {
+	for _, line := range reports {
 		if isValidReport(line, 0, nil) {
 			validReports++
 			continue
@@ -86,21 +82,23 @@ func part2(in [][]int) {
 			}
 		}
 	}
-	fmt.Printf("ans: %d\n", validReports)
+	return validReports
 }
 
 func main() {
-	start := common.NewStopwatch()
+	stopWatch := common.NewStopwatch()
 	fileToOpen := common.OpenPuzzleInput()
 
 	parsed := parse(fileToOpen)
-	fmt.Printf("Finished parsing: %s\n", start.Click())
+	fmt.Printf("Parsing took: %s\n", stopWatch.Click())
 
 	fmt.Printf("\n--- Part 1 ---\n")
-	part1(parsed)
-	fmt.Printf("Finished part 1: %s\n", start.Click())
+	validReports := part1(parsed)
+	fmt.Printf("Answer: %d\n", validReports)
+	fmt.Printf("Part 1 took: %s\n", stopWatch.Click())
 
 	fmt.Printf("\n--- Part 2 ---\n")
-	part2(parsed)
-	fmt.Printf("Finished part 2: %s\n", start.Click())
+	validReports = part2(parsed)
+	fmt.Printf("Answer: %d\n", validReports)
+	fmt.Printf("Part 2 took: %s\n", stopWatch.Click())
 }
