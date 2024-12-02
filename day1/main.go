@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"math"
-	"os"
 	"slices"
 
 	"github.com/wesleyklop/advent-of-code/common"
@@ -58,9 +57,8 @@ func readLists(f io.Reader) ([]int, []int) {
 
 func main() {
 	start := common.NewStopwatch()
-	fileToOpen := os.Args[1]
 
-	listA, listB := readLists(common.Must(os.Open(fileToOpen)))
+	listA, listB := readLists(common.OpenPuzzleInput())
 	fmt.Printf("Finished parsing: %s\n", start.Click())
 
 	fmt.Printf("\n--- Part 1 ---\n")

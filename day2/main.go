@@ -5,20 +5,12 @@ import (
 	"fmt"
 	"io"
 	"math"
-	"os"
 	"slices"
 	"strconv"
 	"strings"
 
 	"github.com/wesleyklop/advent-of-code/common"
 )
-
-func OpenPuzzleInput() *os.File {
-	if f := os.Args[1]; f != "" {
-		return common.Must(os.OpenFile(f, os.O_RDONLY, 0444))
-	}
-	panic("missing argument file")
-}
 
 func parse(reader io.Reader) [][]int {
 	scanner := bufio.NewScanner(reader)
@@ -32,11 +24,6 @@ func parse(reader io.Reader) [][]int {
 		out = append(out, tmp)
 	}
 	return out
-}
-
-func remove(slice []int, s int) []int {
-	clone := slices.Clone(slice)
-	return append(clone[:s], clone[s+1:]...)
 }
 
 func isValidReport(report []int, idx int, sign *bool) bool {
@@ -82,6 +69,7 @@ func part1(in [][]int) {
 	}
 	fmt.Printf("ans: %d\n", validReports)
 }
+
 func part2(in [][]int) {
 	validReports := 0
 	for _, line := range in {
@@ -91,7 +79,8 @@ func part2(in [][]int) {
 		}
 
 		for i := 0; i < len(line); i++ {
-			if isValidReport(remove(line, i), 0, nil) {
+			report := common.RemoveFromSlice(slices.Clone(line), i)
+			if isValidReport(report, 0, nil) {
 				validReports++
 				break
 			}
@@ -102,7 +91,7 @@ func part2(in [][]int) {
 
 func main() {
 	start := common.NewStopwatch()
-	fileToOpen := OpenPuzzleInput()
+	fileToOpen := common.OpenPuzzleInput()
 
 	parsed := parse(fileToOpen)
 	fmt.Printf("Finished parsing: %s\n", start.Click())

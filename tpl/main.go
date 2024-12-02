@@ -3,17 +3,9 @@ package main
 import (
 	"fmt"
 	"io"
-	"os"
 
 	"github.com/wesleyklop/advent-of-code/common"
 )
-
-func OpenPuzzleInput() *os.File {
-	if f := os.Args[1]; f != "" {
-		return common.Must(os.OpenFile(f, os.O_RDONLY, 0444))
-	}
-	panic("missing argument file")
-}
 
 func parse(reader io.Reader) string {
 	// parse file into wanted format
@@ -29,7 +21,7 @@ func part2(in string) {
 
 func main() {
 	start := common.NewStopwatch()
-	fileToOpen := OpenPuzzleInput()
+	fileToOpen := common.OpenPuzzleInput()
 
 	parsed := parse(fileToOpen)
 	fmt.Printf("Finished parsing: %s\n", start.Click())
