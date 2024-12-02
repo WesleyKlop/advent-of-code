@@ -27,12 +27,6 @@ func parse(reader io.Reader) [][]int {
 }
 
 func isValidReport(report []int, idx int, sign *bool) bool {
-	// Compare first two levels for increase/decrease
-	if sign == nil {
-		s := report[idx]-report[idx+1] > 0
-		return isValidReport(report, idx, &s)
-	}
-
 	// End condition, idx+1 is nil
 	if len(report) == idx+1 {
 		fmt.Printf("report %v is valid\n", report)
@@ -40,6 +34,12 @@ func isValidReport(report []int, idx int, sign *bool) bool {
 	}
 
 	a, b := report[idx], report[idx+1]
+
+	// Compare first two levels for increase/decrease
+	if sign == nil {
+		s := a-b > 0
+		return isValidReport(report, idx, &s)
+	}
 
 	// Rule 1: every step must be increasing/decreasing depending on sign
 	if *sign && a < b {
