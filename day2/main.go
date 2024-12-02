@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/wesleyklop/pragmatic-advent-of-code/common"
+	"github.com/wesleyklop/advent-of-code/common"
 )
 
 func OpenPuzzleInput() *os.File {
@@ -21,7 +21,6 @@ func OpenPuzzleInput() *os.File {
 }
 
 func parse(reader io.Reader) [][]int {
-	// parse file into wanted format
 	scanner := bufio.NewScanner(reader)
 	out := make([][]int, 0, 1024)
 	for scanner.Scan() {

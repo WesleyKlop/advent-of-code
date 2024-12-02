@@ -5,7 +5,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/wesleyklop/pragmatic-advent-of-code/common"
+	"github.com/wesleyklop/advent-of-code/common"
 )
 
 func OpenPuzzleInput() *os.File {
