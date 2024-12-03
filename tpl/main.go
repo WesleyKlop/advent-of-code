@@ -14,6 +14,7 @@ func parse(reader io.Reader) string {
 func part1(in string) int {
 	return len(in)
 }
+
 func part2(in string) int {
 	return len(in)
 }

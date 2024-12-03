@@ -21,6 +21,7 @@ func part1(in string) int {
 	}
 	return sum
 }
+
 func part2(in string) int {
 	mulEnabled := true
 	sum := 0
