@@ -3,11 +3,7 @@ package main
 import (
 	"context"
 	"flag"
-	"log/slog"
-	"os"
-	"time"
 
-	"github.com/phsym/console-slog"
 	"github.com/wesleyklop/advent-of-code/internal/solvers"
 	"github.com/wesleyklop/advent-of-code/pkg/aoc"
 	"github.com/wesleyklop/advent-of-code/pkg/errors"
@@ -22,39 +18,20 @@ var (
 )
 
 func init() {
-	rd := flag.Int("day", int(day), "day to solve for")
-	ry := flag.Int("year", int(year), "year to solve for")
+	flag.Var(&day, "day", "day to solve for")
+	flag.Var(&year, "year", "year to solve for")
 	flag.IntVar(&test, "test", 0, "which test case to use")
-	flag.BoolVar(&debug, "debug", debug, "enable debug output")
+	flag.BoolVar(&debug, "debug", false, "enable debug output")
 
 	flag.Parse()
-
-	day = aoc.Day(*rd)
-	year = aoc.Year(*ry)
-}
-
-func initContext() (context.Context, context.CancelFunc) {
-	ctx := context.Background()
-	level := slog.LevelInfo
-	if debug {
-		level = slog.LevelDebug
-	}
-	ctx = logging.ContextWithLogger(ctx, slog.New(
-		console.NewHandler(os.Stdout, &console.HandlerOptions{
-			Level:      level,
-			TimeFormat: time.TimeOnly,
-		}),
-	))
-
-	return context.WithCancel(ctx)
-	//return signal.NotifyContext(ctx, syscall.SIGINT, syscall.SIGTERM)
 }
 
 func main() {
-	ctx, cancel := initContext()
+	logger := logging.NewConsole(logging.LevelFromBool(debug))
+	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+	ctx = logging.AddToContext(ctx, logger)
 
-	logger := logging.FromContext(ctx)
 	defer errors.PanicHandler(logger)
 	inputType, ok := aoc.ParseInputType(test)
 	if !ok {
@@ -68,15 +45,15 @@ func main() {
 		return
 	}
 
-	ctx = logging.ContextWithLogger(ctx, logger.With("part", 1))
+	ctx = logging.AddToContext(ctx, logger.With("part", 1))
 	a1, err := solver.SolvePart1(ctx)
 	if err != nil {
-		logger.Error("failed to solve part 3", "err", err)
+		logger.Error("failed to solve part 1", "err", err)
 		return
 	}
 	a1.Display(ctx)
 
-	ctx = logging.ContextWithLogger(ctx, logger.With("part", 2))
+	ctx = logging.AddToContext(ctx, logger.With("part", 2))
 	a2, err := solver.SolvePart2(ctx)
 	if err != nil {
 		logger.Error("failed to solve part 2", "err", err)
