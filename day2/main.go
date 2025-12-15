@@ -16,6 +16,7 @@ func main() {
 	fmt.Printf("Part 1 took: %s\n", start.Click())
 
 	fileToOpen.Seek(0, 0)
+	start.Click()
 	fmt.Printf("\n--- Part 2 ---\n")
 	fmt.Printf("Answer: %d\n", part2(fileToOpen))
 	fmt.Printf("Part 2 took: %s\n", start.Click())

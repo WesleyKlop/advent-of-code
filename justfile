@@ -3,11 +3,12 @@ set dotenv-required := true
 currYear := '2025'
 currDay := trim(datetime('%e'))
 
-test  day=currDay file="example.txt":
-    @cd 'day{{ day }}'; go run . '{{ file }}'
+run day=currDay file="input.txt" logLevel="info":
+    @cd 'day{{ day }}'; LOG_LEVEL='{{logLevel}}' go run . '{{ file }}'
 
-solve day=currDay: (test day 'input.txt')
-answer: (test  currDay 'input.txt')
+test day=currDay: (run day "example.txt" "debug")
+solve day=currDay: (run day "input.txt" "warn")
+answer: (solve currDay)
 
 scaffold day=currDay: (cptpl day) (fetch day) (view day)
 
