@@ -28,3 +28,10 @@ submit answer part='1' day=currDay:
       --cookie "$AOC_COOKIE" \
       --header 'Accept: text/plain' \
       --data-raw 'level={{ part }}&answer={{ answer }}'
+
+fmt:
+    @go fmt ./...
+vet:
+    @go vet ./...
+
+lint: fmt vet
